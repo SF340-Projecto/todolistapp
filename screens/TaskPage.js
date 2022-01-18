@@ -1,12 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { useContext} from 'react';
+import { useContext } from 'react';
 import {
   Button, SafeAreaView, StyleSheet, Modal,
   View, TextInput, Dimensions, Text, TouchableOpacity
 } from "react-native";
 import firestore from '@react-native-firebase/firestore';
-import {AuthContext} from '../navigation/AuthProviders';
+import { AuthContext } from '../navigation/AuthProviders';
 
 
 const { width } = Dimensions.get("window");
@@ -15,25 +15,29 @@ export default function App() {
 
   // This is to manage Modal State
   const [isModalVisible, setModalVisible] = useState(false);
+
   // This is to manage TextInput State
   const [topic, topicInput] = useState("");
   const [detailTask, detailTaskInput] = useState("");
-  const {user, logout} = useContext(AuthContext);
-  console.log(user.uid)
+
+  // This is user data from firebase
+  const { user, logout } = useContext(AuthContext);
+
+  // This call firestore collection for store Tasklist 
   let usersCollectionRef = firestore().collection("user").doc(user.uid).collection("Task");
 
 
-  // Create toggleModalVisibility function that will
-  // Open and close modal upon button clicks.
+  // This function call when user click done after input data task
+  // This function will send data to firebase 
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);
-    if(topic != "" && detailTask != ""){
+    if (topic != "" && detailTask != "") {
       usersCollectionRef
-      .add({
-        timestamp: firestore.FieldValue.serverTimestamp(),
-        topic: topic,
-        taskDetail: detailTask
-      })
+        .add({
+          timestamp: firestore.FieldValue.serverTimestamp(),
+          topic: topic,
+          taskDetail: detailTask
+        })
       topicInput("");
       detailTaskInput("");
     }
@@ -53,10 +57,14 @@ export default function App() {
         onDismiss={toggleModalVisibility}>
         <View style={styles.viewWrapper}>
           <View style={styles.modalView}>
+
+            {/*This is Topic text input*/}
             <Text>Topic</Text>
             <TextInput placeholder="Enter something..."
               value={topic} style={styles.textInput}
               onChangeText={(topic) => topicInput(topic)} />
+
+             {/*This is Detail Task text input*/}
             <Text>Detail Task</Text>
             <TextInput placeholder="Enter something..."
               value={detailTask} style={styles.textInput}
@@ -67,9 +75,11 @@ export default function App() {
           </View>
         </View>
       </Modal>
+
+      {/*This is Button Log out*/}
       <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
         <Text style={styles.loginButtonText}>
-        Logout
+          Logout
         </Text>
       </TouchableOpacity>
     </SafeAreaView>
