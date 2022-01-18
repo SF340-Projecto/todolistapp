@@ -1,206 +1,116 @@
-import * as React from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
-import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import { useContext} from 'react';
+import {
+  Button, SafeAreaView, StyleSheet, Modal,
+  View, TextInput, Dimensions, Text, TouchableOpacity
+} from "react-native";
 import firestore from '@react-native-firebase/firestore';
-import { Input } from 'react-native-elements';
-
-// Collect data from firestrore
-let arrayDictStudents = [];
-
-// Get url for file
+import {AuthContext} from '../navigation/AuthProviders';
 
 
-class AddTask extends React.Component {
+const { width } = Dimensions.get("window");
+
+export default function App() {
+
+  // This is to manage Modal State
+  const [isModalVisible, setModalVisible] = useState(false);
+  // This is to manage TextInput State
+  const [topic, topicInput] = useState("");
+  const [detailTask, detailTaskInput] = useState("");
+  const {user, logout} = useContext(AuthContext);
+  console.log(user.uid)
+  let usersCollectionRef = firestore().collection("user").doc(user.uid).collection("Task");
 
 
-  constructor(props) {
-
-    // Data wait for user input
-    super(props);
-    this.state = {
-      students: arrayDictStudents,
-      userArr: [],
-      topic: '',
-      taskDetail: '',
-    };
-  }
-
-
-
-// get input from user send it to state
-inputValueUpdate = (val, prop) => {
-  const state = this.state;
-  state[prop] = val;
-  this.setState(state);
-};
-
-
-//////////////////// Upload file ///////////////////////////////
-
-FileUpload = (props) => {
+  // Create toggleModalVisibility function that will
+  // Open and close modal upon button clicks.
+  const toggleModalVisibility = () => {
+    setModalVisible(!isModalVisible);
+    if(topic != "" && detailTask != ""){
+      usersCollectionRef
+      .add({
+        timestamp: firestore.FieldValue.serverTimestamp(),
+        topic: topic,
+        taskDetail: detailTask
+      })
+      topicInput("");
+      detailTaskInput("");
+    }
+  };
 
   return (
-    <View >
+    <SafeAreaView style={styles.screen}>
+      <StatusBar style="auto" />
 
-        <ScrollView>
-          <View style={styles.profile}>
-            <Text style={styles.title}>Add Task</Text>
+      {/**  We are going to create a Modal with Text Input. */}
+      <Button title="ADD TASk" onPress={toggleModalVisibility} />
+
+      {/** This is our modal component containing textinput and a button */}
+      <Modal animationType="slide"
+        transparent visible={isModalVisible}
+        presentationStyle="overFullScreen"
+        onDismiss={toggleModalVisibility}>
+        <View style={styles.viewWrapper}>
+          <View style={styles.modalView}>
+            <Text>Topic</Text>
+            <TextInput placeholder="Enter something..."
+              value={topic} style={styles.textInput}
+              onChangeText={(topic) => topicInput(topic)} />
+            <Text>Detail Task</Text>
+            <TextInput placeholder="Enter something..."
+              value={detailTask} style={styles.textInput}
+              onChangeText={(detailTask) => detailTaskInput(detailTask)} />
+
+            {/** This button is responsible to close the modal */}
+            <Button title="Done" onPress={toggleModalVisibility} />
           </View>
-
-          <View style={{ alignItems: 'center'}}>
-          <View style={styles.item2}>
-          <Input
-            placeholder="Topic"
-            value={this.state.Name}
-            onChangeText={(val) => this.inputValueUpdate(val, 'topic')}
-          />
-
-          <Input
-            placeholder="Detail Task"
-            value={this.state.Topic}
-            onChangeText={(val) => this.inputValueUpdate(val, 'taskDetail')}
-          />
-
-          </View>
-          </View>
-          <TouchableOpacity style={styles.photoButton} transparent >
-            <Text style={styles.photoButtonText}>
-              Upload
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.loginButton}
-            onPress={() => {
-                console.log(this.state.topic)
-                console.log(this.state.taskDetail)
-
-                this.usersCollectionRef
-                  .add({
-                    timestamp: firestore.FieldValue.serverTimestamp(),
-                    topic: this.state.topic,
-                    taskDetail: this.state.taskDetail
-                  })
-                  .then((res) => {
-                    this.setState({
-                      topic: '',
-                      taskDetail: '',
-                    });
-                    arrayDictStudents = [];
-                  })
-                  .catch((err) => {
-                    console.log('Error found: ', err);
-                    this.setState({
-                      isLoading: false,
-                    });
-                  });
-              
-            }}>
-            <Text style={styles.loginButtonText}>Confirm</Text>
-          </TouchableOpacity>
-        </ScrollView>
-    </View>
-  );
-};
-
-render() {
-
-  // get col name form firestore //
-  this.usersCollectionRef = firestore().collection("TestAddTask");
-
-
-  return (
-    <ScrollView >
-      <View>{this.FileUpload()}</View>
-    </ScrollView>
+        </View>
+      </Modal>
+      <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
+        <Text style={styles.loginButtonText}>
+        Logout
+        </Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
-}
 
-//UI PART
-
+// These are user defined styles
 const styles = StyleSheet.create({
-  item2: {
-    width: '95%',
-    borderRadius: 10,
-    shadowColor: "#000000",
-    shadowOpacity: 5,
-    shadowRadius: 5,
-    elevation: 5,
-    marginTop: 10,
-    marginBottom: 10,
-    padding: 10,
-    backgroundColor: '#F2F3F4'
-  },
-  title: {
-    textShadowColor: '#000000',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 5,
-    color: '#FFFFFF',
-    textAlign: 'center',
-    fontSize: 35,
-    width: 320,
-    marginBottom: 1,
-    fontWeight: 'bold',
-  },
-  profile: {
-    paddingTop: 20,
-    paddingBottom: 20,
-    marginBottom: 5,
-    alignItems: "center",
-    backgroundColor: '#fbd',
-    shadowColor: "#000000",
-    shadowOpacity: 5,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: '#E2FCFA',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
   },
-
-  loginButton: {
-    backgroundColor: '#FF341E',
-    width: 130,
-    height: 50,
-    borderRadius: 10,
-    shadowColor: "#000000",
-    shadowOpacity: 5,
-    shadowRadius: 5,
+  viewWrapper: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+  },
+  modalView: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
     elevation: 5,
-    marginTop: 20,
-    marginBottom: 20,
-    marginLeft: 10,
+    transform: [{ translateX: -(width * 0.4) },
+    { translateY: -90 }],
+    height: 220,
+    width: width * 0.8,
+    backgroundColor: "#fff",
+    borderRadius: 7,
   },
-
-  loginButtonText: {
-    textShadowColor: '#000000',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 10,
-    textAlign: 'center',
-    color: '#F0FFFF',
-    fontWeight: 'bold',
-    fontSize: 20,
-    padding: 10
-  },
-  photoButton: {
-    backgroundColor: '#D0D3D4',
-    height: 35,
-    width:160,
-    borderRadius: 10,
-    shadowColor: "#000000",
-    shadowOpacity: 5,
-    shadowRadius: 5,
-    elevation: 5,
-    padding: 5,
-    marginTop: 5,
-    marginLeft: 10,
-  },
-  photoButtonText: {
-    textAlign: 'center',
-    color: '#424949',
-    fontWeight: 'bold',
-    fontSize: 15,
+  textInput: {
+    width: "80%",
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderColor: "rgba(0, 0, 0, 0.2)",
+    borderWidth: 1,
+    marginBottom: 8,
   },
 });
-
-export default AddTask;
