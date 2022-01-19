@@ -1,6 +1,6 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { useContext } from 'react';
+import {StatusBar} from 'expo-status-bar';
+import React, {useState} from 'react';
+import {useContext, useEffect} from 'react';
 import {
   Button, SafeAreaView, StyleSheet, Modal,
   View, TextInput, Dimensions, Text, TouchableOpacity,   Alert
@@ -12,13 +12,13 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker'; //
 import storage from '@react-native-firebase/storage';
 import * as Progress from 'react-native-progress';
 
-const { width } = Dimensions.get("window");
+import GetTaskData from '../firestore/getTaskData';
 
-export default function App() {
+const {width} = Dimensions.get('window');
 
+export default function TaskPage({navigation}) {
   // This is to manage Modal State
   const [isModalVisible, setModalVisible] = useState(false);
-
   // This is to manage TextInput State
   const [topic, topicInput] = useState("");
   const [detailTask, detailTaskInput] = useState("");
@@ -95,9 +95,6 @@ export default function App() {
   // This call firestore collection for store Tasklist 
   let usersCollectionRef = firestore().collection("user").doc(user.uid).collection("Task");
 
-
-  // This function call when user click done after input data task
-  // This function will send data to firebase 
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);
     if (topic != "" && detailTask != "") {
@@ -118,31 +115,37 @@ export default function App() {
 
 
   return (
-    <SafeAreaView style={styles.screen}>
+    <SafeAreaView>
       <StatusBar style="auto" />
+      {/**  Displays Task Data */}
+      <GetTaskData />
 
       {/**  We are going to create a Modal with Text Input. */}
       <Button title="ADD TASk" onPress={toggleModalVisibility} />
 
       {/** This is our modal component containing textinput and a button */}
-      <Modal animationType="slide"
-        transparent visible={isModalVisible}
+      <Modal
+        animationType="slide"
+        transparent
+        visible={isModalVisible}
         presentationStyle="overFullScreen"
         onDismiss={toggleModalVisibility}>
         <View style={styles.viewWrapper}>
           <View style={styles.modalView}>
-
-            {/*This is Topic text input*/}
             <Text>Topic</Text>
-            <TextInput placeholder="Enter something..."
-              value={topic} style={styles.textInput}
-              onChangeText={(topic) => topicInput(topic)} />
-
-            {/*This is Detail Task text input*/}
+            <TextInput
+              placeholder="Enter something..."
+              value={topic}
+              style={styles.textInput}
+              onChangeText={topic => topicInput(topic)}
+            />
             <Text>Detail Task</Text>
-            <TextInput placeholder="Enter something..."
-              value={detailTask} style={styles.textInput}
-              onChangeText={(detailTask) => detailTaskInput(detailTask)} />
+            <TextInput
+              placeholder="Enter something..."
+              value={detailTask}
+              style={styles.textInput}
+              onChangeText={detailTask => detailTaskInput(detailTask)}
+            />
 
 
             <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
@@ -170,9 +173,12 @@ export default function App() {
 
       {/*This is Button Log out*/}
       <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
-        <Text style={styles.loginButtonText}>
-          Logout
-        </Text>
+        <Text style={styles.loginButtonText}>Logout</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={() => navigation.navigate('getTaskData')}>
+        <Text style={styles.loginButtonText}>GetData</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -182,36 +188,36 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   viewWrapper: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   modalView: {
-    alignItems: "center",
-    justifyContent: "center",
-    position: "absolute",
-    top: "50%",
-    left: "50%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
     elevation: 5,
     transform: [{ translateX: -(width * 0.4) },
     { translateY: -90 }],
     height: 400,
     width: width * 0.8,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 7,
   },
   textInput: {
-    width: "80%",
+    width: '80%',
     borderRadius: 5,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderColor: "rgba(0, 0, 0, 0.2)",
+    borderColor: 'rgba(0, 0, 0, 0.2)',
     borderWidth: 1,
     marginBottom: 8,
   },
