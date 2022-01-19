@@ -31,7 +31,7 @@ const LoginScreen = ({ navigation }) => {
           style={styles.input}
           labelValue={email}
           onChangeText={(userEmail) => setEmail(userEmail)}
-          placeholder="Email"
+          placeholder=""
           keyboardType={'email-address'}
           autoCapitalize="none"
           autoCorrect={false}
@@ -41,7 +41,7 @@ const LoginScreen = ({ navigation }) => {
           style={styles.input}
           labelValue={password}
           onChangeText={(userPassword) => setPassword(userPassword)}
-          placeholderText="Password"
+          placeholderText=""
           secureTextEntry={true}
         />
 
@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
   input: {
     marginVertical: 7,
     width: 260,
-    height: 30,
-    fontSize: 18,
+    fontSize: 16,
+    padding: 5,
     marginBottom: 7,
     shadowColor: "#000000",
     shadowOpacity: 5,
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
+    paddingLeft: 15,
 
   },
   loginButton: {
