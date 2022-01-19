@@ -4,7 +4,7 @@ import {View, Text, FlatList} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthContext} from '../navigation/AuthProviders';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet  } from 'react-native';
 import { List, ListItem } from "react-native-elements";
 
 export default function GetTaskData() {
@@ -55,6 +55,12 @@ export default function GetTaskData() {
         <View>
           <Text>{item.topic}</Text>
           <Text>{item.taskDetail}</Text>
+          <Image
+        style={styles.tinyLogo}
+        source={{
+          uri: item.urlPhoto,
+        }}
+      />
         </View>
       )}
     />
@@ -62,3 +68,16 @@ export default function GetTaskData() {
 
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 50,
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
+  logo: {
+    width: 66,
+    height: 58,
+  },
+});
