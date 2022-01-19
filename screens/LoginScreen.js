@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     marginLeft: 27,
   },
   bgInput: {
-    backgroundColor: 'mediumturquoise',
+    backgroundColor: '#25ced1',
     height: 270,
     width: 310,
     borderRadius: 20,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     textAlign: 'center',
-    color: 'mediumturquoise',
+    color: '#25ced1',
     fontWeight: 'bold',
     fontSize: 18,
     marginTop: 6,
