@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
 
   text: {
     marginVertical: 25,
-    color: 'grey',
+    color: '#707070',
     fontSize: 15,
   },
 });
