@@ -1,9 +1,10 @@
 import * as React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import TaskPage from '../screens/TaskPage';
 import HomeScreen from '../screens/HomeScreen';
-import getTaskData from '../firestore/getTaskData';
+import GetTaskData from '../firestore/GetTaskData';
+import EditTask from '../firestore/EditTask.js';
 import MainScreen from '../screens/MainScreen';
 import CategorieScreen from '../screens/CategorieScreen';
 
@@ -13,10 +14,10 @@ function AppStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-      name="Main"
-      component={MainScreen}
-      options={{header: () => null}}
-    />
+        name="Main"
+        component={MainScreen}
+        options={{ header: () => null }}
+      />
       <Stack.Screen
         name="Task"
         component={TaskPage}
@@ -34,28 +35,32 @@ function AppStack() {
         //   },
         //   headerTitleAlign: 'center',
         // }}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
-      name="getTaskData"
-      component={getTaskData}
-      options={{header: () => null}}
-    />
+        name="GetTaskData"
+        component={GetTaskData}
+        options={{ header: () => null }}
+      />
       <Stack.Screen
-      name="Home Page"
-      component={HomeScreen}
-      options={{header: () => null}}
-    />
+        name="Home Page"
+        component={HomeScreen}
+        options={{ header: () => null }}
+      />
       <Stack.Screen
-      name="CategorieS"
-      component={CategorieScreen}
-      options={{header: () => null}}
-    />
+        name="CategorieS"
+        component={CategorieScreen}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="EditTask"
+        component={EditTask}
+        options={{ header: () => null }}
+      />
 
-    
     </Stack.Navigator>
 
-    
+
 
   );
 }
