@@ -53,7 +53,7 @@ export default function GetTaskData() {
       data={dataTask}
       renderItem={({ item }) => (
         <View>
-          <Text>{item.topic}</Text>
+          <Text style={styles.colorText}>{item.topic}</Text>
           <Text>{item.taskDetail}</Text>
           <Image
         style={styles.tinyLogo}
@@ -69,6 +69,9 @@ export default function GetTaskData() {
   );
 }
 const styles = StyleSheet.create({
+  colorText: {
+    color: 'black',
+  },  
   container: {
     paddingTop: 50,
   },

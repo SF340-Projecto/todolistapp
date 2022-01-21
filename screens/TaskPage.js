@@ -149,6 +149,9 @@ export default function TaskPage({navigation}) {
       <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('Home Page')}>
         <Text style={[styles.loginButtonText, {color: theme.color}]}>HomeScreen</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('Main')}>
+        <Text style={[styles.loginButtonText, {color: theme.color}]}>Main</Text>
+      </TouchableOpacity>
 
       </View>
 
