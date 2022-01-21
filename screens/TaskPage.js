@@ -13,11 +13,15 @@ import storage from '@react-native-firebase/storage';
 import * as Progress from 'react-native-progress';
 
 import GetTaskData from '../firestore/getTaskData';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+import themeContext from '../config/themeContext';
+
 
 const {width} = Dimensions.get('window');
 
 export default function TaskPage({navigation}) {
+  // This is to manage Theme
+  const theme = useContext(themeContext);
   // This is to manage Modal State
   const [isModalVisible, setModalVisible] = useState(false);
   // This is to manage TextInput State
@@ -116,47 +120,13 @@ export default function TaskPage({navigation}) {
 
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.header_container}>
-          {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
-          <View>
-            <Text style={styles.textHeader}>TODO LIST CATEGORIES</Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.body}>
-      {/* <StatusBar style="auto" /> */}
-      
+    <SafeAreaView style={[{backgroundColor: theme.background}]}>
+      <StatusBar style="auto" />
       {/**  Displays Task Data */}
-      
       <GetTaskData />
-      
+
       {/**  We are going to create a Modal with Text Input. */}
-      
-
-      {/*This is Button Log out*/}
-      <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
-        <Text style={styles.loginButtonText}>Logout</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.logoutButton}
-        onPress={() => navigation.navigate('getTaskData')}>
-        <Text style={styles.loginButtonText}>GetData</Text>
-      </TouchableOpacity>
-
-      </View>
-
-      {/* This is Add Button Bottom */}
-      <View>
-        <View style={styles.addButtonContainer}>
-          <TouchableOpacity style={styles.addButton} onPress={toggleModalVisibility}>
-            <Text style={styles.addButtonText}>ADD CATEGORIES</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      
-
+      <Button title="ADD TASk" onPress={toggleModalVisibility} />
 
       {/** This is our modal component containing textinput and a button */}
       <Modal
@@ -200,65 +170,32 @@ export default function TaskPage({navigation}) {
 
             {/** This button is responsible to close the modal */}
             <Button title="Done" onPress={toggleModalVisibility} />
+
           </View>
         </View>
       </Modal>
 
+
+      {/*This is Button Log out*/}
+      <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
+        <Text style={[styles.loginButtonText, {color: theme.color}]}>Logout</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('getTaskData')}>
+        <Text style={[styles.loginButtonText, {color: theme.color}]}>GetData</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('Home Page')}>
+        <Text style={[styles.loginButtonText, {color: theme.color}]}>HomeScreen</Text>
+      </TouchableOpacity>
       
     </SafeAreaView>
+
   );
 }
 
 // These are user defined styles
 const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  addButtonContainer: {
-    backgroundColor: '#25ced1',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 75,
-  },
-  addButtonText: {
-    color: '#707070',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  addButton: {
-    backgroundColor: '#FFFFFF',
-    width: '40%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    height: 40,
-    shadowColor: "#000000",
-    shadowOpacity: 5,
-    shadowRadius: 5,
-    elevation: 5,
-  },    
-  header_container: {
-    marginLeft: 25,
-  },
-  textHeader: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 24,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: "#25ced1",
-    width: '100%',
-    height: 75,
-  },
   screen: {
     flex: 1,
     alignItems: 'center',
@@ -327,5 +264,5 @@ const styles = StyleSheet.create({
   imageBox: {
     width: 300,
     height: 300
-  },
+  }
 });
