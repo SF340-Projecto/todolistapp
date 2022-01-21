@@ -12,6 +12,20 @@ function AppStack() {
       <Stack.Screen
         name="Task"
         component={TaskPage}
+        // options={{
+        //   title: 'TODO LIST CATEGORIES',
+        //   headerStyle: {
+        //     backgroundColor: '#25ced1',
+        //     shadowColor: 'white',
+        //     elevation: 0,
+        //   },
+        //   headerTitleStyle: {
+        //     color: '#FFFFFF',
+        //     fontWeight: 'bold',
+        //     fontSize: 22,
+        //   },
+        //   headerTitleAlign: 'center',
+        // }}
         options={{header: () => null}}
       />
       <Stack.Screen
