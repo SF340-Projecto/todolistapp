@@ -118,7 +118,7 @@ export default function TaskPage({navigation}) {
 
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
       <View style={styles.header}>
         <View style={styles.header_container}>
           {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
@@ -139,12 +139,12 @@ export default function TaskPage({navigation}) {
 
       {/*This is Button Log out*/}
       <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
-        <Text style={styles.loginButtonText}>Logout</Text>
+        <Text style={[styles.loginButtonText, {color: theme.color}]}>Logout</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.logoutButton}
         onPress={() => navigation.navigate('getTaskData')}>
-        <Text style={styles.loginButtonText}>GetData</Text>
+        <Text style={[styles.loginButtonText, {color: theme.color}]}>GetData</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('Home Page')}>
         <Text style={[styles.loginButtonText, {color: theme.color}]}>HomeScreen</Text>
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
   },
   container: {
     flex: 1,

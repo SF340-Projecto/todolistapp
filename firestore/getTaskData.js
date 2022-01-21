@@ -5,11 +5,13 @@ import firestore from '@react-native-firebase/firestore';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthContext} from '../navigation/AuthProviders';
 import { ActivityIndicator, Image, StyleSheet  } from 'react-native';
+import themeContext from '../config/themeContext';
 import { List, ListItem } from "react-native-elements";
 
 export default function GetTaskData() {
   const {user} = useContext(AuthContext);
   console.log(user.uid);
+  const theme = useContext(themeContext);
 
   let usersCollectionRef = firestore()
     .collection('user')
@@ -53,8 +55,8 @@ export default function GetTaskData() {
       data={dataTask}
       renderItem={({ item }) => (
         <View>
-          <Text style={styles.colorText}>{item.topic}</Text>
-          <Text>{item.taskDetail}</Text>
+          <Text style={[{color: theme.color}]}>{item.topic}</Text>
+          <Text style={[{color: theme.color}]}>{item.taskDetail}</Text>
           <Image
         style={styles.tinyLogo}
         source={{
@@ -69,9 +71,6 @@ export default function GetTaskData() {
   );
 }
 const styles = StyleSheet.create({
-  colorText: {
-    color: 'black',
-  },  
   container: {
     paddingTop: 50,
   },

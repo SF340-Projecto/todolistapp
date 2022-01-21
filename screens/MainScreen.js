@@ -25,7 +25,7 @@ const MainScreen = ({ navigation }) => {
         },
         style: {
           height: 67 + insets.bottom,
-          paddingTop: 7,
+          paddingTop: 0.5,
         },
       }}
     >
