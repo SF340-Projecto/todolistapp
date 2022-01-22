@@ -5,7 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import TaskPage from './TaskPage';
 import CategorieScreen from './CategorieScreen';
-import HomeScreen from './HomeScreen';
+import ThemeScreen from './ThemeScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,8 +50,8 @@ const MainScreen = ({ navigation }) => {
         }}
       />
       <Tab.Screen
-        name='Home Page'
-        component={HomeScreen}
+        name='ThemeScreen'
+        component={ThemeScreen}
         options={{
           tabBarLabel: 'Theme',
           tabBarIcon: ({ color, size }) => (

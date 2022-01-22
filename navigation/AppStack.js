@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import TaskPage from '../screens/TaskPage';
-import HomeScreen from '../screens/HomeScreen';
+import ThemeScreen from '../screens/ThemeScreen';
 import GetTaskData from '../firestore/GetTaskData';
 import MainScreen from '../screens/MainScreen';
 import CategorieScreen from '../screens/CategorieScreen';
@@ -42,8 +42,8 @@ function AppStack() {
         options={{ header: () => null }}
       />
       <Stack.Screen
-        name="Home Page"
-        component={HomeScreen}
+        name="ThemeScreen"
+        component={ThemeScreen}
         options={{ header: () => null }}
       />
       <Stack.Screen

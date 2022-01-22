@@ -15,7 +15,7 @@ export default function HomeScreen(){
     const [mode, setMode] = useState(false);
     return (
         <View style={[styles.container, {backgroundColor: theme.background}]}>
-            <Text style={[styles.text, {color: theme.color}]}>Welcome to HomeScreen</Text>
+            <Text style={[styles.text, {color: theme.color}]}>Welcome to ThemeScreen</Text>
             <Switch 
             value={mode} 
             onValueChange={(value) => {
