@@ -3,7 +3,7 @@ import React, {useState , useContext} from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import TaskPage from './TaskPage';
 import CategorieScreen from './CategorieScreen';
 import ThemeScreen from './ThemeScreen';
@@ -51,7 +51,7 @@ const MainScreen = ({ navigation }) => {
         options={{
           tabBarLabel: 'Categorie',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+            <MaterialIcons name="category" color={color} size={size} />
           ),
         }}
       />
@@ -61,7 +61,7 @@ const MainScreen = ({ navigation }) => {
         options={{
           tabBarLabel: 'Theme',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+            <MaterialCommunityIcons name="theme-light-dark" color={color} size={size} />
           ),
         }}
       />
