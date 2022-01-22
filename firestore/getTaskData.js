@@ -16,6 +16,7 @@ const { width } = Dimensions.get('window');
 export default function GetTaskData() {
   const { user } = useContext(AuthContext);
 
+  // Call firebase show data
   let usersCollectionRef = firestore()
     .collection('user')
     .doc(user.uid)
@@ -23,7 +24,7 @@ export default function GetTaskData() {
 
   const testData = [{ topic: 'ez', taskDetail: 'ez' }, { topic: 'ez', taskDetail: 'ez2' }]
 
-
+  //Variable for set date
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const [dataTask, setDataTask] = useState([]);
@@ -33,6 +34,8 @@ export default function GetTaskData() {
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
   const [docID, setDocId] = useState("");
+
+  // Use for update realtime data
   useEffect(() => {
     const subscriber = usersCollectionRef.onSnapshot(querySnapshot => {
       const dataTask = [];
@@ -52,28 +55,30 @@ export default function GetTaskData() {
     return () => subscriber();
   }, []);
 
-  console.log("Dataaaa   ", dataTask)
   if (isLoading) {
     return <ActivityIndicator />;
   }
-  // const userCollection = firestore().collection("user").doc(user.uid).collection("Task")
 
+  // Function call to open modal
   const toggleModalVisibility = (userDocId) => {
     setModalVisible(!isModalVisible);
-    console.log(userDocId)
+    // Set doc id
     setDocId(userDocId)
-    console.log(docID)
   };
+
+  // Function call to update task list
   const updateTasklist = () => {
     setModalVisible(!isModalVisible);
+    // Call firebase to update
     const userCollection1 = firestore().collection("user").doc(user.uid).collection("Task").doc(docID)
-    console.log("doc idddddd", docID)
+    // set new data
     userCollection1.set({
       timestamp: firestore.FieldValue.serverTimestamp(),
       topic: topic,
       taskDetail: detailTask,
       urlPhoto: urlUser
     })
+    // Set data to null
     topicInput("");
     detailTaskInput("");
     setDataTask(dataTask);
@@ -81,18 +86,17 @@ export default function GetTaskData() {
     setDocId("")
   }
 
+  // Delete tasklist function
   const deleteTasklist = (userDocId) => {
-
     var docRef = firestore().collection("user").doc(user.uid).collection("Task")
     setDocId(userDocId)
-
     // delete the document
     docRef.doc(docID).delete();
   }
 
 
+  // Function Call for pick photo in gallary
   const selectImage = () => {
-
     const options = {
       maxWidth: 2000,
       maxHeight: 2000,
@@ -145,7 +149,6 @@ export default function GetTaskData() {
           'Your photo has been uploaded to Firebase Cloud Storage!'
         );
         setImage(null);
-
       }
     });
   }
