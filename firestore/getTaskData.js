@@ -32,7 +32,7 @@ export default function GetTaskData() {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
-
+  const [docID, setDocId] = useState("");
   useEffect(() => {
     const subscriber = usersCollectionRef.onSnapshot(querySnapshot => {
       const dataTask = [];
@@ -58,13 +58,16 @@ export default function GetTaskData() {
   }
  // const userCollection = firestore().collection("user").doc(user.uid).collection("Task")
 
-  const toggleModalVisibility = () => {
+  const toggleModalVisibility = (userDocId) => {
     setModalVisible(!isModalVisible);
+    console.log(userDocId)
+    setDocId(userDocId)
+    console.log(docID)
   };
-  const updateTasklist = (docId) => {
+  const updateTasklist = () => {
     setModalVisible(!isModalVisible);
-    const userCollection1 = firestore().collection("user").doc(user.uid).collection("Task").doc(docId)
-    console.log(docId)
+    const userCollection1 = firestore().collection("user").doc(user.uid).collection("Task").doc(docID)
+    console.log("doc idddddd", docID)
     userCollection1.set({
       timestamp: firestore.FieldValue.serverTimestamp(),
       topic: topic,
@@ -75,6 +78,7 @@ export default function GetTaskData() {
     detailTaskInput("");
     setDataTask(dataTask);
     setisLoading(false);
+    setDocId("")
   }
 
 
@@ -154,7 +158,7 @@ export default function GetTaskData() {
               }}
             />
 
-            <TouchableOpacity style={styles.addButton} onPress={toggleModalVisibility}>
+            <TouchableOpacity style={styles.addButton} onPress={()=>{toggleModalVisibility(item.id)}}>
               <Text style={styles.addButtonText}>EDIT TASK</Text>
             </TouchableOpacity>
 

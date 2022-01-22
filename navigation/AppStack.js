@@ -4,7 +4,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import TaskPage from '../screens/TaskPage';
 import HomeScreen from '../screens/HomeScreen';
 import GetTaskData from '../firestore/GetTaskData';
-import EditTask from '../firestore/EditTask.js';
 import MainScreen from '../screens/MainScreen';
 import CategorieScreen from '../screens/CategorieScreen';
 
@@ -52,11 +51,7 @@ function AppStack() {
         component={CategorieScreen}
         options={{ header: () => null }}
       />
-      <Stack.Screen
-        name="EditTask"
-        component={EditTask}
-        options={{ header: () => null }}
-      />
+
 
     </Stack.Navigator>
 
