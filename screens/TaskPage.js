@@ -123,7 +123,7 @@ export default function TaskPage({navigation}) {
         <View style={styles.header_container}>
           {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
           <View>
-            <Text style={styles.textHeader}>TODO LIST CATEGORIES</Text>
+            <Text style={styles.textHeader}>TODO LIST TASK</Text>
           </View>
         </View>
       </View>
@@ -155,7 +155,7 @@ export default function TaskPage({navigation}) {
       <View>
         <View style={styles.addButtonContainer}>
           <TouchableOpacity style={styles.addButton} onPress={toggleModalVisibility}>
-            <Text style={styles.addButtonText}>ADD CATEGORIES</Text>
+            <Text style={styles.addButtonText}>ADD TASK</Text>
           </TouchableOpacity>
         </View>
       </View>
