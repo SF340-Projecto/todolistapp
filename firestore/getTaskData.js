@@ -56,7 +56,7 @@ export default function GetTaskData() {
   if (isLoading) {
     return <ActivityIndicator />;
   }
- // const userCollection = firestore().collection("user").doc(user.uid).collection("Task")
+  // const userCollection = firestore().collection("user").doc(user.uid).collection("Task")
 
   const toggleModalVisibility = (userDocId) => {
     setModalVisible(!isModalVisible);
@@ -79,6 +79,15 @@ export default function GetTaskData() {
     setDataTask(dataTask);
     setisLoading(false);
     setDocId("")
+  }
+
+  const deleteTasklist = (userDocId) => {
+
+    var docRef = firestore().collection("user").doc(user.uid).collection("Task")
+    setDocId(userDocId)
+
+    // delete the document
+    docRef.doc(docID).delete();
   }
 
 
@@ -158,8 +167,12 @@ export default function GetTaskData() {
               }}
             />
 
-            <TouchableOpacity style={styles.addButton} onPress={()=>{toggleModalVisibility(item.id)}}>
+            <TouchableOpacity style={styles.addButton} onPress={() => { toggleModalVisibility(item.id) }}>
               <Text style={styles.addButtonText}>EDIT TASK</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.addButton} onPress={() => { deleteTasklist(item.id) }}>
+              <Text style={styles.addButtonText}>DELETE</Text>
             </TouchableOpacity>
 
             <Modal
