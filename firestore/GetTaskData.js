@@ -158,26 +158,30 @@ export default function GetTaskData() {
       <FlatList
         data={dataTask}
         renderItem={({ item }) => (
+          
           <View>
-            <Text>{item.topic}</Text>
-            <Text>{item.taskDetail}</Text>
-            <Text>{item.id}</Text>
+            <View style={styles.row}>
+              <Image
+                style={styles.tinyLogo}
+                source={{
+                  uri: item.urlPhoto,
+                }}
+              />
+             <Text>{item.topic}</Text>
+            {/* <Text>{item.taskDetail}</Text>
+            <Text>{item.id}</Text> */}
+            
+            
+            
+              
+              <TouchableOpacity style={styles.addButton} onPress={() => { toggleModalVisibility(item.id) }}>
+                <Text style={styles.addButtonText}>EDIT TASK</Text>
+              </TouchableOpacity>
 
-            <Image
-              style={styles.tinyLogo}
-              source={{
-                uri: item.urlPhoto,
-              }}
-            />
-
-            <TouchableOpacity style={styles.addButton} onPress={() => { toggleModalVisibility(item.id) }}>
-              <Text style={styles.addButtonText}>EDIT TASK</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.addButton} onPress={() => { deleteTasklist(item.id) }}>
-              <Text style={styles.addButtonText}>DELETE</Text>
-            </TouchableOpacity>
-
+              <TouchableOpacity style={styles.addButton} onPress={() => { deleteTasklist(item.id) }}>
+                <Text style={styles.addButtonText}>DELETE</Text>
+              </TouchableOpacity>
+            </View>
             <Modal
               animationType="slide"
               transparent
@@ -230,6 +234,12 @@ export default function GetTaskData() {
   );
 }
 const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    margin: 10,
+  },
   container: {
     paddingTop: 50,
   },
@@ -256,15 +266,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 75,
+    
   },
   addButtonText: {
     color: '#707070',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 14,
+    
   },
   addButton: {
     backgroundColor: '#FFFFFF',
-    width: '40%',
+    width: '20%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
@@ -273,6 +285,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 5,
     shadowRadius: 5,
     elevation: 5,
+    margin: 5,
   },
   header_container: {
     marginLeft: 25,
