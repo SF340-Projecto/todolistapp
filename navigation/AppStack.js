@@ -44,6 +44,20 @@ function AppStack() {
       <Stack.Screen
         name="ThemeScreen"
         component={ThemeScreen}
+        // options={{ 
+        //     title: 'ThemeScreen',
+        //     headerStyle: {
+        //       backgroundColor: '#000000',
+        //       shadowColor: 'white',
+        //       elevation: 0,
+        //     },
+        //     headerTitleStyle: {
+        //       color: '#000000',
+        //       fontWeight: 'bold',
+        //       fontSize: 22,
+        //     },
+        //     headerTitleAlign: 'center',
+        //   }}
         options={{ header: () => null }}
       />
       <Stack.Screen

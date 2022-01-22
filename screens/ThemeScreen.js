@@ -13,9 +13,10 @@ import themeContext from "../config/themeContext";
 export default function HomeScreen(){
     const theme = useContext(themeContext);
     const [mode, setMode] = useState(false);
+
     return (
-        <View style={[styles.container, {backgroundColor: theme.background}]}>
-            <Text style={[styles.text, {color: theme.color}]}>Welcome to ThemeScreen</Text>
+        <View style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
+            <Text style={[styles.text, {color: theme.fontColor}]}>Welcome to ThemeScreen</Text>
             <Switch 
             value={mode} 
             onValueChange={(value) => {
@@ -23,8 +24,6 @@ export default function HomeScreen(){
                 EventRegister.emit("changeTheme", value);
             }} />
         </View>
-        // Test
-
     );
 }
 

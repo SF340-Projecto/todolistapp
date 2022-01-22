@@ -119,9 +119,9 @@ export default function TaskPage({navigation}) {
 
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
       <ScrollView>
-      <View style={styles.header}>
+      <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
         <View style={styles.header_container}>
           {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
           <View>
@@ -140,7 +140,7 @@ export default function TaskPage({navigation}) {
 
       {/*This is Button Log out*/}
       <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
-        <Text style={styles.loginButtonText}>Logout</Text>
+        <Text style={[{color: theme.fontColor}]}>Logout</Text>
       </TouchableOpacity>
       {/* <TouchableOpacity
         style={styles.logoutButton}
@@ -156,8 +156,8 @@ export default function TaskPage({navigation}) {
       {/* This is Add Button Bottom */}
       <View>
         <View style={styles.addButtonContainer}>
-          <TouchableOpacity style={styles.addButton} onPress={toggleModalVisibility}>
-            <Text style={styles.addButtonText}>ADD TASK</Text>
+          <TouchableOpacity style={[styles.addButton, {backgroundColor: theme.buttonColor}]} onPress={toggleModalVisibility}>
+            <Text style={[styles.addButtonText, {color: theme.fontColor}]}>ADD TASK</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -218,30 +218,27 @@ export default function TaskPage({navigation}) {
 // These are user defined styles
 const styles = StyleSheet.create({
   body: {
-    
     justifyContent: 'center',
     flexDirection: 'column',
-    
-    backgroundColor: '#FFFFFF',
   },
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
   },
   addButtonContainer: {
-    backgroundColor: '#25ced1',
+    // backgroundColor: '#25ced1',
     justifyContent: 'center',
     alignItems: 'center',
     height: 75,
   },
   addButtonText: {
-    color: '#707070',
+    // color: '#707070',
     fontWeight: 'bold',
     fontSize: 16,
   },
   addButton: {
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
     width: '40%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -263,7 +260,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: "#25ced1",
     width: '100%',
     height: 75,
   },

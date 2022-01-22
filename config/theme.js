@@ -1,13 +1,17 @@
 const theme = {
     light: {
         theme: "light",
-        color: "black",
-        background: "white",
+        fontColor: "#363636",
+        backgroundColor: "#ffffff",
+        hudColor: "#25ced1",
+        buttonColor: "#afeeee",
     },
     dark: {
         theme: "dark",
-        color: "white",
-        background: "black",
+        fontColor: "#ffffff",
+        backgroundColor: "#363636",
+        hudColor: "#ce79d0",
+        buttonColor: "#ffc0cb"
     },
 };
 

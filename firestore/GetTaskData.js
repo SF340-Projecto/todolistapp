@@ -8,6 +8,7 @@ import { ActivityIndicator, Image, StyleSheet, Modal, TextInput, Alert } from 'r
 import { launchImageLibrary } from 'react-native-image-picker';
 import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
+import themeContext from '../config/themeContext';
 
 
 const { width } = Dimensions.get('window');
@@ -15,6 +16,7 @@ const { width } = Dimensions.get('window');
 
 export default function GetTaskData() {
   const { user } = useContext(AuthContext);
+  const theme = useContext(themeContext);
 
   // Call firebase show data
   let usersCollectionRef = firestore()
@@ -167,19 +169,19 @@ export default function GetTaskData() {
                   uri: item.urlPhoto,
                 }}
               />
-             <Text>{item.topic}</Text>
+             <Text style={[{color: theme.fontColor}]}>{item.topic}</Text>
             {/* <Text>{item.taskDetail}</Text>
             <Text>{item.id}</Text> */}
             
             
             
               
-              <TouchableOpacity style={styles.addButton} onPress={() => { toggleModalVisibility(item.id) }}>
-                <Text style={styles.addButtonText}>EDIT TASK</Text>
+              <TouchableOpacity style={[styles.addButton, {backgroundColor: theme.buttonColor}]} onPress={() => { toggleModalVisibility(item.id) }}>
+                <Text style={[styles.addButtonText, {color: theme.fontColor}]}>EDIT TASK</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.addButton} onPress={() => { deleteTasklist(item.id) }}>
-                <Text style={styles.addButtonText}>DELETE</Text>
+              <TouchableOpacity style={[styles.addButton, {backgroundColor: theme.buttonColor}]} onPress={() => { deleteTasklist(item.id) }}>
+                <Text style={[styles.addButtonText, {color: theme.fontColor}]}>DELETE</Text>
               </TouchableOpacity>
             </View>
             <Modal
@@ -269,13 +271,13 @@ const styles = StyleSheet.create({
     
   },
   addButtonText: {
-    color: '#707070',
+    // color: '#707070',
     fontWeight: 'bold',
     fontSize: 14,
     
   },
   addButton: {
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
     width: '20%',
     alignItems: 'center',
     justifyContent: 'center',
