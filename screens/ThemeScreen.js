@@ -23,6 +23,7 @@ export default function HomeScreen(){
                 EventRegister.emit("changeTheme", value);
             }} />
         </View>
+        // Test
 
     );
 }
