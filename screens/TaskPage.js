@@ -12,6 +12,7 @@ import storage from '@react-native-firebase/storage';
 import * as Progress from 'react-native-progress';
 import GetTaskData from '../firestore/GetTaskData';
 import themeContext from '../config/themeContext';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -119,6 +120,7 @@ export default function TaskPage({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <View style={styles.header}>
         <View style={styles.header_container}>
           {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
@@ -140,14 +142,14 @@ export default function TaskPage({navigation}) {
       <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
         <Text style={styles.loginButtonText}>Logout</Text>
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.logoutButton}
         onPress={() => navigation.navigate('EditTask')}>
         <Text style={styles.loginButtonText}>GetData</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('Home Page')}>
+      </TouchableOpacity> */}
+      {/* <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('Home Page')}>
         <Text style={[styles.loginButtonText, {color: theme.color}]}>HomeScreen</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       </View>
 
@@ -208,7 +210,7 @@ export default function TaskPage({navigation}) {
         </View>
       </Modal>
 
-      
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -216,13 +218,15 @@ export default function TaskPage({navigation}) {
 // These are user defined styles
 const styles = StyleSheet.create({
   body: {
-    flex: 1,
+    
     justifyContent: 'center',
+    flexDirection: 'column',
+    
     backgroundColor: '#FFFFFF',
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: '#FFFFFF',
   },
   addButtonContainer: {
