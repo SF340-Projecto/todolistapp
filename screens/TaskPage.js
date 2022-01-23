@@ -1,9 +1,9 @@
-import {StatusBar} from 'expo-status-bar';
-import React, {useState} from 'react';
-import {useContext, useEffect} from 'react';
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { useContext, useEffect } from 'react';
 import {
   Button, SafeAreaView, StyleSheet, Modal,
-  View, TextInput, Dimensions, Text, TouchableOpacity,   Alert
+  View, TextInput, Dimensions, Text, TouchableOpacity, Alert
 } from "react-native";
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../navigation/AuthProviders';
@@ -17,10 +17,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 
-export default function TaskPage({navigation}) {
+export default function TaskPage({ navigation }) {
   // This is to manage Modal State
   const [isModalVisible, setModalVisible] = useState(false);
   // This is to manage TextInput State
@@ -60,12 +60,12 @@ export default function TaskPage({navigation}) {
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-        const  uri = response.assets[0].uri;
+        const uri = response.assets[0].uri;
         const filename = uri.substring(uri.lastIndexOf('/') + 1);
         const uploadUri = Platform.OS === 'android' ? uri.replace('file://', '') : uri;
-        const placeUrl = user.uid+'/'+'task'+'/'+filename
+        const placeUrl = user.uid + '/' + 'task' + '/' + filename
         console.log(placeUrl)
-        
+
         setUploading(true);
         setTransferred(0);
         const task = storage()
@@ -81,7 +81,7 @@ export default function TaskPage({navigation}) {
             console.log('File available at', downloadURL);
             urlUser = downloadURL;
             setUrl(urlUser)
-            console.log("Checkkkk  ",urlUser)
+            console.log("Checkkkk  ", urlUser)
           });
         });
         setUploading(false);
@@ -119,96 +119,100 @@ export default function TaskPage({navigation}) {
 
 
   return (
-    <SafeAreaView style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       <ScrollView>
-      <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
-        <View style={styles.header_container}>
-          {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
-          <View>
-            <Text style={styles.textHeader}>TODO LIST TASK</Text>
+        <View style={[styles.header, { backgroundColor: theme.hudColor }]}>
+          <View style={styles.header_container}>
+            {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
+            <View>
+              <Text style={styles.textHeader}>TODO LIST TASK</Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.body}>
-      {/* <StatusBar style="auto" /> */}
-      
-      {/**  Displays Task Data */}
-      
-      <GetTaskData />
-      {/**  We are going to create a Modal with Text Input. */}
-      
+        <View style={styles.body}>
+          {/* <StatusBar style="auto" /> */}
 
-      {/*This is Button Log out*/}
-      <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
-        <Text style={[{color: theme.fontColor}]}>Logout</Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity
+          {/**  Displays Task Data */}
+
+          <GetTaskData />
+          {/**  We are going to create a Modal with Text Input. */}
+
+
+
+          {/* <TouchableOpacity
         style={styles.logoutButton}
         onPress={() => navigation.navigate('EditTask')}>
         <Text style={styles.loginButtonText}>GetData</Text>
       </TouchableOpacity> */}
-      {/* <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('ThemeScreen')}>
+          {/* <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('ThemeScreen')}>
         <Text style={[styles.loginButtonText, {color: theme.color}]}>ThemeScreen</Text>
       </TouchableOpacity> */}
 
-      </View>
-
-      {/* This is Add Button Bottom */}
-      <View>
-        <View style={styles.addButtonContainer}>
-          <TouchableOpacity style={[styles.addButton, {backgroundColor: theme.buttonColor}]} onPress={toggleModalVisibility}>
-            <Text style={[styles.addButtonText, {color: theme.fontColor}]}>ADD TASK</Text>
-          </TouchableOpacity>
         </View>
-      </View>
-      
 
-
-      {/** This is our modal component containing textinput and a button */}
-      <Modal
-        animationType="slide"
-        transparent
-        visible={isModalVisible}
-        presentationStyle="overFullScreen"
-        onDismiss={toggleModalVisibility}>
-        <View style={styles.viewWrapper}>
-          <View style={styles.modalView}>
-            <Text>Topic</Text>
-            <TextInput
-              placeholder="Enter something..."
-              value={topic}
-              style={styles.textInput}
-              onChangeText={topic => topicInput(topic)}
-            />
-            <Text>Detail Task</Text>
-            <TextInput
-              placeholder="Enter something..."
-              value={detailTask}
-              style={styles.textInput}
-              onChangeText={detailTask => detailTaskInput(detailTask)}
-            />
-
-
-            <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
-              <Text style={styles.buttonText}>Pick an image</Text>
+        {/* This is Add Button Bottom */}
+        <View>
+          <View style={styles.addButtonContainer}>
+            <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={toggleModalVisibility}>
+              <Text style={[styles.addButtonText, { color: theme.fontColor }]}>+</Text>
             </TouchableOpacity>
-            <View style={styles.imageContainer}>
-              {image !== null ? (
-                <Image source={{ uri: image.uri }} style={styles.imageBox} />
-              ) : null}
-              {uploading ? (
-                <View style={styles.progressBarContainer}>
-                  <Progress.Bar progress={transferred} width={300} />
-                </View>
-              ) : null
-              }
-            </View>
-
-            {/** This button is responsible to close the modal */}
-            <Button title="Done" onPress={toggleModalVisibility} />
           </View>
         </View>
-      </Modal>
+
+        {/*This is Button Log out*/}
+        <View>
+          <View style={styles.logoutContainer}>
+            <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
+              <Text style={[styles.logoutText, { color: theme.fontColor }]}>LOG OUT</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/** This is our modal component containing textinput and a button */}
+        <Modal
+          animationType="slide"
+          transparent
+          visible={isModalVisible}
+          presentationStyle="overFullScreen"
+          onDismiss={toggleModalVisibility}>
+          <View style={styles.viewWrapper}>
+            <View style={styles.modalView}>
+              <Text>Topic</Text>
+              <TextInput
+                placeholder="Enter something..."
+                value={topic}
+                style={styles.textInput}
+                onChangeText={topic => topicInput(topic)}
+              />
+              <Text>Detail Task</Text>
+              <TextInput
+                placeholder="Enter something..."
+                value={detailTask}
+                style={styles.textInput}
+                onChangeText={detailTask => detailTaskInput(detailTask)}
+              />
+
+
+              <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
+                <Text style={styles.buttonText}>Pick an image</Text>
+              </TouchableOpacity>
+              <View style={styles.imageContainer}>
+                {image !== null ? (
+                  <Image source={{ uri: image.uri }} style={styles.imageBox} />
+                ) : null}
+                {uploading ? (
+                  <View style={styles.progressBarContainer}>
+                    <Progress.Bar progress={transferred} width={300} />
+                  </View>
+                ) : null
+                }
+              </View>
+
+              {/** This button is responsible to close the modal */}
+              <Button title="Done" onPress={toggleModalVisibility} />
+            </View>
+          </View>
+        </Modal>
 
       </ScrollView>
     </SafeAreaView>
@@ -217,6 +221,22 @@ export default function TaskPage({navigation}) {
 
 // These are user defined styles
 const styles = StyleSheet.create({
+  logoutText: {
+    padding: 10,
+    fontSize: 24,
+    
+  },
+  logoutContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },  
+  logoutButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 25,
+    backgroundColor: '#25ced1',
+    borderRadius: 10,
+  },
   body: {
     justifyContent: 'center',
     flexDirection: 'column',
@@ -231,24 +251,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 75,
+    marginTop: 25,
   },
   addButtonText: {
     // color: '#707070',
-    fontWeight: 'bold',
-    fontSize: 16,
+    // fontWeight: 'bold',
+    fontSize: 50,
   },
   addButton: {
     // backgroundColor: '#FFFFFF',
-    width: '40%',
+    width: 70,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
-    height: 40,
+    borderRadius: 100,
+    height: 70,
     shadowColor: "#000000",
     shadowOpacity: 5,
     shadowRadius: 5,
     elevation: 5,
-  },    
+  },
   header_container: {
     marginLeft: 25,
   },

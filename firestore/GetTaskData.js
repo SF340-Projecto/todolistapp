@@ -9,6 +9,8 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
 import themeContext from '../config/themeContext';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 const { width } = Dimensions.get('window');
@@ -160,7 +162,7 @@ export default function GetTaskData() {
       <FlatList
         data={dataTask}
         renderItem={({ item }) => (
-          
+
           <View>
             <View style={styles.row}>
               <Image
@@ -169,20 +171,24 @@ export default function GetTaskData() {
                   uri: item.urlPhoto,
                 }}
               />
-             <Text style={[{color: theme.fontColor}]}>{item.topic}</Text>
-            {/* <Text>{item.taskDetail}</Text>
+              <Text style={ [styles.taskText, {flex: 1, color: theme.fontColor }]}>{item.topic}</Text>
+              {/* <Text>{item.taskDetail}</Text>
             <Text>{item.id}</Text> */}
-            
-            
-            
-              
-              <TouchableOpacity style={[styles.addButton, {backgroundColor: theme.buttonColor}]} onPress={() => { toggleModalVisibility(item.id) }}>
-                <Text style={[styles.addButtonText, {color: theme.fontColor}]}>EDIT TASK</Text>
-              </TouchableOpacity>
 
-              <TouchableOpacity style={[styles.addButton, {backgroundColor: theme.buttonColor}]} onPress={() => { deleteTasklist(item.id) }}>
-                <Text style={[styles.addButtonText, {color: theme.fontColor}]}>DELETE</Text>
-              </TouchableOpacity>
+
+
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={() => { toggleModalVisibility(item.id) }}>
+                  {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
+                  <MaterialIcons name="edit" color={'black'} size={24} />
+                </TouchableOpacity>
+              
+                <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={() => { deleteTasklist(item.id) }}>
+                  {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
+                  <MaterialCommunityIcons name="trash-can" color={'black'} size={24} />
+                </TouchableOpacity>
+              </View>
+              
             </View>
             <Modal
               animationType="slide"
@@ -236,11 +242,25 @@ export default function GetTaskData() {
   );
 }
 const styles = StyleSheet.create({
+  taskText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginLeft: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '35%',
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    margin: 10,
+    borderWidth: 0.5,
+    borderColor: '#707070',
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+
   },
   container: {
     paddingTop: 50,
@@ -268,17 +288,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 75,
-    
+
   },
   addButtonText: {
     // color: '#707070',
     fontWeight: 'bold',
     fontSize: 14,
-    
+
   },
   addButton: {
     // backgroundColor: '#FFFFFF',
-    width: '20%',
+    width: '25%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
