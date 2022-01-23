@@ -14,9 +14,6 @@ import GetTaskData from '../firestore/GetTaskData';
 import themeContext from '../config/themeContext';
 import { ScrollView } from 'react-native-gesture-handler';
 
-
-
-
 const { width } = Dimensions.get('window');
 
 
@@ -98,7 +95,7 @@ export default function TaskPage({ navigation }) {
 
   // This call firestore collection for store Tasklist 
   let usersCollectionRef = firestore().collection("user").doc(user.uid).collection("Task");
-
+ 
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);
     if (topic != "" && detailTask != "") {
@@ -109,6 +106,8 @@ export default function TaskPage({ navigation }) {
           taskDetail: detailTask,
           urlPhoto: urlUser
         })
+      
+
 
       topicInput("");
       detailTaskInput("");

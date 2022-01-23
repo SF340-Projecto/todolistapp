@@ -59,6 +59,7 @@ export default function GetTaskData() {
     return () => subscriber();
   }, []);
 
+
   if (isLoading) {
     return <ActivityIndicator />;
   }

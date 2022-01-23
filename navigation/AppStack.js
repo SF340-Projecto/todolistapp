@@ -6,6 +6,7 @@ import ThemeScreen from '../screens/ThemeScreen';
 import GetTaskData from '../firestore/GetTaskData';
 import MainScreen from '../screens/MainScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
+import AddCatagoriesButton from '../components/AddCatagoriesButton';
 
 const Stack = createStackNavigator();
 
@@ -63,6 +64,11 @@ function AppStack() {
       <Stack.Screen
         name="Categories"
         component={CategoriesScreen}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="CatagoriesButton"
+        component={AddCatagoriesButton}
         options={{ header: () => null }}
       />
 
