@@ -11,12 +11,12 @@ import themeContext from '../config/themeContext';
 
 
 
-const Categorie = () => {
+const Categories = () => {
     const theme = useContext(themeContext);
 
     return (
         <View style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
-            <Text style={[styles.text, {color: theme.fontColor}]}>Categorie Screen</Text>
+            <Text style={[styles.text, {color: theme.fontColor}]}>Categories Screen</Text>
         </View>
     )
 }
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   
 });
 
-export default Categorie;
+export default Categories;

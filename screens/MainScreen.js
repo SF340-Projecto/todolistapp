@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import TaskPage from './TaskPage';
-import CategorieScreen from './CategorieScreen';
+import CategoriesScreen from "./CategoriesScreen";
 import ThemeScreen from './ThemeScreen';
 
 import themeContext from '../config/themeContext';
@@ -46,10 +46,10 @@ const MainScreen = ({ navigation }) => {
         }}
       />
       <Tab.Screen
-        name='Categorie'
-        component={CategorieScreen}
+        name='Categories'
+        component={CategoriesScreen}
         options={{
-          tabBarLabel: 'Categorie',
+          tabBarLabel: 'Categories',
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="category" color={color} size={size} />
           ),
