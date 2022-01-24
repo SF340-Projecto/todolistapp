@@ -13,6 +13,8 @@ import * as Progress from 'react-native-progress';
 import GetTaskData from '../firestore/GetTaskData';
 import themeContext from '../config/themeContext';
 import { ScrollView } from 'react-native-gesture-handler';
+import PushNotification from "react-native-push-notification";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const { width } = Dimensions.get('window');
 
@@ -31,6 +33,29 @@ export default function TaskPage({ navigation }) {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
+
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
 
   const selectImage = () => {
 
@@ -95,7 +120,7 @@ export default function TaskPage({ navigation }) {
 
   // This call firestore collection for store Tasklist 
   let usersCollectionRef = firestore().collection("user").doc(user.uid).collection("Task");
- 
+
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);
     if (topic != "" && detailTask != "") {
@@ -111,6 +136,22 @@ export default function TaskPage({ navigation }) {
 
       topicInput("");
       detailTaskInput("");
+      // PushNotification.cancelAllLocalNotifications();
+
+      // PushNotification.localNotification({
+      //     channelId: "test-channel",
+      //     title: date + topic,
+      //     message: new Date(Date.now()).toString(),
+      //     smallIcon: "ic_notification",        
+      // });
+      PushNotification.localNotificationSchedule({
+          channelId: "test-channel",
+          id: '123',
+          title: topic + date,
+          message: new Date(Date.now()).toString(),
+          date: date, 
+          allowWhileIdle:true,        
+      });
     }
   };
 
@@ -167,6 +208,7 @@ export default function TaskPage({ navigation }) {
           </View>
         </View>
 
+
         {/** This is our modal component containing textinput and a button */}
         <Modal
           animationType="slide"
@@ -191,7 +233,25 @@ export default function TaskPage({ navigation }) {
                 onChangeText={detailTask => detailTaskInput(detailTask)}
               />
 
-
+              <View>
+                <Text style={styles.pickedDate}>{date.toString()}</Text>
+                <View>
+                  <Button onPress={showDatepicker} title="Show date picker!" />
+                </View>
+                <View>
+                  <Button onPress={showTimepicker} title="Show time picker!" />
+                </View>
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode={mode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChange}
+                  />
+                )}
+              </View>
               <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
                 <Text style={styles.buttonText}>Pick an image</Text>
               </TouchableOpacity>
