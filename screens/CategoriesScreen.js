@@ -20,7 +20,7 @@ import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../navigation/AuthProviders';
 import AddCatagoriesButton from '../components/AddCatagoriesButton';
 
-const Categories = () => {
+const Categories = ({navigation}) => {
   const theme = useContext(themeContext);
   const [dataTask, setDataTask] = useState([]);
   const {user} = useContext(AuthContext);
@@ -28,7 +28,8 @@ const Categories = () => {
   let CategoriesRef = firestore()
     .collection('user')
     .doc(user.uid)
-    .collection('NameCategories');
+    .collection('NameCategories')
+    .orderBy('timestamp', 'desc');
 
   useEffect(() => {
     const subscriber = CategoriesRef.onSnapshot(querySnapshot => {
@@ -48,16 +49,26 @@ const Categories = () => {
     return () => subscriber();
   }, []);
 
+  const LongPress = () => {
+    alert('LongPress')
+  }
+
   return (
     <SafeAreaView>
       <Text style={[styles.text, {color: theme.fontColor}]}>
         Categories Screen
       </Text>
-      <AddCatagoriesButton/>
+      <AddCatagoriesButton />
       <FlatList
         data={dataTask}
         renderItem={({item}) => (
-          <TouchableOpacity style={styles.loginButton}>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() =>
+              navigation.navigate('CategoriesTask', {name: item.name})
+            }
+            onLongPress={LongPress}
+            >
             <Text style={styles.loginButtonText}>{item.name}</Text>
           </TouchableOpacity>
         )}
