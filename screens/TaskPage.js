@@ -1,42 +1,93 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { useContext, useEffect } from 'react';
+import {StatusBar} from 'expo-status-bar';
+import React, {useState} from 'react';
+import {useContext, useEffect} from 'react';
 import {
-  Button, SafeAreaView, StyleSheet, Modal,
-  View, TextInput, Dimensions, Text, TouchableOpacity, Alert
-} from "react-native";
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Modal,
+  View,
+  TextInput,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  Alert,
+  FlatList,
+  Image
+} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import { AuthContext } from '../navigation/AuthProviders';
-import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
+import {AuthContext} from '../navigation/AuthProviders';
+import {launchImageLibrary} from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
 import storage from '@react-native-firebase/storage';
 import * as Progress from 'react-native-progress';
-import GetTaskData from '../firestore/GetTaskData';
 import themeContext from '../config/themeContext';
-import { ScrollView } from 'react-native-gesture-handler';
-import PushNotification from "react-native-push-notification";
+import {ScrollView} from 'react-native-gesture-handler';
+import PushNotification from 'react-native-push-notification';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
-
-export default function TaskPage({ navigation }) {
+export default function TaskPage({navigation}) {
   // This is to manage Modal State
   const [isModalVisible, setModalVisible] = useState(false);
+
+  const [isLoading, setisLoading] = useState(false);
+  const [dataTask, setDataTask] = useState([]);
   // This is to manage TextInput State
   const theme = useContext(themeContext);
-  const [topic, topicInput] = useState("");
-  const [detailTask, detailTaskInput] = useState("");
+  const [topic, topicInput] = useState('');
+  const [detailTask, detailTaskInput] = useState('');
 
   // This is user data from firebase
-  const { user, logout } = useContext(AuthContext);
+  const {user, logout} = useContext(AuthContext);
 
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
+  const [docID, setDocId] = useState('');
 
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+
+  // Call firebase show data
+  let usersCollectionRef = firestore()
+    .collection('user')
+    .doc(user.uid)
+    .collection('Task');
+
+  // Use for update realtime data
+  useEffect(() => {
+    const subscriber = usersCollectionRef.onSnapshot(querySnapshot => {
+      const dataTask = [];
+
+      querySnapshot.forEach(documentSnapshot => {
+        dataTask.push({
+          ...documentSnapshot.data(),
+          id: documentSnapshot.id,
+        });
+      });
+
+      setDataTask(dataTask);
+      setisLoading(false);
+      createChannels();
+    });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+  const createChannels = () => {
+    PushNotification.createChannel({
+      channelId: 'test-channel',
+      channelName: 'Test Channel',
+    });
+  };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -44,7 +95,7 @@ export default function TaskPage({ navigation }) {
     setDate(currentDate);
   };
 
-  const showMode = (currentMode) => {
+  const showMode = currentMode => {
     setShow(true);
     setMode(currentMode);
   };
@@ -58,16 +109,16 @@ export default function TaskPage({ navigation }) {
   };
 
   const selectImage = () => {
-
     const options = {
       maxWidth: 2000,
       maxHeight: 2000,
       storageOptions: {
         skipBackup: true,
-        path: 'images'
-      }
+        path: 'images',
+      },
     };
-    launchImageLibrary(options, (response) => { // Use launchImageLibrary to open image gallery
+    launchImageLibrary(options, response => {
+      // Use launchImageLibrary to open image gallery
       console.log('Response = ', response.assets[0].uri);
 
       if (response.didCancel) {
@@ -77,91 +128,116 @@ export default function TaskPage({ navigation }) {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = { uri: response.uri };
+        const source = {uri: response.uri};
 
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         const uri = response.assets[0].uri;
         const filename = uri.substring(uri.lastIndexOf('/') + 1);
-        const uploadUri = Platform.OS === 'android' ? uri.replace('file://', '') : uri;
-        const placeUrl = user.uid + '/' + 'task' + '/' + filename
-        console.log(placeUrl)
+        const uploadUri =
+          Platform.OS === 'android' ? uri.replace('file://', '') : uri;
+        const placeUrl = user.uid + '/' + 'task' + '/' + filename;
+        console.log(placeUrl);
 
         setUploading(true);
         setTransferred(0);
-        const task = storage()
-          .ref(placeUrl)
-          .putFile(uploadUri);
+        const task = storage().ref(placeUrl).putFile(uploadUri);
         // set progress state
 
         task.on('state_changed', snapshot => {
           setTransferred(
-            Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+            Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000,
           );
-          task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          task.snapshot.ref.getDownloadURL().then(downloadURL => {
             console.log('File available at', downloadURL);
             urlUser = downloadURL;
-            setUrl(urlUser)
-            console.log("Checkkkk  ", urlUser)
+            setUrl(urlUser);
+            console.log('Checkkkk  ', urlUser);
           });
         });
         setUploading(false);
         Alert.alert(
           'Photo uploaded!',
-          'Your photo has been uploaded to Firebase Cloud Storage!'
+          'Your photo has been uploaded to Firebase Cloud Storage!',
         );
         setImage(null);
-
       }
     });
-  }
+  };
 
-
-  // This call firestore collection for store Tasklist 
-  let usersCollectionRef = firestore().collection("user").doc(user.uid).collection("Task");
-
-  const toggleModalVisibility = () => {
+  // Function call to update task list
+  const updateTasklist = () => {
     setModalVisible(!isModalVisible);
-    if (topic != "" && detailTask != "") {
-      usersCollectionRef
-        .add({
-          timestamp: firestore.FieldValue.serverTimestamp(),
-          topic: topic,
-          taskDetail: detailTask,
-          urlPhoto: urlUser
-        })
-      
+    // Call firebase to update
+    const userCollection1 = firestore()
+      .collection('user')
+      .doc(user.uid)
+      .collection('Task')
+      .doc(docID);
+    // set new data
+    userCollection1.set({
+      timestamp: firestore.FieldValue.serverTimestamp(),
+      topic: topic,
+      taskDetail: detailTask,
+      urlPhoto: urlUser,
+    });
+    // Set data to null
+    topicInput('');
+    detailTaskInput('');
+    setDataTask(dataTask);
+    setisLoading(false);
+    setDocId('');
+  };
 
+  // Delete tasklist function
+  const deleteTasklist = userDocId => {
+    var docRef = firestore()
+      .collection('user')
+      .doc(user.uid)
+      .collection('Task');
+    setDocId(userDocId);
+    // delete the document
+    docRef.doc(docID).delete();
+  };
 
-      topicInput("");
-      detailTaskInput("");
+  const toggleModalVisibility = userDocId => {
+    setModalVisible(!isModalVisible);
+    setDocId(userDocId);
+    if (topic != '' && detailTask != '') {
+      usersCollectionRef.add({
+        timestamp: firestore.FieldValue.serverTimestamp(),
+        topic: topic,
+        taskDetail: detailTask,
+        urlPhoto: urlUser,
+      });
+
+      topicInput('');
+      detailTaskInput('');
       // PushNotification.cancelAllLocalNotifications();
 
       // PushNotification.localNotification({
       //     channelId: "test-channel",
       //     title: date + topic,
       //     message: new Date(Date.now()).toString(),
-      //     smallIcon: "ic_notification",        
+      //     smallIcon: "ic_notification",
       // });
       PushNotification.localNotificationSchedule({
-          channelId: "test-channel",
-          id: '123',
-          title: topic + date,
-          message: new Date(Date.now()).toString(),
-          date: date, 
-          allowWhileIdle:true,        
+        channelId: 'test-channel',
+        id: '123',
+        title: topic + date,
+        message: new Date(Date.now()).toString(),
+        date: date,
+        allowWhileIdle: true,
       });
     }
   };
 
-
-
-
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+    <SafeAreaView
+      style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
       <ScrollView>
-        <View style={[styles.header, { backgroundColor: theme.hudColor }]}>
+        <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
           <View style={styles.header_container}>
             {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
             <View>
@@ -174,10 +250,85 @@ export default function TaskPage({ navigation }) {
 
           {/**  Displays Task Data */}
 
-          <GetTaskData />
+          <FlatList
+        data={dataTask}
+        renderItem={({ item }) => (
+
+          <View>
+            <View style={styles.row}>
+              <Image
+                style={styles.tinyLogo}
+                source={{
+                  uri: item.urlPhoto,
+                }}
+              />
+              <Text style={ [styles.taskText, {flex: 1, color: theme.fontColor }]}>{item.topic}</Text>
+              {/* <Text>{item.taskDetail}</Text>
+            <Text>{item.id}</Text> */}
+
+
+
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={() => { toggleModalVisibility(item.id) }}>
+                  {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
+                  <MaterialIcons name="edit" color={'black'} size={24} />
+                </TouchableOpacity>
+              
+                <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={() => { deleteTasklist(item.id) }}>
+                  {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
+                  <MaterialCommunityIcons name="trash-can" color={'black'} size={24} />
+                </TouchableOpacity>
+              </View>
+              
+            </View>
+            <Modal
+              animationType="slide"
+              transparent
+              visible={isModalVisible}
+              presentationStyle="overFullScreen"
+              onDismiss={toggleModalVisibility}>
+              <View style={styles.viewWrapper}>
+                <View style={styles.modalView}>
+                  <Text>Topic</Text>
+                  <TextInput
+                    placeholder="Enter something..."
+                    value={topic}
+                    style={styles.textInput}
+                    onChangeText={topic => topicInput(topic)}
+                  />
+                  <Text>Detail Task</Text>
+                  <TextInput
+                    placeholder="Enter something..."
+                    value={detailTask}
+                    style={styles.textInput}
+                    onChangeText={detailTask => detailTaskInput(detailTask)}
+                  />
+
+                  <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
+                    <Text style={styles.buttonText}>Pick an image</Text>
+                  </TouchableOpacity>
+                  <View style={styles.imageContainer}>
+                    {image !== null ? (
+                      <Image source={{ uri: image.uri }} style={styles.imageBox} />
+                    ) : null}
+                    {uploading ? (
+                      <View style={styles.progressBarContainer}>
+                        <Progress.Bar progress={transferred} width={300} />
+                      </View>
+                    ) : null
+                    }
+                  </View>
+
+                  {/** This button is responsible to close the modal */}
+                  <Button title="Done" onPress={() => { toggleModalVisibility; updateTasklist(item.id) }} />
+                </View>
+              </View>
+            </Modal>
+
+          </View>
+        )}
+      />
           {/**  We are going to create a Modal with Text Input. */}
-
-
 
           {/* <TouchableOpacity
         style={styles.logoutButton}
@@ -187,14 +338,17 @@ export default function TaskPage({ navigation }) {
           {/* <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('ThemeScreen')}>
         <Text style={[styles.loginButtonText, {color: theme.color}]}>ThemeScreen</Text>
       </TouchableOpacity> */}
-
         </View>
 
         {/* This is Add Button Bottom */}
         <View>
           <View style={styles.addButtonContainer}>
-            <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={toggleModalVisibility}>
-              <Text style={[styles.addButtonText, { color: theme.fontColor }]}>+</Text>
+            <TouchableOpacity
+              style={[styles.addButton, {backgroundColor: theme.buttonColor}]}
+              onPress={toggleModalVisibility}>
+              <Text style={[styles.addButtonText, {color: theme.fontColor}]}>
+                +
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -202,12 +356,15 @@ export default function TaskPage({ navigation }) {
         {/*This is Button Log out*/}
         <View>
           <View style={styles.logoutContainer}>
-            <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
-              <Text style={[styles.logoutText, { color: theme.fontColor }]}>LOG OUT</Text>
+            <TouchableOpacity
+              style={styles.logoutButton}
+              onPress={() => logout()}>
+              <Text style={[styles.logoutText, {color: theme.fontColor}]}>
+                LOG OUT
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
-
 
         {/** This is our modal component containing textinput and a button */}
         <Modal
@@ -252,19 +409,20 @@ export default function TaskPage({ navigation }) {
                   />
                 )}
               </View>
-              <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
+              <TouchableOpacity
+                style={styles.selectButton}
+                onPress={selectImage}>
                 <Text style={styles.buttonText}>Pick an image</Text>
               </TouchableOpacity>
               <View style={styles.imageContainer}>
                 {image !== null ? (
-                  <Image source={{ uri: image.uri }} style={styles.imageBox} />
+                  <Image source={{uri: image.uri}} style={styles.imageBox} />
                 ) : null}
                 {uploading ? (
                   <View style={styles.progressBarContainer}>
                     <Progress.Bar progress={transferred} width={300} />
                   </View>
-                ) : null
-                }
+                ) : null}
               </View>
 
               {/** This button is responsible to close the modal */}
@@ -272,7 +430,6 @@ export default function TaskPage({ navigation }) {
             </View>
           </View>
         </Modal>
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -280,15 +437,45 @@ export default function TaskPage({ navigation }) {
 
 // These are user defined styles
 const styles = StyleSheet.create({
+  taskText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginLeft: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '35%',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 0.5,
+    borderColor: '#707070',
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+
+  },
+  container: {
+    paddingTop: 50,
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
+  logo: {
+    width: 66,
+    height: 58,
+  },
   logoutText: {
     padding: 10,
     fontSize: 24,
-    
   },
   logoutContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-  },  
+  },
   logoutButton: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -324,7 +511,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 100,
     height: 70,
-    shadowColor: "#000000",
+    shadowColor: '#000000',
     shadowOpacity: 5,
     shadowRadius: 5,
     elevation: 5,
@@ -362,8 +549,7 @@ const styles = StyleSheet.create({
     top: '50%',
     left: '50%',
     elevation: 5,
-    transform: [{ translateX: -(width * 0.4) },
-    { translateY: -90 }],
+    transform: [{translateX: -(width * 0.4)}, {translateY: -90}],
     height: 400,
     width: width * 0.8,
     backgroundColor: '#fff',
@@ -384,7 +570,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#8ac6d1',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   uploadButton: {
     borderRadius: 5,
@@ -393,23 +579,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffb6b9',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20
+    marginTop: 20,
   },
   buttonText: {
     color: 'white',
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   imageContainer: {
     marginTop: 30,
     marginBottom: 50,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   progressBarContainer: {
-    marginTop: 20
+    marginTop: 20,
   },
   imageBox: {
     width: 300,
-    height: 300
+    height: 300,
   },
 });

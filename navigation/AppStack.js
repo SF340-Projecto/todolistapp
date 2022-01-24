@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import TaskPage from '../screens/TaskPage';
 import ThemeScreen from '../screens/ThemeScreen';
-import GetTaskData from '../firestore/GetTaskData';
 import MainScreen from '../screens/MainScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import AddCatagoriesButton from '../components/AddCatagoriesButton';
@@ -36,11 +35,6 @@ function AppStack() {
         //   },
         //   headerTitleAlign: 'center',
         // }}
-        options={{ header: () => null }}
-      />
-      <Stack.Screen
-        name="GetTaskData"
-        component={GetTaskData}
         options={{ header: () => null }}
       />
       <Stack.Screen
