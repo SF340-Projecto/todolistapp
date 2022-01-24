@@ -11,7 +11,7 @@ import storage from '@react-native-firebase/storage';
 import themeContext from '../config/themeContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import PushNotification from "react-native-push-notification";
 
 const { width } = Dimensions.get('window');
 
@@ -26,7 +26,6 @@ export default function GetTaskData() {
     .doc(user.uid)
     .collection('Task');
 
-  const testData = [{ topic: 'ez', taskDetail: 'ez' }, { topic: 'ez', taskDetail: 'ez2' }]
 
   //Variable for set date
   const [isModalVisible, setModalVisible] = useState(false);
@@ -53,6 +52,7 @@ export default function GetTaskData() {
 
       setDataTask(dataTask);
       setisLoading(false);
+      createChannels();
     });
 
     // Unsubscribe from events when no longer in use
@@ -62,6 +62,14 @@ export default function GetTaskData() {
 
   if (isLoading) {
     return <ActivityIndicator />;
+  }
+  const createChannels = () => {
+    PushNotification.createChannel(
+        {
+            channelId: "test-channel",
+            channelName: "Test Channel"
+        }
+    )
   }
 
   // Function call to open modal

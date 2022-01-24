@@ -34,6 +34,7 @@ export default function AddCatagoriesButton() {
     if (topic != '') {
       CategoriesRef.add({
         name: topic,
+        timestamp: firestore.FieldValue.serverTimestamp(),
       });
       topicInput('');
     }
