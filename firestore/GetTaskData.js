@@ -26,7 +26,6 @@ export default function GetTaskData() {
     .doc(user.uid)
     .collection('Task');
 
-
   //Variable for set date
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setisLoading] = useState(false);
