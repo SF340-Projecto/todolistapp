@@ -1,6 +1,6 @@
-import {StatusBar} from 'expo-status-bar';
-import React, {useState} from 'react';
-import {useContext, useEffect} from 'react';
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { useContext, useEffect } from 'react';
 import {
   Button,
   SafeAreaView,
@@ -16,38 +16,47 @@ import {
   Image
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import {AuthContext} from '../navigation/AuthProviders';
-import {launchImageLibrary} from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
+import { AuthContext } from '../navigation/AuthProviders';
+import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
 import storage from '@react-native-firebase/storage';
 import * as Progress from 'react-native-progress';
 import themeContext from '../config/themeContext';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import PushNotification from 'react-native-push-notification';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-export default function TaskPage({navigation}) {
+export default function TaskPage({ navigation }) {
   // This is to manage Modal State
+  // Variable to modal add data
   const [isModalVisible, setModalVisible] = useState(false);
 
+  // Variable modal edit data
+  const [isModalVisible1, setModalVisible1] = useState(false);
+
+  // For loop data from firebase
   const [isLoading, setisLoading] = useState(false);
   const [dataTask, setDataTask] = useState([]);
+
   // This is to manage TextInput State
   const theme = useContext(themeContext);
   const [topic, topicInput] = useState('');
   const [detailTask, detailTaskInput] = useState('');
 
   // This is user data from firebase
-  const {user, logout} = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
+  // Variable contain value from user
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
   const [docID, setDocId] = useState('');
+  const [urlUser, setUrl] = useState('');
 
+  // Variable to manage due date
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -82,6 +91,8 @@ export default function TaskPage({navigation}) {
   if (isLoading) {
     return <ActivityIndicator />;
   }
+
+  // Notification /////
   const createChannels = () => {
     PushNotification.createChannel({
       channelId: 'test-channel',
@@ -108,6 +119,10 @@ export default function TaskPage({navigation}) {
     showMode('time');
   };
 
+  //// Notification close /////
+
+
+  // Select image and get url firebase storage //
   const selectImage = () => {
     const options = {
       maxWidth: 2000,
@@ -128,7 +143,7 @@ export default function TaskPage({navigation}) {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {uri: response.uri};
+        const source = { uri: response.uri };
 
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
@@ -168,7 +183,7 @@ export default function TaskPage({navigation}) {
 
   // Function call to update task list
   const updateTasklist = () => {
-    setModalVisible(!isModalVisible);
+    setModalVisible1(!isModalVisible1);
     // Call firebase to update
     const userCollection1 = firestore()
       .collection('user')
@@ -190,6 +205,13 @@ export default function TaskPage({navigation}) {
     setDocId('');
   };
 
+  // Function call to open modal edit 
+  const toggleModalVisibility1 = userDocId => {
+    setModalVisible1(!isModalVisible1);
+    // Set doc id
+    setDocId(userDocId)
+  };
+
   // Delete tasklist function
   const deleteTasklist = userDocId => {
     var docRef = firestore()
@@ -201,9 +223,12 @@ export default function TaskPage({navigation}) {
     docRef.doc(docID).delete();
   };
 
+  // Open toggle add task and add data to firebase
   const toggleModalVisibility = userDocId => {
     setModalVisible(!isModalVisible);
     setDocId(userDocId);
+
+    // Check condition and send to firebase
     if (topic != '' && detailTask != '') {
       usersCollectionRef.add({
         timestamp: firestore.FieldValue.serverTimestamp(),
@@ -235,9 +260,9 @@ export default function TaskPage({navigation}) {
 
   return (
     <SafeAreaView
-      style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
+      style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       <ScrollView>
-        <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
+        <View style={[styles.header, { backgroundColor: theme.hudColor }]}>
           <View style={styles.header_container}>
             {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
             <View>
@@ -251,83 +276,105 @@ export default function TaskPage({navigation}) {
           {/**  Displays Task Data */}
 
           <FlatList
-        data={dataTask}
-        renderItem={({ item }) => (
+            data={dataTask}
+            renderItem={({ item }) => (
 
-          <View>
-            <View style={styles.row}>
-              <Image
-                style={styles.tinyLogo}
-                source={{
-                  uri: item.urlPhoto,
-                }}
-              />
-              <Text style={ [styles.taskText, {flex: 1, color: theme.fontColor }]}>{item.topic}</Text>
-              {/* <Text>{item.taskDetail}</Text>
+              <View>
+                <View style={styles.row}>
+                  <Image
+                    style={styles.tinyLogo}
+                    source={{
+                      uri: item.urlPhoto,
+                    }}
+                  />
+                  <Text style={[styles.taskText, { flex: 1, color: theme.fontColor }]}>{item.topic}</Text>
+                  {/* <Text>{item.taskDetail}</Text>
             <Text>{item.id}</Text> */}
 
 
 
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={() => { toggleModalVisibility(item.id) }}>
-                  {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
-                  <MaterialIcons name="edit" color={'black'} size={24} />
-                </TouchableOpacity>
-              
-                <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={() => { deleteTasklist(item.id) }}>
-                  {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
-                  <MaterialCommunityIcons name="trash-can" color={'black'} size={24} />
-                </TouchableOpacity>
-              </View>
-              
-            </View>
-            <Modal
-              animationType="slide"
-              transparent
-              visible={isModalVisible}
-              presentationStyle="overFullScreen"
-              onDismiss={toggleModalVisibility}>
-              <View style={styles.viewWrapper}>
-                <View style={styles.modalView}>
-                  <Text>Topic</Text>
-                  <TextInput
-                    placeholder="Enter something..."
-                    value={topic}
-                    style={styles.textInput}
-                    onChangeText={topic => topicInput(topic)}
-                  />
-                  <Text>Detail Task</Text>
-                  <TextInput
-                    placeholder="Enter something..."
-                    value={detailTask}
-                    style={styles.textInput}
-                    onChangeText={detailTask => detailTaskInput(detailTask)}
-                  />
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={() => { toggleModalVisibility1(item.id) }}>
+                      {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
+                      <MaterialIcons name="edit" color={'black'} size={24} />
+                    </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
-                    <Text style={styles.buttonText}>Pick an image</Text>
-                  </TouchableOpacity>
-                  <View style={styles.imageContainer}>
-                    {image !== null ? (
-                      <Image source={{ uri: image.uri }} style={styles.imageBox} />
-                    ) : null}
-                    {uploading ? (
-                      <View style={styles.progressBarContainer}>
-                        <Progress.Bar progress={transferred} width={300} />
-                      </View>
-                    ) : null
-                    }
+                    <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={() => { deleteTasklist(item.id) }}>
+                      {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
+                      <MaterialCommunityIcons name="trash-can" color={'black'} size={24} />
+                    </TouchableOpacity>
                   </View>
 
-                  {/** This button is responsible to close the modal */}
-                  <Button title="Done" onPress={() => { toggleModalVisibility; updateTasklist(item.id) }} />
                 </View>
-              </View>
-            </Modal>
 
-          </View>
-        )}
-      />
+                {/*Modal for edit task */}
+                <Modal
+                  animationType="slide"
+                  transparent
+                  visible={isModalVisible1}
+                  presentationStyle="overFullScreen"
+                  onDismiss={toggleModalVisibility1}>
+                  <View style={styles.viewWrapper}>
+                    <View style={styles.modalView}>
+                      <Text>Topic</Text>
+                      <TextInput
+                        placeholder="Enter something..."
+                        value={topic}
+                        style={styles.textInput}
+                        onChangeText={topic => topicInput(topic)}
+                      />
+                      <Text>Detail Task</Text>
+                      <TextInput
+                        placeholder="Enter something..."
+                        value={detailTask}
+                        style={styles.textInput}
+                        onChangeText={detailTask => detailTaskInput(detailTask)}
+                      />
+
+                      <View>
+                        <Text style={styles.pickedDate}>{date.toString()}</Text>
+                        <View>
+                          <Button onPress={showDatepicker} title="Show date picker!" />
+                        </View>
+                        <View>
+                          <Button onPress={showTimepicker} title="Show time picker!" />
+                        </View>
+                        {show && (
+                          <DateTimePicker
+                            testID="dateTimePicker"
+                            value={date}
+                            mode={mode}
+                            is24Hour={true}
+                            display="default"
+                            onChange={onChange}
+                          />
+                        )}
+                      </View>
+
+                      <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
+                        <Text style={styles.buttonText}>Pick an image</Text>
+                      </TouchableOpacity>
+                      <View style={styles.imageContainer}>
+                        {image !== null ? (
+                          <Image source={{ uri: image.uri }} style={styles.imageBox} />
+                        ) : null}
+                        {uploading ? (
+                          <View style={styles.progressBarContainer}>
+                            <Progress.Bar progress={transferred} width={300} />
+                          </View>
+                        ) : null
+                        }
+                      </View>
+
+                      {/** This button is responsible to close the modal */}
+                      <Button title="Done" onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }} />
+                    </View>
+                  </View>
+                </Modal>
+
+              </View>
+            )}
+          />
           {/**  We are going to create a Modal with Text Input. */}
 
           {/* <TouchableOpacity
@@ -344,9 +391,9 @@ export default function TaskPage({navigation}) {
         <View>
           <View style={styles.addButtonContainer}>
             <TouchableOpacity
-              style={[styles.addButton, {backgroundColor: theme.buttonColor}]}
+              style={[styles.addButton, { backgroundColor: theme.buttonColor }]}
               onPress={toggleModalVisibility}>
-              <Text style={[styles.addButtonText, {color: theme.fontColor}]}>
+              <Text style={[styles.addButtonText, { color: theme.fontColor }]}>
                 +
               </Text>
             </TouchableOpacity>
@@ -359,7 +406,7 @@ export default function TaskPage({navigation}) {
             <TouchableOpacity
               style={styles.logoutButton}
               onPress={() => logout()}>
-              <Text style={[styles.logoutText, {color: theme.fontColor}]}>
+              <Text style={[styles.logoutText, { color: theme.fontColor }]}>
                 LOG OUT
               </Text>
             </TouchableOpacity>
@@ -416,7 +463,7 @@ export default function TaskPage({navigation}) {
               </TouchableOpacity>
               <View style={styles.imageContainer}>
                 {image !== null ? (
-                  <Image source={{uri: image.uri}} style={styles.imageBox} />
+                  <Image source={{ uri: image.uri }} style={styles.imageBox} />
                 ) : null}
                 {uploading ? (
                   <View style={styles.progressBarContainer}>
@@ -430,6 +477,8 @@ export default function TaskPage({navigation}) {
             </View>
           </View>
         </Modal>
+
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -549,7 +598,7 @@ const styles = StyleSheet.create({
     top: '50%',
     left: '50%',
     elevation: 5,
-    transform: [{translateX: -(width * 0.4)}, {translateY: -90}],
+    transform: [{ translateX: -(width * 0.4) }, { translateY: -90 }],
     height: 400,
     width: width * 0.8,
     backgroundColor: '#fff',
