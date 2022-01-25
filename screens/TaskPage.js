@@ -173,9 +173,10 @@ export default function TaskPage({ navigation }) {
         setUploading(false);
         Alert.alert(
           'Photo uploaded!',
-          'Your photo has been uploaded to Firebase Cloud Storage!',
+          'Your photo has been uploaded',
         );
         setImage(null);
+        setUrl("");
       }
     });
   };
