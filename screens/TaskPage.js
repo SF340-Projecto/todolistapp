@@ -166,9 +166,8 @@ export default function TaskPage({ navigation }) {
           );
           task.snapshot.ref.getDownloadURL().then(downloadURL => {
             console.log('File available at', downloadURL);
-            urlUser = downloadURL;
-            setUrl(urlUser);
-            console.log('Checkkkk  ', urlUser);
+            setUrl(downloadURL);
+            console.log('Checkkkk  ', downloadURL);
           });
         });
         setUploading(false);
