@@ -342,8 +342,9 @@ export default function TaskPage({ navigation }) {
                         {show && (
                           <DateTimePicker
                             testID="dateTimePicker"
-                            value={date}
+                            value={new Date()}
                             mode={mode}
+                            minimumDate={Date.parse(new Date())}
                             is24Hour={true}
                             display="default"
                             onChange={onChange}
@@ -448,8 +449,9 @@ export default function TaskPage({ navigation }) {
                 {show && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={date}
+                    value={new Date()}
                     mode={mode}
+                    minimumDate={Date.parse(new Date())}
                     is24Hour={true}
                     display="default"
                     onChange={onChange}
