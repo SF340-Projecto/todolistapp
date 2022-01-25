@@ -7,35 +7,22 @@ import MainScreen from '../screens/MainScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import AddCatagoriesButton from '../components/AddCatagoriesButton';
 import CategoriesTask from '../screens/CategoriesTask';
+import { NavigationContainer } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 
 function AppStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Main">
       <Stack.Screen
         name="Main"
         component={MainScreen}
-        options={{ header: () => null }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Task"
         component={TaskPage}
-        // options={{
-        //   title: 'TODO LIST CATEGORIES',
-        //   headerStyle: {
-        //     backgroundColor: '#25ced1',
-        //     shadowColor: 'white',
-        //     elevation: 0,
-        //   },
-        //   headerTitleStyle: {
-        //     color: '#FFFFFF',
-        //     fontWeight: 'bold',
-        //     fontSize: 22,
-        //   },
-        //   headerTitleAlign: 'center',
-        // }}
-        options={{ header: () => null }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="ThemeScreen"
@@ -54,22 +41,22 @@ function AppStack() {
         //     },
         //     headerTitleAlign: 'center',
         //   }}
-        options={{ header: () => null }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Categories"
         component={CategoriesScreen}
-        options={{ header: () => null }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="CatagoriesButton"
         component={AddCatagoriesButton}
-        options={{ header: () => null }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="CategoriesTask"
         component={CategoriesTask}
-        options={{ header: () => null }}
+        options={{ headerShown: false }}
       />
 
 

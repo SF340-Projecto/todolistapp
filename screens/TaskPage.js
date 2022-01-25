@@ -292,13 +292,13 @@ export default function TaskPage({ navigation }) {
 
 
 
-                  <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={() => { toggleModalVisibility1(item.id) }}>
+                  <View style={styles.buttonContainerIcon}>
+                    <TouchableOpacity style={[styles.addButtonIcon, { backgroundColor: theme.buttonColor }]} onPress={() => { toggleModalVisibility1(item.id) }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
                       <MaterialIcons name="edit" color={'black'} size={24} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[styles.addButton, { backgroundColor: theme.buttonColor }]} onPress={() => { deleteTasklist(item.id) }}>
+                    <TouchableOpacity style={[styles.addButtonIcon, { backgroundColor: theme.buttonColor }]} onPress={() => { deleteTasklist(item.id) }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                       <MaterialCommunityIcons name="trash-can" color={'black'} size={24} />
                     </TouchableOpacity>
@@ -485,6 +485,17 @@ export default function TaskPage({ navigation }) {
 
 // These are user defined styles
 const styles = StyleSheet.create({
+  addButtonIcon: {
+    marginHorizontal: 7,
+    padding: 5,
+    borderRadius: 10,
+  },
+  buttonContainerIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '35%',
+  },  
   taskText: {
     fontWeight: 'bold',
     fontSize: 18,
@@ -528,7 +539,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 25,
-    backgroundColor: '#25ced1',
+    backgroundColor: 'tomato',
     borderRadius: 10,
   },
   body: {
