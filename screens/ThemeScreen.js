@@ -19,13 +19,6 @@ export default function HomeScreen({navigation}) {
           EventRegister.emit('changeTheme', value);
         }}
       />
-      <TouchableOpacity>
-        <Text
-          style={styles.text}
-          onPress={() => navigation.navigate('CatagoriesButton')}>
-          CatB
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 }
