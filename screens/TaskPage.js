@@ -37,6 +37,7 @@ export default function TaskPage({ navigation }) {
   // Variable modal edit data
   const [isModalVisible1, setModalVisible1] = useState(false);
 
+
   // For loop data from firebase
   const [isLoading, setisLoading] = useState(false);
   const [dataTask, setDataTask] = useState([]);
@@ -213,14 +214,11 @@ export default function TaskPage({ navigation }) {
   };
 
   // Delete tasklist function
-  const deleteTasklist = userDocId => {
-    var docRef = firestore()
+  async function deleteTasklist (userDocId) {
+    const res = await firestore()
       .collection('user')
       .doc(user.uid)
-      .collection('Task');
-    setDocId(userDocId);
-    // delete the document
-    docRef.doc(docID).delete();
+      .collection('Task').doc(userDocId).delete();
   };
 
   // Open toggle add task and add data to firebase
@@ -247,6 +245,7 @@ export default function TaskPage({ navigation }) {
       //     message: new Date(Date.now()).toString(),
       //     smallIcon: "ic_notification",
       // });
+
       PushNotification.localNotificationSchedule({
         channelId: 'test-channel',
         id: '123',
@@ -257,6 +256,29 @@ export default function TaskPage({ navigation }) {
       });
     }
   };
+
+
+  // Open toggle add task and add data to firebase
+  async function achiveTask(userDocId, topic, taskDetail) {
+    setDocId(userDocId);
+    // Check condition and send to firebase
+    const achiveCollection = firestore()
+      .collection('user')
+      .doc(user.uid)
+      .collection('Achive')
+
+    achiveCollection.add({
+      timestamp: firestore.FieldValue.serverTimestamp(),
+      topic: topic,
+      taskDetail: taskDetail,
+      urlPhoto: urlUser,
+    });
+
+    deleteTasklist(userDocId)
+
+  };
+
+
 
   return (
     <SafeAreaView
@@ -289,7 +311,7 @@ export default function TaskPage({ navigation }) {
                   />
                   <Text style={[styles.taskText, { flex: 1, color: theme.fontColor }]}>{item.topic}</Text>
                   {/* <Text>{item.taskDetail}</Text>
-            <Text>{item.id}</Text> */}
+                  <Text>{item.id}</Text> */ }
 
 
 
@@ -302,6 +324,11 @@ export default function TaskPage({ navigation }) {
                     <TouchableOpacity style={[styles.addButtonIcon, { backgroundColor: theme.buttonColor }]} onPress={() => { deleteTasklist(item.id) }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                       <MaterialCommunityIcons name="trash-can" color={'black'} size={24} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={[styles.addButtonIcon, { backgroundColor: theme.buttonColor }]} onPress={() => { achiveTask(item.id, item.topic, item.taskDetail) }}>
+                      {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
+                      <Text> Achive task </Text>
                     </TouchableOpacity>
                   </View>
 
@@ -342,9 +369,8 @@ export default function TaskPage({ navigation }) {
                         {show && (
                           <DateTimePicker
                             testID="dateTimePicker"
-                            value={new Date()}
+                            value={date}
                             mode={mode}
-                            minimumDate={Date.parse(new Date())}
                             is24Hour={true}
                             display="default"
                             onChange={onChange}
@@ -449,9 +475,8 @@ export default function TaskPage({ navigation }) {
                 {show && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={new Date()}
+                    value={date}
                     mode={mode}
-                    minimumDate={Date.parse(new Date())}
                     is24Hour={true}
                     display="default"
                     onChange={onChange}
@@ -498,7 +523,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '35%',
-  },  
+  },
   taskText: {
     fontWeight: 'bold',
     fontSize: 18,
