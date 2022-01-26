@@ -27,18 +27,21 @@ const MainScreen = ({ navigation }) => {
         labelStyle: {
           fontSize: 16,
           paddingBottom: 7,
-          color: theme.fontColor,
+          
           fontWeight: 'bold',
         },
         style: {
           height: 67 + insets.bottom,
           paddingTop: 0.5,
+          
         },
       }}
       initialRouteName="Main"
       screenOptions={{
+        headerShown: false,
         tabBarStyle:{
           height: 67 + insets.bottom,
+          
           
         },
       }}
