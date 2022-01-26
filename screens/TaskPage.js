@@ -13,7 +13,8 @@ import {
   TouchableOpacity,
   Alert,
   FlatList,
-  Image
+  Image,
+  TouchableHighlight
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../navigation/AuthProviders';
@@ -26,7 +27,7 @@ import PushNotification from 'react-native-push-notification';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import {ModalPickerDropdow} from './ModalPickerDropdow';
 const { width } = Dimensions.get('window');
 
 export default function TaskPage({ navigation }) {
@@ -37,6 +38,15 @@ export default function TaskPage({ navigation }) {
   // Variable modal edit data
   const [isModalVisible1, setModalVisible1] = useState(false);
 
+ //category pop-up
+ const [chooseData,setchooseData] = useState('SELECT CATEGORY...');
+ const [isModalVisible_d, setisModalVisible_d] = useState(false)//
+ const changeModalVisibility = (bool)=>{
+  setisModalVisible_d(bool)
+}
+ const setData = (option_drop) =>{
+  setchooseData(option_drop)
+}
 
   // For loop data from firebase
   const [isLoading, setisLoading] = useState(false);
@@ -61,6 +71,8 @@ export default function TaskPage({ navigation }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+  const [textDate, setText] = useState('CHOOSE DUE DATE...');
+  const [textTime, setTime] = useState('CHOOSE DUE TIME...');
 
   // Call firebase show data
   let usersCollectionRef = firestore()
@@ -105,6 +117,12 @@ export default function TaskPage({ navigation }) {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+
+    let tempDate = new Date(currentDate);
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() +1)+ '/' + tempDate.getFullYear();
+    let fTime = 'Hours: '+ tempDate.getHours() + ' Minutes:' + tempDate.getMinutes();
+    setText(fDate)
+    setTime(fTime)
   };
 
   const showMode = currentMode => {
@@ -447,31 +465,42 @@ export default function TaskPage({ navigation }) {
           visible={isModalVisible}
           presentationStyle="overFullScreen"
           onDismiss={toggleModalVisibility}>
-          <View style={styles.viewWrapper}>
-            <View style={styles.modalView}>
-              <Text>Topic</Text>
-              <TextInput
-                placeholder="Enter something..."
-                value={topic}
-                style={styles.textInput}
-                onChangeText={topic => topicInput(topic)}
+          <ScrollView >
+          <View style={styles.bg_modal}>
+            <View style={styles.paper_madal}>
+
+              <Text style={styles.text_normal}>
+                ADD TASK</Text>
+                <View style={{alignItems:'center'}}>
+                  <TextInput
+                  placeholder="Enter something..."
+                  value={topic}
+                  style={styles.input}
+                  onChangeText={topic => topicInput(topic)}
               />
-              <Text>Detail Task</Text>
-              <TextInput
+                </View>
+              
+              <Text style={styles.text_normal}>Detail Task</Text>
+              <View style={{alignItems:'center'}}>
+                <TextInput
                 placeholder="Enter something..."
                 value={detailTask}
-                style={styles.textInput}
+                style={styles.input2} 
+                multiline={true} 
+                numberOfLines={4}
                 onChangeText={detailTask => detailTaskInput(detailTask)}
               />
+              </View>
+              
 
-              <View>
-                <Text style={styles.pickedDate}>{date.toString()}</Text>
+              {/* <View> */}
+                {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
                 <View>
                   <Button onPress={showDatepicker} title="Show date picker!" />
                 </View>
                 <View>
                   <Button onPress={showTimepicker} title="Show time picker!" />
-                </View>
+                </View> */}
                 {show && (
                   <DateTimePicker
                     testID="dateTimePicker"
@@ -482,12 +511,79 @@ export default function TaskPage({ navigation }) {
                     onChange={onChange}
                   />
                 )}
+                <Text style={styles.text_normal}>
+                  DUE DATE
+                </Text>
+                {/* --------------------Date-------------------- */}
+                <View style={{alignItems:'center', paddingBottom:10}}>
+                    <View style={styles.input_f}>
+                      <TouchableHighlight onPress={() => showMode('date')}>
+                        <Image 
+                            style={styles.logo}
+                            source={require('./img/calendar.png')}       
+                            />
+                      </TouchableHighlight>
+                      
+                      <Text style={styles.style_text_date}>{textDate}</Text>
+                    </View>
+                </View >
+                 {/* ---------------Time--------------- */}
+            <View style={{alignItems:'center'}}>
+                <View style={styles.input_f}>
+                  <TouchableHighlight 
+                  onPress={() => showMode('time')}>
+                     <Image
+                      style={styles.logo}
+                      source={require('./img/time.png')}  
+                     />  
+                  </TouchableHighlight>
+
+                  <Text style={styles.style_text_date}>{textTime}</Text>
+                </View>
+            </View >
+            <Text style={styles.text_normal}>
+                CATEGORY
+            </Text>
+
+            <View style={{alignItems:'center'}}>
+              <View style={styles.input_f}>
+                <TouchableOpacity  onPress={() => changeModalVisibility(true)}>
+                <Image 
+                        style={styles.logo}
+                        source={require('./img/dropdown.png')}       
+                         />
+                </TouchableOpacity>
+                <Text style={styles.style_text_date}>{chooseData}</Text>
+                <Modal 
+                transparent={true}
+                animationType='fade'
+                visible={isModalVisible_d}
+                nRequestClose={() =>changeModalVisibility(false)}
+                >
+                  <ModalPickerDropdow
+                    changeModalVisibility={changeModalVisibility}
+                    // -----------------value is setData-------------
+                    setData={setData}
+                  />                 
+                  
+                </Modal>
               </View>
+            </View>
+
+              {/* </View> */}
+              <Text style={styles.text_normal}>
+                ADD PICTURE
+            </Text>
+            <View style={{alignItems:'center'}}>
               <TouchableOpacity
-                style={styles.selectButton}
                 onPress={selectImage}>
-                <Text style={styles.buttonText}>Pick an image</Text>
+                <Image 
+                        style={styles.logoPic}
+                        source={require('./img/picture.png')}       
+                         />
               </TouchableOpacity>
+            </View>
+              
               <View style={styles.imageContainer}>
                 {image !== null ? (
                   <Image source={{ uri: image.uri }} style={styles.imageBox} />
@@ -499,10 +595,22 @@ export default function TaskPage({ navigation }) {
                 ) : null}
               </View>
 
-              {/** This button is responsible to close the modal */}
-              <Button title="Done" onPress={toggleModalVisibility} />
+              <View style={styles.style_flex_button}>
+                <TouchableOpacity 
+                style={styles.addButtonL}
+                nRequestClose={() =>changeModalVisibility(false)}
+                >
+                    <Text style={styles.addButtonText1}>CANCLE</Text>
+                </TouchableOpacity>
+            
+            
+                <TouchableOpacity style={styles.addButtonR} onPress={toggleModalVisibility}>
+                    <Text style={styles.addButtonText1}>SAVE</Text>
+                </TouchableOpacity>
+            </View>
             </View>
           </View>
+          </ScrollView>
         </Modal>
 
 
@@ -552,8 +660,8 @@ const styles = StyleSheet.create({
     height: 50,
   },
   logo: {
-    width: 66,
-    height: 58,
+    width: 30,
+    height: 30,
   },
   logoutText: {
     padding: 10,
@@ -685,4 +793,111 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
   },
+
+bg_modal :{
+  backgroundColor:'#000000aa',
+  flex:1
+},
+paper_madal:{
+  backgroundColor:'#ffffff',
+  margin:30,
+  marginTop:90,
+  marginBottom:90,
+  padding:20,
+  borderRadius:10,
+  flex:1
+},
+text_normal:{
+  fontWeight: 'bold',
+  padding:10,
+},
+input:{
+width:'90%',
+borderWidth:1,
+padding:10,
+fontSize:16,
+shadowColor: "#000000",
+shadowOpacity: 5,
+shadowRadius: 5,
+elevation: 2,
+backgroundColor: '#e5f1f1',
+borderRadius: 5,
+},
+input2:{
+width:'90%',
+borderWidth:1,
+padding:20,
+fontSize:16,
+shadowColor: "#000000",
+shadowOpacity: 5,
+shadowRadius: 5,
+elevation: 2,
+backgroundColor: '#e5f1f1',
+borderRadius: 5,
+textAlignVertical: 'top'
+},
+style_text_date:{
+fontSize:16,
+alignItems:'center',
+paddingTop:4,
+paddingLeft:20
+},
+input_f:{
+width:'90%',
+borderWidth:1,
+padding:10,
+fontSize:16,
+shadowColor: "#000000",
+shadowOpacity: 5,
+shadowRadius: 5,
+elevation: 2,
+backgroundColor: '#e5f1f1',
+borderRadius: 5,
+flexDirection: 'row',
+},
+logoPic: {
+width:250,
+height:250,
+
+},
+addButtonL: {
+backgroundColor: '#707070',
+width: '45%',
+alignItems: 'center',
+justifyContent: 'center',
+borderRadius: 10,
+height: 40,
+shadowColor: "#000000",
+shadowOpacity: 5,
+shadowRadius: 5,
+elevation: 5,
+marginBottom:20,
+},    
+addButtonR: {
+backgroundColor: '#25ced1',
+width: '45%',
+alignItems: 'center',
+justifyContent: 'center',
+borderRadius: 10,
+height: 40,
+shadowColor: "#000000",
+shadowOpacity: 5,
+shadowRadius: 5,
+elevation: 5,
+marginBottom:20,
+},    
+style_flex_button:{
+flex: 1,
+flexDirection: 'row',
+justifyContent: 'space-between',
+paddingTop:25,
+paddingBottom:10,
+padding:20
+},
+addButtonText1: {
+color: '#ffffff',
+fontWeight: 'bold',
+fontSize: 16,
+textAlign:'center'
+},
 });
