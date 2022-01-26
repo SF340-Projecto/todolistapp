@@ -352,6 +352,30 @@ export default function TaskPage({ navigation }) {
                   
                 </View>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 {/*Modal for edit task */}
                 <Modal
                   animationType="slide"
@@ -359,31 +383,44 @@ export default function TaskPage({ navigation }) {
                   visible={isModalVisible1}
                   presentationStyle="overFullScreen"
                   onDismiss={toggleModalVisibility1}>
-                  <View style={styles.viewWrapper}>
-                    <View style={styles.modalView}>
-                      <Text>Topic</Text>
-                      <TextInput
-                        placeholder="Enter something..."
-                        value={topic}
-                        style={styles.textInput}
-                        onChangeText={topic => topicInput(topic)}
+                  <ScrollView>
+
+                  
+                  <View style={styles.bg_modal}>
+                    <View style={styles.paper_madal}>
+
+                      <Text style={styles.text_normal}>
+                      EDIT RASK</Text>
+                      <View style={{alignItems:'center'}}>
+                        <TextInput
+                          placeholder="Enter something..."
+                          value={topic}
+                          style={styles.input}
+                          onChangeText={topic => topicInput(topic)}
                       />
-                      <Text>Detail Task</Text>
-                      <TextInput
+                      </View>
+                      
+                      <Text style={styles.text_normal}>Detail Task</Text>
+                      <View style={{alignItems:'center'}}>
+                        <TextInput
                         placeholder="Enter something..."
                         value={detailTask}
-                        style={styles.textInput}
+                        style={styles.input2} 
+                        multiline={true} 
+                        numberOfLines={4}
                         onChangeText={detailTask => detailTaskInput(detailTask)}
                       />
+                      </View>
+                      
 
                       <View>
-                        <Text style={styles.pickedDate}>{date.toString()}</Text>
+                        {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
                         <View>
                           <Button onPress={showDatepicker} title="Show date picker!" />
                         </View>
                         <View>
                           <Button onPress={showTimepicker} title="Show time picker!" />
-                        </View>
+                        </View> */}
                         {show && (
                           <DateTimePicker
                             testID="dateTimePicker"
@@ -394,11 +431,75 @@ export default function TaskPage({ navigation }) {
                             onChange={onChange}
                           />
                         )}
+                        <Text style={styles.text_normal}>
+                          DUE DATE
+                        </Text>
+                      </View>
+                            {/* --------------------Date-------------------- */}
+                        <View style={{alignItems:'center', paddingBottom:10}}>
+                          <View style={styles.input_f}>
+                          <TouchableHighlight onPress={showDatepicker}>
+                          <Image 
+                            style={styles.logo}
+                            source={require('./img/calendar.png')}       
+                            />
+                        </TouchableHighlight>
+                        <Text style={styles.style_text_date}>{textDate}</Text>
+                          </View>
+                        </View>
+                        {/* ---------------Time--------------- */}
+                        <View style={{alignItems:'center'}}>
+                          <View style={styles.input_f}>
+                            <TouchableHighlight 
+                            onPress={showTimepicker}>
+                              <Image
+                                style={styles.logo}
+                                source={require('./img/time.png')}  
+                              />  
+                            </TouchableHighlight>
+                            <Text style={styles.style_text_date}>{textTime}</Text>
+                          </View>
+                      </View >
+                      <Text style={styles.text_normal}>
+                        CATEGORY
+                      </Text>
+
+                      <View style={{alignItems:'center'}}>
+                        <View style={styles.input_f}>
+                        <TouchableOpacity  onPress={() => changeModalVisibility(true)}>
+                        <Image 
+                          style={styles.logo}
+                          source={require('./img/dropdown.png')}       
+                        />
+                        </TouchableOpacity>
+                        <Text style={styles.style_text_date}>{chooseData}</Text>
+                      <Modal 
+                          transparent={true}
+                          animationType='fade'
+                          visible={isModalVisible_d}
+                          nRequestClose={() =>changeModalVisibility(false)}
+                          >
+                            <ModalPickerDropdow
+                              changeModalVisibility={changeModalVisibility}
+                              // -----------------value is setData-------------
+                              setData={setData}
+                            />                 
+                          </Modal>
+                          </View>
+                      </View>
+                      <Text style={styles.text_normal}>
+                        ADD PICTURE
+                      </Text>
+                      <View style={{alignItems:'center'}}>
+                        <TouchableOpacity 
+                         onPress={selectImage}>
+                        <Image 
+                          style={styles.logoPic}
+                          source={require('./img/picture.png')}       
+                         />
+                        </TouchableOpacity>
                       </View>
 
-                      <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
-                        <Text style={styles.buttonText}>Pick an image</Text>
-                      </TouchableOpacity>
                       <View style={styles.imageContainer}>
                         {image !== null ? (
                           <Image source={{ uri: image.uri }} style={styles.imageBox} />
@@ -410,12 +511,59 @@ export default function TaskPage({ navigation }) {
                         ) : null
                         }
                       </View>
+                      <View style={styles.style_flex_button}>
+                      <TouchableOpacity 
+                        style={styles.addButtonL}>
+                          <Text style={styles.addButtonText1}>CANCLE</Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity style={styles.addButtonR} onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }}>
+                        <Text style={styles.addButtonText1}>SAVE</Text>
+                      </TouchableOpacity>
+                      </View>
 
                       {/** This button is responsible to close the modal */}
-                      <Button title="Done" onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }} />
+                      {/* <Button title="Done" onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }} /> */}
                     </View>
                   </View>
+                  </ScrollView>
                 </Modal>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
               </View>
             )}
