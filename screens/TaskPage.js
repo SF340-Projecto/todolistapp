@@ -328,10 +328,10 @@ export default function TaskPage({ navigation }) {
 
                     <TouchableOpacity style={[styles.addButtonIcon, { backgroundColor: theme.buttonColor }]} onPress={() => { achiveTask(item.id, item.topic, item.taskDetail) }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
-                      <Text> Achive task </Text>
+                      <MaterialCommunityIcons name="check-circle-outline" color={'black'} size={24} />
                     </TouchableOpacity>
                   </View>
-
+                  
                 </View>
 
                 {/*Modal for edit task */}
