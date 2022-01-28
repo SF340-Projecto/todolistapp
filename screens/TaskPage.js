@@ -339,42 +339,18 @@ export default function TaskPage({ navigation }) {
                       <MaterialIcons name="edit" color={'black'} size={24} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[styles.addButtonIcon, { backgroundColor: theme.buttonColor }]} onPress={() => { deleteTasklist(item.id) }}>
+                    <TouchableOpacity style={[styles.addButtonIcon, { backgroundColor: '#f33d3d' }]} onPress={() => { deleteTasklist(item.id) }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                       <MaterialCommunityIcons name="trash-can" color={'black'} size={24} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[styles.addButtonIcon, { backgroundColor: theme.buttonColor }]} onPress={() => { achiveTask(item.id, item.topic, item.taskDetail) }}>
+                    <TouchableOpacity style={[styles.addButtonIcon, { backgroundColor: '#52a336' }]} onPress={() => { achiveTask(item.id, item.topic, item.taskDetail) }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                       <MaterialCommunityIcons name="check-circle-outline" color={'black'} size={24} />
                     </TouchableOpacity>
                   </View>
                   
                 </View>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 {/*Modal for edit task */}
                 <Modal
@@ -528,43 +504,6 @@ export default function TaskPage({ navigation }) {
                   </View>
                   </ScrollView>
                 </Modal>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               </View>
             )}
           />
@@ -794,7 +733,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: '#707070',
     backgroundColor: '#FFFFFF',
     padding: 10,
