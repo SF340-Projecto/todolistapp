@@ -215,6 +215,9 @@ export default function TaskPage({ navigation }) {
       topic: topic,
       taskDetail: detailTask,
       urlPhoto: urlUser,
+      date: date,
+      textDate: textDate,
+      textTime: textTime
     });
     // Set data to null
     topicInput('');
@@ -251,6 +254,9 @@ export default function TaskPage({ navigation }) {
         topic: topic,
         taskDetail: detailTask,
         urlPhoto: urlUser,
+        date: date,
+        textDate: textDate,
+        textTime: textTime
       });
 
       topicInput('');
@@ -290,6 +296,9 @@ export default function TaskPage({ navigation }) {
       topic: topic,
       taskDetail: taskDetail,
       urlPhoto: urlUser,
+      date: date,
+      textDate: textDate,
+      textTime: textTime
     });
 
     deleteTasklist(userDocId)
