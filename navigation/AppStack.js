@@ -9,6 +9,7 @@ import AddCatagoriesButton from '../components/AddCatagoriesButton';
 import CategoriesTask from '../screens/CategoriesTask';
 import AccountScreen from '../screens/AccountScreen'
 import { NavigationContainer } from '@react-navigation/native';
+import ArchiveScreen from '../screens/ArchiveScreen';
 
 const Stack = createStackNavigator();
 
@@ -62,6 +63,11 @@ function AppStack() {
       <Stack.Screen
         name="Account"
         component={AccountScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ArchiveTask"
+        component={ArchiveScreen}
         options={{ headerShown: false }}
       />
 

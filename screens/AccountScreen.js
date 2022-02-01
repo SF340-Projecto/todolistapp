@@ -58,7 +58,7 @@ export default function HomeScreen({ navigation }) {
                 </TouchableOpacity>
 
                 {/* Archive */}
-                <TouchableOpacity style={styles.menuHeader}>
+                <TouchableOpacity style={styles.menuHeader} onPress={() => navigation.navigate('ArchiveTask')}>
                     <View style={styles.menuSection}>
                         <View style={styles.textLeft}>
                             <Text style={styles.menuText}>ARCHIVE</Text>
