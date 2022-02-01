@@ -52,9 +52,9 @@ const MainScreen = ({ navigation }) => {
         name='Task'
         component={TaskPage}
         options={{
-          tabBarLabel: 'Task',
+          tabBarLabel:() => {return null},
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+            <MaterialCommunityIcons name="home" color={color} size={30} />
           ),
         }}
       />
@@ -62,9 +62,9 @@ const MainScreen = ({ navigation }) => {
         name='Categories'
         component={CategoriesScreen}
         options={{
-          tabBarLabel: 'Categories',
+          tabBarLabel:() => {return null},
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="category" color={color} size={size} />
+            <MaterialIcons name="category" color={color} size={30} />
           ),
         }}
       />
@@ -72,9 +72,9 @@ const MainScreen = ({ navigation }) => {
         name='ThemeScreen'
         component={ThemeScreen}
         options={{
-          tabBarLabel: 'Theme',
+          tabBarLabel:() => {return null},
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="theme-light-dark" color={color} size={size} />
+            <MaterialCommunityIcons name="theme-light-dark" color={color} size={30} />
           ),
         }}
       />
@@ -82,7 +82,7 @@ const MainScreen = ({ navigation }) => {
         name='AccountScreen'
         component={AccountScreen}
         options={{
-          tabBarLabel: 'Account',
+          tabBarLabel:() => {return null},
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="user-alt" color={color} size={size} />
           ),

@@ -27,7 +27,7 @@ import PushNotification from 'react-native-push-notification';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {ModalPickerDropdow} from './ModalPickerDropdow';
+import { ModalPickerDropdow } from './ModalPickerDropdow';
 const { width } = Dimensions.get('window');
 
 export default function TaskPage({ navigation }) {
@@ -38,15 +38,15 @@ export default function TaskPage({ navigation }) {
   // Variable modal edit data
   const [isModalVisible1, setModalVisible1] = useState(false);
 
- //category pop-up
- const [chooseData,setchooseData] = useState('SELECT CATEGORY...');
- const [isModalVisible_d, setisModalVisible_d] = useState(false)//
- const changeModalVisibility = (bool)=>{
-  setisModalVisible_d(bool)
-}
- const setData = (option_drop) =>{
-  setchooseData(option_drop)
-}
+  //category pop-up
+  const [chooseData, setchooseData] = useState('SELECT CATEGORY...');
+  const [isModalVisible_d, setisModalVisible_d] = useState(false)//
+  const changeModalVisibility = (bool) => {
+    setisModalVisible_d(bool)
+  }
+  const setData = (option_drop) => {
+    setchooseData(option_drop)
+  }
 
   // For loop data from firebase
   const [isLoading, setisLoading] = useState(false);
@@ -119,8 +119,8 @@ export default function TaskPage({ navigation }) {
     setDate(currentDate);
 
     let tempDate = new Date(currentDate);
-    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() +1)+ '/' + tempDate.getFullYear();
-    let fTime = 'Hours: '+ tempDate.getHours() + ' Minutes:' + tempDate.getMinutes();
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+    let fTime = 'Hours: ' + tempDate.getHours() + ' Minutes:' + tempDate.getMinutes();
     setText(fDate)
     setTime(fTime)
   };
@@ -235,7 +235,7 @@ export default function TaskPage({ navigation }) {
   };
 
   // Delete tasklist function
-  async function deleteTasklist (userDocId) {
+  async function deleteTasklist(userDocId) {
     const res = await firestore()
       .collection('user')
       .doc(user.uid)
@@ -358,7 +358,7 @@ export default function TaskPage({ navigation }) {
                       <MaterialCommunityIcons name="check-circle-outline" color={'black'} size={24} />
                     </TouchableOpacity>
                   </View>
-                  
+
                 </View>
 
                 {/*Modal for edit task */}
@@ -370,147 +370,147 @@ export default function TaskPage({ navigation }) {
                   onDismiss={toggleModalVisibility1}>
                   <ScrollView>
 
-                  
-                  <View style={styles.bg_modal}>
-                    <View style={styles.paper_madal}>
 
-                      <Text style={styles.text_normal}>
-                      EDIT RASK</Text>
-                      <View style={{alignItems:'center'}}>
-                        <TextInput
-                          placeholder="Enter something..."
-                          value={topic}
-                          style={styles.input}
-                          onChangeText={topic => topicInput(topic)}
-                      />
-                      </View>
-                      
-                      <Text style={styles.text_normal}>Detail Task</Text>
-                      <View style={{alignItems:'center'}}>
-                        <TextInput
-                        placeholder="Enter something..."
-                        value={detailTask}
-                        style={styles.input2} 
-                        multiline={true} 
-                        numberOfLines={4}
-                        onChangeText={detailTask => detailTaskInput(detailTask)}
-                      />
-                      </View>
-                      
+                    <View style={styles.bg_modal}>
+                      <View style={styles.paper_madal}>
 
-                      <View>
-                        {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
+                        <Text style={styles.text_normal}>
+                          EDIT RASK</Text>
+                        <View style={{ alignItems: 'center' }}>
+                          <TextInput
+                            placeholder="Enter something..."
+                            value={topic}
+                            style={styles.input}
+                            onChangeText={topic => topicInput(topic)}
+                          />
+                        </View>
+
+                        <Text style={styles.text_normal}>Detail Task</Text>
+                        <View style={{ alignItems: 'center' }}>
+                          <TextInput
+                            placeholder="Enter something..."
+                            value={detailTask}
+                            style={styles.input2}
+                            multiline={true}
+                            numberOfLines={4}
+                            onChangeText={detailTask => detailTaskInput(detailTask)}
+                          />
+                        </View>
+
+
+                        <View>
+                          {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
                         <View>
                           <Button onPress={showDatepicker} title="Show date picker!" />
                         </View>
                         <View>
                           <Button onPress={showTimepicker} title="Show time picker!" />
                         </View> */}
-                        {show && (
-                          <DateTimePicker
-                            testID="dateTimePicker"
-                            value={date}
-                            mode={mode}
-                            is24Hour={true}
-                            display="default"
-                            onChange={onChange}
-                          />
-                        )}
-                        <Text style={styles.text_normal}>
-                          DUE DATE
-                        </Text>
-                      </View>
-                            {/* --------------------Date-------------------- */}
-                        <View style={{alignItems:'center', paddingBottom:10}}>
-                          <View style={styles.input_f}>
-                          <TouchableHighlight onPress={showDatepicker}>
-                          <Image 
-                            style={styles.logo}
-                            source={require('./img/calendar.png')}       
+                          {show && (
+                            <DateTimePicker
+                              testID="dateTimePicker"
+                              value={date}
+                              mode={mode}
+                              is24Hour={true}
+                              display="default"
+                              onChange={onChange}
                             />
-                        </TouchableHighlight>
-                        <Text style={styles.style_text_date}>{textDate}</Text>
+                          )}
+                          <Text style={styles.text_normal}>
+                            DUE DATE
+                          </Text>
+                        </View>
+                        {/* --------------------Date-------------------- */}
+                        <View style={{ alignItems: 'center', paddingBottom: 10 }}>
+                          <View style={styles.input_f}>
+                            <TouchableHighlight onPress={showDatepicker}>
+                              <Image
+                                style={styles.logo}
+                                source={require('./img/calendar.png')}
+                              />
+                            </TouchableHighlight>
+                            <Text style={styles.style_text_date}>{textDate}</Text>
                           </View>
                         </View>
                         {/* ---------------Time--------------- */}
-                        <View style={{alignItems:'center'}}>
+                        <View style={{ alignItems: 'center' }}>
                           <View style={styles.input_f}>
-                            <TouchableHighlight 
-                            onPress={showTimepicker}>
+                            <TouchableHighlight
+                              onPress={showTimepicker}>
                               <Image
                                 style={styles.logo}
-                                source={require('./img/time.png')}  
-                              />  
+                                source={require('./img/time.png')}
+                              />
                             </TouchableHighlight>
                             <Text style={styles.style_text_date}>{textTime}</Text>
                           </View>
-                      </View >
-                      <Text style={styles.text_normal}>
-                        CATEGORY
-                      </Text>
+                        </View >
+                        <Text style={styles.text_normal}>
+                          CATEGORY
+                        </Text>
 
-                      <View style={{alignItems:'center'}}>
-                        <View style={styles.input_f}>
-                        <TouchableOpacity  onPress={() => changeModalVisibility(true)}>
-                        <Image 
-                          style={styles.logo}
-                          source={require('./img/dropdown.png')}       
-                        />
-                        </TouchableOpacity>
-                        <Text style={styles.style_text_date}>{chooseData}</Text>
-                      <Modal 
-                          transparent={true}
-                          animationType='fade'
-                          visible={isModalVisible_d}
-                          nRequestClose={() =>changeModalVisibility(false)}
-                          >
-                            <ModalPickerDropdow
-                              changeModalVisibility={changeModalVisibility}
-                              // -----------------value is setData-------------
-                              setData={setData}
-                            />                 
-                          </Modal>
+                        <View style={{ alignItems: 'center' }}>
+                          <View style={styles.input_f}>
+                            <TouchableOpacity onPress={() => changeModalVisibility(true)}>
+                              <Image
+                                style={styles.logo}
+                                source={require('./img/dropdown.png')}
+                              />
+                            </TouchableOpacity>
+                            <Text style={styles.style_text_date}>{chooseData}</Text>
+                            <Modal
+                              transparent={true}
+                              animationType='fade'
+                              visible={isModalVisible_d}
+                              nRequestClose={() => changeModalVisibility(false)}
+                            >
+                              <ModalPickerDropdow
+                                changeModalVisibility={changeModalVisibility}
+                                // -----------------value is setData-------------
+                                setData={setData}
+                              />
+                            </Modal>
                           </View>
-                      </View>
-                      <Text style={styles.text_normal}>
-                        ADD PICTURE
-                      </Text>
-                      <View style={{alignItems:'center'}}>
-                        <TouchableOpacity 
-                         onPress={selectImage}>
-                        <Image 
-                          style={styles.logoPic}
-                          source={require('./img/picture.png')}       
-                         />
-                        </TouchableOpacity>
-                      </View>
+                        </View>
+                        <Text style={styles.text_normal}>
+                          ADD PICTURE
+                        </Text>
+                        <View style={{ alignItems: 'center' }}>
+                          <TouchableOpacity
+                            onPress={selectImage}>
+                            <Image
+                              style={styles.logoPic}
+                              source={require('./img/picture.png')}
+                            />
+                          </TouchableOpacity>
+                        </View>
 
-                      <View style={styles.imageContainer}>
-                        {image !== null ? (
-                          <Image source={{ uri: image.uri }} style={styles.imageBox} />
-                        ) : null}
-                        {uploading ? (
-                          <View style={styles.progressBarContainer}>
-                            <Progress.Bar progress={transferred} width={300} />
-                          </View>
-                        ) : null
-                        }
-                      </View>
-                      <View style={styles.style_flex_button}>
-                      <TouchableOpacity 
-                        style={styles.addButtonL}>
-                          <Text style={styles.addButtonText1}>CANCLE</Text>
-                      </TouchableOpacity>
+                        <View style={styles.imageContainer}>
+                          {image !== null ? (
+                            <Image source={{ uri: image.uri }} style={styles.imageBox} />
+                          ) : null}
+                          {uploading ? (
+                            <View style={styles.progressBarContainer}>
+                              <Progress.Bar progress={transferred} width={300} />
+                            </View>
+                          ) : null
+                          }
+                        </View>
+                        <View style={styles.style_flex_button}>
+                          <TouchableOpacity
+                            style={styles.addButtonL}>
+                            <Text style={styles.addButtonText1}>CANCLE</Text>
+                          </TouchableOpacity>
 
-                      <TouchableOpacity style={styles.addButtonR} onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }}>
-                        <Text style={styles.addButtonText1}>SAVE</Text>
-                      </TouchableOpacity>
-                      </View>
+                          <TouchableOpacity style={styles.addButtonR} onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }}>
+                            <Text style={styles.addButtonText1}>SAVE</Text>
+                          </TouchableOpacity>
+                        </View>
 
-                      {/** This button is responsible to close the modal */}
-                      {/* <Button title="Done" onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }} /> */}
+                        {/** This button is responsible to close the modal */}
+                        {/* <Button title="Done" onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }} /> */}
+                      </View>
                     </View>
-                  </View>
                   </ScrollView>
                 </Modal>
               </View>
@@ -562,34 +562,34 @@ export default function TaskPage({ navigation }) {
           presentationStyle="overFullScreen"
           onDismiss={toggleModalVisibility}>
           <ScrollView >
-          <View style={styles.bg_modal}>
-            <View style={styles.paper_madal}>
+            <View style={styles.bg_modal}>
+              <View style={styles.paper_madal}>
 
-              <Text style={styles.text_normal}>
-                ADD TASK</Text>
-                <View style={{alignItems:'center'}}>
+                <Text style={styles.text_normal}>
+                  ADD TASK</Text>
+                <View style={{ alignItems: 'center' }}>
                   <TextInput
-                  placeholder="Enter something..."
-                  value={topic}
-                  style={styles.input}
-                  onChangeText={topic => topicInput(topic)}
-              />
+                    placeholder="Enter something..."
+                    value={topic}
+                    style={styles.input}
+                    onChangeText={topic => topicInput(topic)}
+                  />
                 </View>
-              
-              <Text style={styles.text_normal}>Detail Task</Text>
-              <View style={{alignItems:'center'}}>
-                <TextInput
-                placeholder="Enter something..."
-                value={detailTask}
-                style={styles.input2} 
-                multiline={true} 
-                numberOfLines={4}
-                onChangeText={detailTask => detailTaskInput(detailTask)}
-              />
-              </View>
-              
 
-              {/* <View> */}
+                <Text style={styles.text_normal}>Detail Task</Text>
+                <View style={{ alignItems: 'center' }}>
+                  <TextInput
+                    placeholder="Enter something..."
+                    value={detailTask}
+                    style={styles.input2}
+                    multiline={true}
+                    numberOfLines={4}
+                    onChangeText={detailTask => detailTaskInput(detailTask)}
+                  />
+                </View>
+
+
+                {/* <View> */}
                 {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
                 <View>
                   <Button onPress={showDatepicker} title="Show date picker!" />
@@ -611,101 +611,101 @@ export default function TaskPage({ navigation }) {
                   DUE DATE
                 </Text>
                 {/* --------------------Date-------------------- */}
-                <View style={{alignItems:'center', paddingBottom:10}}>
-                    <View style={styles.input_f}>
-                      <TouchableHighlight onPress={() => showMode('date')}>
-                        <Image 
-                            style={styles.logo}
-                            source={require('./img/calendar.png')}       
-                            />
-                      </TouchableHighlight>
-                      
-                      <Text style={styles.style_text_date}>{textDate}</Text>
-                    </View>
-                </View >
-                 {/* ---------------Time--------------- */}
-            <View style={{alignItems:'center'}}>
-                <View style={styles.input_f}>
-                  <TouchableHighlight 
-                  onPress={() => showMode('time')}>
-                     <Image
-                      style={styles.logo}
-                      source={require('./img/time.png')}  
-                     />  
-                  </TouchableHighlight>
-
-                  <Text style={styles.style_text_date}>{textTime}</Text>
-                </View>
-            </View >
-            <Text style={styles.text_normal}>
-                CATEGORY
-            </Text>
-
-            <View style={{alignItems:'center'}}>
-              <View style={styles.input_f}>
-                <TouchableOpacity  onPress={() => changeModalVisibility(true)}>
-                <Image 
+                <View style={{ alignItems: 'center', paddingBottom: 10 }}>
+                  <View style={styles.input_f}>
+                    <TouchableHighlight onPress={() => showMode('date')}>
+                      <Image
                         style={styles.logo}
-                        source={require('./img/dropdown.png')}       
-                         />
-                </TouchableOpacity>
-                <Text style={styles.style_text_date}>{chooseData}</Text>
-                <Modal 
-                transparent={true}
-                animationType='fade'
-                visible={isModalVisible_d}
-                nRequestClose={() =>changeModalVisibility(false)}
-                >
-                  <ModalPickerDropdow
-                    changeModalVisibility={changeModalVisibility}
-                    // -----------------value is setData-------------
-                    setData={setData}
-                  />                 
-                  
-                </Modal>
-              </View>
-            </View>
+                        source={require('./img/calendar.png')}
+                      />
+                    </TouchableHighlight>
 
-              {/* </View> */}
-              <Text style={styles.text_normal}>
-                ADD PICTURE
-            </Text>
-            <View style={{alignItems:'center'}}>
-              <TouchableOpacity
-                onPress={selectImage}>
-                <Image 
-                        style={styles.logoPic}
-                        source={require('./img/picture.png')}       
-                         />
-              </TouchableOpacity>
-            </View>
-              
-              <View style={styles.imageContainer}>
-                {image !== null ? (
-                  <Image source={{ uri: image.uri }} style={styles.imageBox} />
-                ) : null}
-                {uploading ? (
-                  <View style={styles.progressBarContainer}>
-                    <Progress.Bar progress={transferred} width={300} />
+                    <Text style={styles.style_text_date}>{textDate}</Text>
                   </View>
-                ) : null}
-              </View>
+                </View >
+                {/* ---------------Time--------------- */}
+                <View style={{ alignItems: 'center' }}>
+                  <View style={styles.input_f}>
+                    <TouchableHighlight
+                      onPress={() => showMode('time')}>
+                      <Image
+                        style={styles.logo}
+                        source={require('./img/time.png')}
+                      />
+                    </TouchableHighlight>
 
-              <View style={styles.style_flex_button}>
-                <TouchableOpacity 
-                style={styles.addButtonL}
-                nRequestClose={() =>changeModalVisibility(false)}
-                >
+                    <Text style={styles.style_text_date}>{textTime}</Text>
+                  </View>
+                </View >
+                <Text style={styles.text_normal}>
+                  CATEGORY
+                </Text>
+
+                <View style={{ alignItems: 'center' }}>
+                  <View style={styles.input_f}>
+                    <TouchableOpacity onPress={() => changeModalVisibility(true)}>
+                      <Image
+                        style={styles.logo}
+                        source={require('./img/dropdown.png')}
+                      />
+                    </TouchableOpacity>
+                    <Text style={styles.style_text_date}>{chooseData}</Text>
+                    <Modal
+                      transparent={true}
+                      animationType='fade'
+                      visible={isModalVisible_d}
+                      nRequestClose={() => changeModalVisibility(false)}
+                    >
+                      <ModalPickerDropdow
+                        changeModalVisibility={changeModalVisibility}
+                        // -----------------value is setData-------------
+                        setData={setData}
+                      />
+
+                    </Modal>
+                  </View>
+                </View>
+
+                {/* </View> */}
+                <Text style={styles.text_normal}>
+                  ADD PICTURE
+                </Text>
+                <View style={{ alignItems: 'center' }}>
+                  <TouchableOpacity
+                    onPress={selectImage}>
+                    <Image
+                      style={styles.logoPic}
+                      source={require('./img/picture.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.imageContainer}>
+                  {image !== null ? (
+                    <Image source={{ uri: image.uri }} style={styles.imageBox} />
+                  ) : null}
+                  {uploading ? (
+                    <View style={styles.progressBarContainer}>
+                      <Progress.Bar progress={transferred} width={300} />
+                    </View>
+                  ) : null}
+                </View>
+
+                <View style={styles.style_flex_button}>
+                  <TouchableOpacity
+                    style={styles.addButtonL}
+                    nRequestClose={() => changeModalVisibility(false)}
+                  >
                     <Text style={styles.addButtonText1}>CANCLE</Text>
-                </TouchableOpacity>
-            
-            
-                <TouchableOpacity style={styles.addButtonR} onPress={toggleModalVisibility}>
+                  </TouchableOpacity>
+
+
+                  <TouchableOpacity style={styles.addButtonR} onPress={toggleModalVisibility}>
                     <Text style={styles.addButtonText1}>SAVE</Text>
-                </TouchableOpacity>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-            </View>
-          </View>
           </ScrollView>
         </Modal>
 
@@ -890,110 +890,110 @@ const styles = StyleSheet.create({
     height: 300,
   },
 
-bg_modal :{
-  backgroundColor:'#000000aa',
-  flex:1
-},
-paper_madal:{
-  backgroundColor:'#ffffff',
-  margin:30,
-  marginTop:90,
-  marginBottom:90,
-  padding:20,
-  borderRadius:10,
-  flex:1
-},
-text_normal:{
-  fontWeight: 'bold',
-  padding:10,
-},
-input:{
-width:'90%',
-borderWidth:1,
-padding:10,
-fontSize:16,
-shadowColor: "#000000",
-shadowOpacity: 5,
-shadowRadius: 5,
-elevation: 2,
-backgroundColor: '#e5f1f1',
-borderRadius: 5,
-},
-input2:{
-width:'90%',
-borderWidth:1,
-padding:20,
-fontSize:16,
-shadowColor: "#000000",
-shadowOpacity: 5,
-shadowRadius: 5,
-elevation: 2,
-backgroundColor: '#e5f1f1',
-borderRadius: 5,
-textAlignVertical: 'top'
-},
-style_text_date:{
-fontSize:16,
-alignItems:'center',
-paddingTop:4,
-paddingLeft:20
-},
-input_f:{
-width:'90%',
-borderWidth:1,
-padding:10,
-fontSize:16,
-shadowColor: "#000000",
-shadowOpacity: 5,
-shadowRadius: 5,
-elevation: 2,
-backgroundColor: '#e5f1f1',
-borderRadius: 5,
-flexDirection: 'row',
-},
-logoPic: {
-width:250,
-height:250,
+  bg_modal: {
+    backgroundColor: '#000000aa',
+    flex: 1
+  },
+  paper_madal: {
+    backgroundColor: '#ffffff',
+    margin: 30,
+    marginTop: 90,
+    marginBottom: 90,
+    padding: 20,
+    borderRadius: 10,
+    flex: 1
+  },
+  text_normal: {
+    fontWeight: 'bold',
+    padding: 10,
+  },
+  input: {
+    width: '90%',
+    borderWidth: 1,
+    padding: 10,
+    fontSize: 16,
+    shadowColor: "#000000",
+    shadowOpacity: 5,
+    shadowRadius: 5,
+    elevation: 2,
+    backgroundColor: '#e5f1f1',
+    borderRadius: 5,
+  },
+  input2: {
+    width: '90%',
+    borderWidth: 1,
+    padding: 20,
+    fontSize: 16,
+    shadowColor: "#000000",
+    shadowOpacity: 5,
+    shadowRadius: 5,
+    elevation: 2,
+    backgroundColor: '#e5f1f1',
+    borderRadius: 5,
+    textAlignVertical: 'top'
+  },
+  style_text_date: {
+    fontSize: 16,
+    alignItems: 'center',
+    paddingTop: 4,
+    paddingLeft: 20
+  },
+  input_f: {
+    width: '90%',
+    borderWidth: 1,
+    padding: 10,
+    fontSize: 16,
+    shadowColor: "#000000",
+    shadowOpacity: 5,
+    shadowRadius: 5,
+    elevation: 2,
+    backgroundColor: '#e5f1f1',
+    borderRadius: 5,
+    flexDirection: 'row',
+  },
+  logoPic: {
+    width: 250,
+    height: 250,
 
-},
-addButtonL: {
-backgroundColor: '#707070',
-width: '45%',
-alignItems: 'center',
-justifyContent: 'center',
-borderRadius: 10,
-height: 40,
-shadowColor: "#000000",
-shadowOpacity: 5,
-shadowRadius: 5,
-elevation: 5,
-marginBottom:20,
-},    
-addButtonR: {
-backgroundColor: '#25ced1',
-width: '45%',
-alignItems: 'center',
-justifyContent: 'center',
-borderRadius: 10,
-height: 40,
-shadowColor: "#000000",
-shadowOpacity: 5,
-shadowRadius: 5,
-elevation: 5,
-marginBottom:20,
-},    
-style_flex_button:{
-flex: 1,
-flexDirection: 'row',
-justifyContent: 'space-between',
-paddingTop:25,
-paddingBottom:10,
-padding:20
-},
-addButtonText1: {
-color: '#ffffff',
-fontWeight: 'bold',
-fontSize: 16,
-textAlign:'center'
-},
+  },
+  addButtonL: {
+    backgroundColor: '#707070',
+    width: '45%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    height: 40,
+    shadowColor: "#000000",
+    shadowOpacity: 5,
+    shadowRadius: 5,
+    elevation: 5,
+    marginBottom: 20,
+  },
+  addButtonR: {
+    backgroundColor: '#25ced1',
+    width: '45%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    height: 40,
+    shadowColor: "#000000",
+    shadowOpacity: 5,
+    shadowRadius: 5,
+    elevation: 5,
+    marginBottom: 20,
+  },
+  style_flex_button: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 25,
+    paddingBottom: 10,
+    padding: 20
+  },
+  addButtonText1: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center'
+  },
 });
