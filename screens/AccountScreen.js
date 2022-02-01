@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Text, View, Button, Switch, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native';
+import { Text, View, Button, Switch, StyleSheet, TouchableOpacity, SafeAreaView, Image, Modal } from 'react-native';
 import { EventRegister } from 'react-native-event-listeners';
 import { AuthContext } from '../navigation/AuthProviders';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
@@ -78,7 +78,7 @@ export default function HomeScreen({ navigation }) {
                 </TouchableOpacity>
 
                 {/* Theme */}
-                <TouchableOpacity style={styles.menuHeader}>
+                <TouchableOpacity style={styles.menuHeader} onPress={() => navigation.navigate('ThemeScreen')}>
                     <View style={styles.menuSection}>
                         <View style={styles.textLeft}>
                             <Text style={styles.menuText}>THEME</Text>
@@ -98,6 +98,11 @@ export default function HomeScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
 
+            {/* For Modal */}
+
+
+
+            {/* For Modal */}
 
         </SafeAreaView>
     );
@@ -106,7 +111,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
     textLeft: {
         flex: 1,
-    },  
+    },
     menuSection: {
         flexDirection: 'row',
     },

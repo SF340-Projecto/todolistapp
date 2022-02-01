@@ -68,7 +68,7 @@ const MainScreen = ({ navigation }) => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name='ThemeScreen'
         component={ThemeScreen}
         options={{
@@ -77,7 +77,7 @@ const MainScreen = ({ navigation }) => {
             <MaterialCommunityIcons name="theme-light-dark" color={color} size={30} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name='AccountScreen'
         component={AccountScreen}
