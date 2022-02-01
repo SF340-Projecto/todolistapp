@@ -14,8 +14,9 @@ import {
   Alert,
   FlatList,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../navigation/AuthProviders';
 import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
@@ -74,6 +75,10 @@ export default function TaskPage({ navigation }) {
   const [textDate, setText] = useState('CHOOSE DUE DATE...');
   const [textTime, setTime] = useState('CHOOSE DUE TIME...');
 
+  // Priority value
+  const [selectedValue, setSelectedValue] = useState("0");
+
+
   // Call firebase show data
   let usersCollectionRef = firestore()
     .collection('user')
@@ -90,9 +95,11 @@ export default function TaskPage({ navigation }) {
           ...documentSnapshot.data(),
           id: documentSnapshot.id,
         });
-      });
+      })
+      // Sort priority
+      let sortedData = dataTask.slice().sort((a, b) => b.priority - a.priority);
 
-      setDataTask(dataTask);
+      setDataTask(sortedData);
       setisLoading(false);
       createChannels();
     });
@@ -153,14 +160,14 @@ export default function TaskPage({ navigation }) {
     };
     launchImageLibrary(options, response => {
       // Use launchImageLibrary to open image gallery
-      console.log('Response = ', response.assets[0].uri);
+      //console.log('Response = ', response.assets[0].uri);
 
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        // console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        // console.log('ImagePicker Error: ', response.error);
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+        //  console.log('User tapped custom button: ', response.customButton);
       } else {
         const source = { uri: response.uri };
 
@@ -172,7 +179,7 @@ export default function TaskPage({ navigation }) {
         const uploadUri =
           Platform.OS === 'android' ? uri.replace('file://', '') : uri;
         const placeUrl = user.uid + '/' + 'task' + '/' + filename;
-        console.log(placeUrl);
+        //  console.log(placeUrl);
 
         setUploading(true);
         setTransferred(0);
@@ -184,9 +191,9 @@ export default function TaskPage({ navigation }) {
             Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000,
           );
           task.snapshot.ref.getDownloadURL().then(downloadURL => {
-            console.log('File available at', downloadURL);
+            //  console.log('File available at', downloadURL);
             setUrl(downloadURL);
-            console.log('Checkkkk  ', downloadURL);
+            //   console.log('Checkkkk  ', downloadURL);
           });
         });
         setUploading(false);
@@ -204,29 +211,33 @@ export default function TaskPage({ navigation }) {
   const updateTasklist = () => {
     setModalVisible1(!isModalVisible1);
     // Call firebase to update
-    const userCollection1 = firestore()
-      .collection('user')
-      .doc(user.uid)
-      .collection('Task')
-      .doc(docID);
-    // set new data
-    userCollection1.set({
-      timestamp: firestore.FieldValue.serverTimestamp(),
-      topic: topic,
-      taskDetail: detailTask,
-      urlPhoto: urlUser,
-      date: date,
-      textDate: textDate,
-      textTime: textTime
-    });
-    // Set data to null
-    topicInput('');
-    detailTaskInput('');
-    setDataTask(dataTask);
-    setisLoading(false);
-    setDocId('');
-  };
+    if (topic != '' && detailTask != '') {
 
+      const userCollection1 = firestore()
+        .collection('user')
+        .doc(user.uid)
+        .collection('Task')
+        .doc(docID);
+      // set new data
+      userCollection1.set({
+        timestamp: firestore.FieldValue.serverTimestamp(),
+        topic: topic,
+        taskDetail: detailTask,
+        urlPhoto: urlUser,
+        date: date,
+        textDate: textDate,
+        textTime: textTime,
+        priority: selectedValue
+      });
+      // Set data to null
+      topicInput('');
+      detailTaskInput('');
+      setDataTask(dataTask);
+      setDocId('');
+      setUrl('');
+      setSelectedValue("0")
+    };
+  }
   // Function call to open modal edit 
   const toggleModalVisibility1 = userDocId => {
     setModalVisible1(!isModalVisible1);
@@ -256,11 +267,14 @@ export default function TaskPage({ navigation }) {
         urlPhoto: urlUser,
         date: date,
         textDate: textDate,
-        textTime: textTime
+        textTime: textTime.replace,
+        priority: selectedValue
       });
 
       topicInput('');
       detailTaskInput('');
+      setUrl('');
+      setSelectedValue("0");
       // PushNotification.cancelAllLocalNotifications();
 
       // PushNotification.localNotification({
@@ -300,14 +314,15 @@ export default function TaskPage({ navigation }) {
       textDate: textDate,
       textTime: textTime
     });
-
     deleteTasklist(userDocId)
 
   };
 
 
 
+
   return (
+
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       <ScrollView>
@@ -393,6 +408,18 @@ export default function TaskPage({ navigation }) {
                             onChangeText={detailTask => detailTaskInput(detailTask)}
                           />
                         </View>
+
+                        <Text style={styles.text_normal}>Priority : </Text>
+                        <Picker
+                          selectedValue={selectedValue}
+                          style={{ height: 50, width: 300 }}
+                          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                        >
+                          <Picker.Item label="None" value="0" />
+                          <Picker.Item label="Low" value="1" />
+                          <Picker.Item label="Medium" value="2" />
+                          <Picker.Item label="High" value="3" />
+                        </Picker>
 
 
                         <View>
@@ -587,6 +614,19 @@ export default function TaskPage({ navigation }) {
                 </View>
 
 
+                <Text style={styles.text_normal}>Priority : </Text>
+                <Picker
+                  selectedValue={selectedValue}
+                  style={{ height: 50, width: 300 }}
+                  onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                >
+                  <Picker.Item label="None" value="0" />
+                  <Picker.Item label="Low" value="1" />
+                  <Picker.Item label="Medium" value="2" />
+                  <Picker.Item label="High" value="3" />
+                </Picker>
+
+
                 {/* <View> */}
                 {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
                 <View>
@@ -694,7 +734,7 @@ export default function TaskPage({ navigation }) {
                     style={styles.addButtonL}
                     nRequestClose={() => changeModalVisibility(false)}
                   >
-                    <Text style={styles.addButtonText1}>CANCLE</Text>
+                    <Text style={styles.addButtonText1} >CANCLE</Text>
                   </TouchableOpacity>
 
 
