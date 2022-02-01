@@ -367,15 +367,12 @@ export default function TaskPage({ navigation }) {
                   transparent
                   visible={isModalVisible1}
                   presentationStyle="overFullScreen"
-                  onDismiss={toggleModalVisibility1}>
-                  <ScrollView>
-
-
+                  onDismiss={toggleModalVisibility1}>           
                     <View style={styles.bg_modal}>
                       <View style={styles.paper_madal}>
-
+                      <ScrollView>
                         <Text style={styles.text_normal}>
-                          EDIT RASK</Text>
+                          EDIT TASK</Text>
                         <View style={{ alignItems: 'center' }}>
                           <TextInput
                             placeholder="Enter something..."
@@ -508,10 +505,11 @@ export default function TaskPage({ navigation }) {
                         </View>
 
                         {/** This button is responsible to close the modal */}
+                        
                         {/* <Button title="Done" onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }} /> */}
+                      </ScrollView>
                       </View>
-                    </View>
-                  </ScrollView>
+                    </View>               
                 </Modal>
               </View>
             )}
@@ -561,10 +559,10 @@ export default function TaskPage({ navigation }) {
           visible={isModalVisible}
           presentationStyle="overFullScreen"
           onDismiss={toggleModalVisibility}>
-          <ScrollView >
+          
             <View style={styles.bg_modal}>
               <View style={styles.paper_madal}>
-
+              <ScrollView >
                 <Text style={styles.text_normal}>
                   ADD TASK</Text>
                 <View style={{ alignItems: 'center' }}>
@@ -704,9 +702,10 @@ export default function TaskPage({ navigation }) {
                     <Text style={styles.addButtonText1}>SAVE</Text>
                   </TouchableOpacity>
                 </View>
+               </ScrollView> 
               </View>
             </View>
-          </ScrollView>
+          
         </Modal>
 
 
