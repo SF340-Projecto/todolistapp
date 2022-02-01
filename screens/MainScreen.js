@@ -3,10 +3,12 @@ import React, {useState , useContext} from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import TaskPage from './TaskPage';
 import CategoriesScreen from "./CategoriesScreen";
 import ThemeScreen from './ThemeScreen';
+import AccountScreen from './AccountScreen'
 
 import themeContext from '../config/themeContext';
 
@@ -73,6 +75,16 @@ const MainScreen = ({ navigation }) => {
           tabBarLabel: 'Theme',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="theme-light-dark" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='AccountScreen'
+        component={AccountScreen}
+        options={{
+          tabBarLabel: 'Account',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="user-alt" color={color} size={size} />
           ),
         }}
       />
