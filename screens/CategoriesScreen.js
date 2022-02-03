@@ -1,6 +1,6 @@
-import {StatusBar} from 'expo-status-bar';
-import React, {useState} from 'react';
-import {useContext, useEffect} from 'react';
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { useContext, useEffect } from 'react';
 import {
   Button,
   SafeAreaView,
@@ -17,13 +17,13 @@ import {
 import themeContext from '../config/themeContext';
 
 import firestore from '@react-native-firebase/firestore';
-import {AuthContext} from '../navigation/AuthProviders';
+import { AuthContext } from '../navigation/AuthProviders';
 import AddCatagoriesButton from '../components/AddCatagoriesButton';
 
-const Categories = ({navigation}) => {
+const Categories = ({ navigation }) => {
   const theme = useContext(themeContext);
   const [dataTask, setDataTask] = useState([]);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   let CategoriesRef = firestore()
     .collection('user')
@@ -54,21 +54,26 @@ const Categories = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView>
-      <Text style={[styles.text, {color: theme.fontColor}]}>
-        Categories Screen
-      </Text>
+    <SafeAreaView style={styles.body}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>CATEGORIES</Text>
+      </View>
       <AddCatagoriesButton />
       <FlatList
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}
+        numColumns={2}
+        key={'#'}
+        horizontal={false}
+        keyExtractor={(item,index)=>index.toString()}
         data={dataTask}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <TouchableOpacity
-            style={styles.loginButton}
+            style={styles.categorieContainer}
             onPress={() =>
-              navigation.navigate('CategoriesTask', {name: item.name})
+              navigation.navigate('CategoriesTask', { name: item.name })
             }
             onLongPress={LongPress}
-            >
+          >
             <Text style={styles.loginButtonText}>{item.name}</Text>
           </TouchableOpacity>
         )}
@@ -79,35 +84,36 @@ const Categories = ({navigation}) => {
 
 // These are user defined styles
 const styles = StyleSheet.create({
-  container: {
+  body: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  header: {
+    height: 75,
+    backgroundColor: '#25ced1',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
-
-  text: {
+  headerText: {
+    color: '#FFFFFF',
     fontWeight: 'bold',
-    fontSize: 20,
-    paddingBottom: 20,
+    fontSize: 24,
   },
-  loginButton: {
-    marginVertical: 20,
-    backgroundColor: '#fff',
-    width: 200,
-    height: 100,
-    borderRadius: 20,
-    shadowColor: '#000000',
-    shadowOpacity: 5,
-    shadowRadius: 5,
+  categorieContainer: {
     elevation: 5,
-  },
-  loginButtonText: {
-    textAlign: 'center',
-    color: '#25ced1',
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginTop: 6,
+    padding: 10,
+    backgroundColor: '#FFFFFF',
+    width: 150,
+    height: 100,
+    margin: 15,
+    borderRadius: 15,
+    alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#25ced1'
   },
 });
 
