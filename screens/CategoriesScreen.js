@@ -20,6 +20,9 @@ import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../navigation/AuthProviders';
 import AddCatagoriesButton from '../components/AddCatagoriesButton';
 
+const numColumns = 2
+const WIDTH = Dimensions.get('window').width
+
 const Categories = ({ navigation }) => {
   const theme = useContext(themeContext);
   const [dataTask, setDataTask] = useState([]);
@@ -49,9 +52,40 @@ const Categories = ({ navigation }) => {
     return () => subscriber();
   }, []);
 
+  const formatData = (dataTask, numColumns) => {
+    const totalRows = Math.floor(dataTask.length / numColumns)
+    let totalLastRow = dataTask.length - (totalRows * numColumns)
+
+    while (totalLastRow !== numColumns && totalLastRow !== 0) {
+      dataTask.push({ id: 'blank', empty: true })
+      totalLastRow++
+    }
+    return dataTask
+
+  }
+
   const LongPress = () => {
     alert('LongPress')
   }
+
+  const renderItem = ({item, index}) => {
+    if (item.empty == true) {
+      return <View style={[styles.categorieContainer, styles.itemInvisible]}></View>
+    }
+    return (
+      <TouchableOpacity
+            style={styles.categorieContainer}
+            onPress={() =>
+              navigation.navigate('CategoriesTask', { name: item.name })
+            }
+            onLongPress={LongPress}
+          >
+            <Text style={styles.categorieText}>{item.name}</Text>
+          </TouchableOpacity>
+    )
+  }
+
+
 
   return (
     <SafeAreaView style={styles.body}>
@@ -61,22 +95,13 @@ const Categories = ({ navigation }) => {
       <AddCatagoriesButton />
       <FlatList
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}
-        numColumns={2}
+        columnWrapperStyle={styles.row}
+        numColumns={numColumns}
         key={'#'}
         horizontal={false}
-        keyExtractor={(item,index)=>index.toString()}
-        data={dataTask}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.categorieContainer}
-            onPress={() =>
-              navigation.navigate('CategoriesTask', { name: item.name })
-            }
-            onLongPress={LongPress}
-          >
-            <Text style={styles.categorieText}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
+        keyExtractor={(item, index) => index.toString()}
+        data={formatData(dataTask, numColumns)}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   );
@@ -84,6 +109,15 @@ const Categories = ({ navigation }) => {
 
 // These are user defined styles
 const styles = StyleSheet.create({
+  itemInvisible: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    elevation: 0,
+  },  
+  row: {
+
+    justifyContent: 'space-around'
+  },
   body: {
     flex: 1,
     flexDirection: 'column',
@@ -119,7 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     color: 'orange'
-  },  
+  },
 });
 
 export default Categories;
