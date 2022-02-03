@@ -74,7 +74,7 @@ const Categories = ({ navigation }) => {
             }
             onLongPress={LongPress}
           >
-            <Text style={styles.loginButtonText}>{item.name}</Text>
+            <Text style={styles.categorieText}>{item.name}</Text>
           </TouchableOpacity>
         )}
       />
@@ -107,14 +107,19 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#FFFFFF',
     width: 150,
-    height: 100,
+    height: 130,
     margin: 15,
-    borderRadius: 15,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 2,
+    borderWidth: 10,
     borderColor: '#25ced1'
   },
+  categorieText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: 'orange'
+  },  
 });
 
 export default Categories;

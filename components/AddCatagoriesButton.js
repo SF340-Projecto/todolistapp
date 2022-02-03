@@ -43,7 +43,7 @@ export default function AddCatagoriesButton() {
   return (
     <SafeAreaView>
       <View>
-        <TouchableOpacity onPress={toggleModalVisibility}>
+        <TouchableOpacity onPress={toggleModalVisibility} style={{margin: 10,}}>
           <Text style={styles.loginButtonText}>Add Categories</Text>
         </TouchableOpacity>
       </View>
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#25ced1',
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 24,
     marginTop: 6,
     justifyContent: 'center',
   },viewWrapper: {
