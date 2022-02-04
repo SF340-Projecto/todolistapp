@@ -78,7 +78,6 @@ export default function TaskPage({ navigation }) {
   // Priority value
   const [selectedValue, setSelectedValue] = useState("0");
 
-
   // Call firebase show data
   let usersCollectionRef = firestore()
     .collection('user')
@@ -208,8 +207,10 @@ export default function TaskPage({ navigation }) {
   };
 
   // Function call to update task list
-  const updateTasklist = () => {
+  const updateTasklist = (userDocId) => {
     setModalVisible1(!isModalVisible1);
+    // Set doc id
+    setDocId(userDocId)
     // Call firebase to update
     if (topic != '' && detailTask != '') {
 
@@ -238,6 +239,15 @@ export default function TaskPage({ navigation }) {
       setSelectedValue("0")
     };
   }
+
+  const cancelEdit = () => {
+    setModalVisible1(!isModalVisible1);
+  }
+
+  const cancelAdd = () => {
+    setModalVisible(!isModalVisible);
+  }
+
   // Function call to open modal edit 
   const toggleModalVisibility1 = userDocId => {
     setModalVisible1(!isModalVisible1);
@@ -254,9 +264,10 @@ export default function TaskPage({ navigation }) {
   };
 
   // Open toggle add task and add data to firebase
-  const toggleModalVisibility = userDocId => {
+  const toggleModalVisibility = (userDocId, check) => {
     setModalVisible(!isModalVisible);
     setDocId(userDocId);
+    console.log(check)
 
     // Check condition and send to firebase
     if (topic != '' && detailTask != '') {
@@ -315,9 +326,7 @@ export default function TaskPage({ navigation }) {
       textTime: textTime
     });
     deleteTasklist(userDocId)
-
   };
-
 
 
 
@@ -355,8 +364,6 @@ export default function TaskPage({ navigation }) {
                   {/* <Text>{item.taskDetail}</Text>
                   <Text>{item.id}</Text> */ }
 
-
-
                   <View style={styles.buttonContainerIcon}>
                     <TouchableOpacity style={[styles.addButtonIcon, { backgroundColor: theme.buttonColor }]} onPress={() => { toggleModalVisibility1(item.id) }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
@@ -382,9 +389,10 @@ export default function TaskPage({ navigation }) {
                   transparent
                   visible={isModalVisible1}
                   presentationStyle="overFullScreen"
-                  onDismiss={toggleModalVisibility1}>           
-                    <View style={styles.bg_modal}>
-                      <View style={styles.paper_madal}>
+                  onDismiss={toggleModalVisibility1}>
+
+                  <View style={styles.bg_modal}>
+                    <View style={styles.paper_madal}>
                       <ScrollView>
                         <Text style={styles.text_normal}>
                           EDIT TASK</Text>
@@ -522,21 +530,23 @@ export default function TaskPage({ navigation }) {
                         </View>
                         <View style={styles.style_flex_button}>
                           <TouchableOpacity
-                            style={styles.addButtonL}>
+                            style={styles.addButtonL}
+                            onPress={() => { cancelEdit() }}
+                          >
                             <Text style={styles.addButtonText1}>CANCLE</Text>
                           </TouchableOpacity>
 
-                          <TouchableOpacity style={styles.addButtonR} onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }}>
+                          <TouchableOpacity style={styles.addButtonR} onPress={() => { updateTasklist(item.id) }}>
                             <Text style={styles.addButtonText1}>SAVE</Text>
                           </TouchableOpacity>
                         </View>
 
                         {/** This button is responsible to close the modal */}
-                        
+
                         {/* <Button title="Done" onPress={() => { toggleModalVisibility1; updateTasklist(item.id) }} /> */}
                       </ScrollView>
-                      </View>
-                    </View>               
+                    </View>
+                  </View>
                 </Modal>
               </View>
             )}
@@ -567,7 +577,7 @@ export default function TaskPage({ navigation }) {
         </View>
 
         {/*This is Button Log out*/}
-        {/* <View>
+        <View>
           <View style={styles.logoutContainer}>
             <TouchableOpacity
               style={styles.logoutButton}
@@ -577,7 +587,7 @@ export default function TaskPage({ navigation }) {
               </Text>
             </TouchableOpacity>
           </View>
-        </View> */}
+        </View>
 
         {/** This is our modal component containing textinput and a button */}
         <Modal
@@ -586,9 +596,9 @@ export default function TaskPage({ navigation }) {
           visible={isModalVisible}
           presentationStyle="overFullScreen"
           onDismiss={toggleModalVisibility}>
-          
-            <View style={styles.bg_modal}>
-              <View style={styles.paper_madal}>
+
+          <View style={styles.bg_modal}>
+            <View style={styles.paper_madal}>
               <ScrollView >
                 <Text style={styles.text_normal}>
                   ADD TASK</Text>
@@ -732,20 +742,18 @@ export default function TaskPage({ navigation }) {
                 <View style={styles.style_flex_button}>
                   <TouchableOpacity
                     style={styles.addButtonL}
-                    nRequestClose={() => changeModalVisibility(false)}
+                    onPress={() => { cancelAdd() }}
                   >
                     <Text style={styles.addButtonText1} >CANCLE</Text>
                   </TouchableOpacity>
-
-
                   <TouchableOpacity style={styles.addButtonR} onPress={toggleModalVisibility}>
                     <Text style={styles.addButtonText1}>SAVE</Text>
                   </TouchableOpacity>
                 </View>
-               </ScrollView> 
-              </View>
+              </ScrollView>
             </View>
-          
+          </View>
+
         </Modal>
 
 
