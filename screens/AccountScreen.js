@@ -1,13 +1,43 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Text, View, Button, Switch, StyleSheet, TouchableOpacity, SafeAreaView, Image, Modal } from 'react-native';
 import { EventRegister } from 'react-native-event-listeners';
 import { AuthContext } from '../navigation/AuthProviders';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import firestore from '@react-native-firebase/firestore';
 
 export default function HomeScreen({ navigation }) {
 
     const { user, logout } = useContext(AuthContext);
+    const [name, setName] = useState("");
+
+    let usersCollectionRef = firestore()
+    .collection('users')
+    
+    useEffect(() => {
+        const subscriber = usersCollectionRef.onSnapshot(querySnapshot => {
+          const data = [];
+    
+          querySnapshot.forEach(documentSnapshot => {
+            data.push({
+              ...documentSnapshot.data(),
+              id: documentSnapshot.id,
+            });      
+          })
+
+          if (data != []) {
+              data.map((item) => {
+                  if(user.email === item.Email) {
+                    setName(item.Name);
+                  }
+              })
+          }
+
+        });
+        return () => subscriber();
+
+    }, []);
+
 
     return (
         <SafeAreaView style={styles.body}>
@@ -22,7 +52,7 @@ export default function HomeScreen({ navigation }) {
             </View>
 
             <View style={styles.userNameTopContainer}>
-                <Text style={styles.userNameTopText}>USER NAME</Text>
+                <Text style={styles.userNameTopText}>{name}</Text>
             </View>
 
             {/* SECTION MENU */}
@@ -53,7 +83,7 @@ export default function HomeScreen({ navigation }) {
                         <View style={styles.textLeft}>
                             <Text style={styles.menuText}>EMAIL</Text>
                         </View>
-                        <Text style={styles.menuTextRight}>USER.EMAIL@EMAIL.COM</Text>
+                        <Text style={styles.menuTextRight}>{user.email}</Text>
                     </View>
                 </TouchableOpacity>
 
