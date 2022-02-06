@@ -72,6 +72,9 @@ export default function CategoriesTask({route, navigation}) {
       detailTaskInput("");
     }
   };
+  const cancelAdd = () => {
+    setModalVisible(!isModalVisible);
+  }
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
@@ -126,25 +129,46 @@ export default function CategoriesTask({route, navigation}) {
         visible={isModalVisible}
         presentationStyle="overFullScreen"
         onDismiss={toggleModalVisibility}>
-        <View style={styles.viewWrapper}>
-          <View style={styles.modalView}>
-            <Text>Topic</Text>
-            <TextInput
+
+        <View style={styles.bg_modal}>
+          <View style={styles.paper_madal}>
+          <ScrollView >
+            <Text style={styles.text_normal}>Topic</Text>
+            <View style={{ alignItems: 'center' }}>
+              <TextInput
               placeholder="Enter something..."
               value={topic}
-              style={styles.textInput}
+              style={styles.input}
               onChangeText={topic => topicInput(topic)}
             />
-            <Text>Detail Task</Text>
-            <TextInput
+            </View>
+            
+            <Text style={styles.text_normal}>Detail Task</Text>
+            <View style={{ alignItems: 'center' }}>
+              <TextInput
               placeholder="Enter something..."
               value={detailTask}
-              style={styles.textInput}
+              style={styles.input2}
+              multiline={true}
+              numberOfLines={4}
               onChangeText={detailTask => detailTaskInput(detailTask)}
             />
+            </View>
+           
+           <View style={styles.style_flex_button}>
+             <TouchableOpacity style={styles.addButtonL} onPress={() => { cancelAdd() }}>
+                <Text style={styles.addButtonText1} >CANCLE</Text>
+             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.addButtonR} onPress={toggleModalVisibility}>
+                <Text style={styles.addButtonText1}>SAVE</Text>
+            </TouchableOpacity>
+
+           </View>
 
             {/** This button is responsible to close the modal */}
-            <Button title="Done" onPress={toggleModalVisibility} />
+            {/* <Button title="Done" onPress={toggleModalVisibility} /> */}
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -317,5 +341,87 @@ const styles = StyleSheet.create({
   imageBox: {
     width: 300,
     height: 300
+  },
+  bg_modal: {
+    backgroundColor: '#000000aa',
+    flex: 1
+  },
+  paper_madal: {
+    backgroundColor: '#ffffff',
+    margin: 30,
+    marginTop: 90,
+    marginBottom: 90,
+    padding: 20,
+    borderRadius: 10,
+    flex: 1
+  },
+  text_normal: {
+    fontWeight: 'bold',
+    padding: 10,
+  },
+  input: {
+    width: '90%',
+    borderWidth: 1,
+    padding: 10,
+    fontSize: 16,
+    shadowColor: "#000000",
+    shadowOpacity: 5,
+    shadowRadius: 5,
+    elevation: 2,
+    backgroundColor: '#e5f1f1',
+    borderRadius: 5,
+  },
+  input2: {
+    width: '90%',
+    borderWidth: 1,
+    padding: 20,
+    fontSize: 16,
+    shadowColor: "#000000",
+    shadowOpacity: 5,
+    shadowRadius: 5,
+    elevation: 2,
+    backgroundColor: '#e5f1f1',
+    borderRadius: 5,
+    textAlignVertical: 'top'
+  },
+  style_flex_button: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 200,
+    paddingBottom: 10,
+    padding: 20
+  },
+  addButtonL: {
+    backgroundColor: '#707070',
+    width: '45%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    height: 40,
+    shadowColor: "#000000",
+    shadowOpacity: 5,
+    shadowRadius: 5,
+    elevation: 5,
+    marginBottom: 20,
+  },
+  addButtonR: {
+    backgroundColor: '#25ced1',
+    width: '45%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    height: 40,
+    shadowColor: "#000000",
+    shadowOpacity: 5,
+    shadowRadius: 5,
+    elevation: 5,
+    marginBottom: 20,
+  },
+  addButtonText1: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center'
   },
 });
