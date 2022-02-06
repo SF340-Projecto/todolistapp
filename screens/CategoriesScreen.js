@@ -94,7 +94,7 @@ const Categories = ({ navigation }) => {
       </View>
       <AddCatagoriesButton />
       <FlatList
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}
+        contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}
         columnWrapperStyle={styles.row}
         numColumns={numColumns}
         key={'#'}
