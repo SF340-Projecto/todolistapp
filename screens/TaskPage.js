@@ -577,7 +577,7 @@ export default function TaskPage({ navigation }) {
         </View>
 
         {/*This is Button Log out*/}
-        <View>
+        {/* <View>
           <View style={styles.logoutContainer}>
             <TouchableOpacity
               style={styles.logoutButton}
@@ -587,7 +587,7 @@ export default function TaskPage({ navigation }) {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
 
         {/** This is our modal component containing textinput and a button */}
         <Modal
