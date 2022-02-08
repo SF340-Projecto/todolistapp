@@ -718,15 +718,10 @@ export default function TaskPage({ navigation }) {
                 <Text style={styles.text_normal}>
                   ADD PICTURE
                 </Text>
-                <View style={{ alignItems: 'center' }}>
-                  <TouchableOpacity
-                    onPress={selectImage}>
                     <Image
                       style={styles.logoPic}
                       source={require('./img/picture.png')}
                     />
-                  </TouchableOpacity>
-                </View>
 
                 <View style={styles.imageContainer}>
                   {image !== null ? (

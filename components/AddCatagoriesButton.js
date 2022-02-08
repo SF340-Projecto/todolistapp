@@ -1,6 +1,7 @@
 import React from 'react';
+
 import {
-  Button,
+
   SafeAreaView,
   StyleSheet,
   Modal,
@@ -9,7 +10,9 @@ import {
   Dimensions,
   Text,
   TouchableOpacity,
-  Alert,
+  Image,
+  TouchableHighlight,
+  Alert
 } from 'react-native';
 import {useContext, useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
@@ -40,6 +43,10 @@ export default function AddCatagoriesButton() {
       topicInput('');
     }
   };
+
+  const cancelAdd = () => {
+    setModalVisible(!isModalVisible);
+  }
   return (
     <SafeAreaView>
       <View>
@@ -80,14 +87,60 @@ export default function AddCatagoriesButton() {
                 CATEGORY COLOR
             </Text>
 
+
+
+              <View style={styles.style_flexColor}>
+                <TouchableHighlight
+                  valueColor={'#ff0000'}
+                >
+                  <View style={styles.color_red}></View>
+                </TouchableHighlight >
+                <View style={{ paddingRight:10 }}></View>
+
+                <TouchableHighlight
+                valueColor={'#00bfff'}
+                >
+                  <View style={styles.color_blue}></View>
+                </TouchableHighlight>
+                <View style={{ paddingRight:10 }}></View>
+
+                <TouchableHighlight 
+                valueColor={'#008000'}
+                >
+                  <View style={styles.color_green}></View>
+                </TouchableHighlight>
+                <View style={{ paddingRight:10 }}></View>
+
+                <TouchableHighlight
+                valueColor={'#ffff00'}
+                >
+                  <View style={styles.color_yellow}></View>
+                </TouchableHighlight>
+                <View style={{ paddingRight:10 }}></View>
+
+                <TouchableHighlight 
+                valueColor={'#800080'}
+                >
+                  <View style={styles.color_purple}></View>
+                </TouchableHighlight>
+                <View style={{ paddingRight:10 }}></View>
+
+              </View>
+
+              
+
+
+
+
+
+
             <View>
             <View style={styles.style_flex}>
                 <TouchableOpacity style={styles.addButtonL}>
                     <Text 
-   //-----------------------------BUG!!----------------------
+
                     style={styles.addButtonText}
-                    onChangeText={topic => topicInput('')}
-                    onPress={setModalVisible}
+                    onPress={() => { cancelAdd() }}
                     >CANCLE</Text>
                 </TouchableOpacity>
 
@@ -224,8 +277,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop:350,
+    paddingTop:280,
     padding:35
+  },
+  style_flexColor:{
+    flex: 1,
+    flexDirection: 'row',
+    padding:20,
   },
   addButtonText: {
     color: '#ffffff',
@@ -233,4 +291,49 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign:'center'
   },
+  logo: {
+    width: 30,
+    height: 30,
+    padding:10,
+  },
+  color_red:{
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+    backgroundColor:'#ff0000',
+    justifyContent: 'center',
+    padding:10
+  },
+  color_blue:{
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+    backgroundColor:'#00bfff',
+    justifyContent: 'center',
+
+  },
+  color_green:{
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+    backgroundColor:'#008000',
+    justifyContent: 'center',
+
+  },
+  color_yellow:{
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+    backgroundColor:'#ffff00',
+    justifyContent: 'center',
+
+  },
+  color_purple:{
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+    backgroundColor:'#800080',
+    justifyContent: 'center',
+
+  }
 });
