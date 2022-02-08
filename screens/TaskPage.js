@@ -328,6 +328,9 @@ export default function TaskPage({ navigation }) {
     deleteTasklist(userDocId)
   };
 
+  const onPressTask = () => {
+    alert("Open Modal Here");
+  }
 
 
   return (
@@ -352,7 +355,7 @@ export default function TaskPage({ navigation }) {
             data={dataTask}
             renderItem={({ item }) => (
 
-              <View>
+              <TouchableOpacity onPress={() => onPressTask()}>
                 <View style={styles.row}>
                   <Image
                     style={styles.tinyLogo}
@@ -548,7 +551,7 @@ export default function TaskPage({ navigation }) {
                     </View>
                   </View>
                 </Modal>
-              </View>
+              </TouchableOpacity>
             )}
           />
           {/**  We are going to create a Modal with Text Input. */}
