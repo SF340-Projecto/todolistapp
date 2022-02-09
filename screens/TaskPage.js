@@ -78,6 +78,16 @@ export default function TaskPage({ navigation }) {
   // Priority value
   const [selectedValue, setSelectedValue] = useState("0");
 
+  const [isModalVisible3, setModalVisible3] = useState(false);
+
+  // Show fire base data
+  const [topicFirebase, setTopic] = useState();
+  const [taskDetail, setTaskDetail] = useState();
+  const [notification, setNotification] = useState();
+  const [urlPhoto, setUrlPhoto] = useState();
+  const [priority, setPriority] = useState();
+
+
   // Call firebase show data
   let usersCollectionRef = firestore()
     .collection('user')
@@ -206,6 +216,7 @@ export default function TaskPage({ navigation }) {
     });
   };
 
+
   // Function call to update task list
   const updateTasklist = (userDocId) => {
     setModalVisible1(!isModalVisible1);
@@ -253,6 +264,15 @@ export default function TaskPage({ navigation }) {
     setModalVisible1(!isModalVisible1);
     // Set doc id
     setDocId(userDocId)
+  };
+
+  const toggleModalVisibility3 = (item) => {
+    setTopic(item.topic)
+    setTaskDetail(item.taskDetail)
+    setNotification(item.data)
+    setUrlPhoto(item.urlPhoto)
+    setPriority(item.priority)
+    setModalVisible3(!isModalVisible3);
   };
 
   // Delete tasklist function
@@ -328,10 +348,6 @@ export default function TaskPage({ navigation }) {
     deleteTasklist(userDocId)
   };
 
-  const onPressTask = () => {
-    alert("Open Modal Here");
-  }
-
 
   return (
 
@@ -355,7 +371,7 @@ export default function TaskPage({ navigation }) {
             data={dataTask}
             renderItem={({ item }) => (
 
-              <TouchableOpacity onPress={() => onPressTask()}>
+              <TouchableOpacity onPress={() => toggleModalVisibility3(item)}>
                 <View style={styles.row}>
                   <Image
                     style={styles.tinyLogo}
@@ -386,6 +402,35 @@ export default function TaskPage({ navigation }) {
 
                 </View>
 
+                {/*Modal for show detail */}
+                <Modal
+                  animationType="slide"
+                  transparent
+                  visible={isModalVisible3}
+                  presentationStyle="overFullScreen"
+                  onDismiss={toggleModalVisibility3}
+                  onRequestClose={() => { setModalVisible3(false) }}
+                >
+                  <View style={styles.bg_modal}>
+                    <View style={styles.paper_madal}>
+                      <ScrollView>
+                        <TouchableOpacity
+                          onPress={() => { setModalVisible3(false) }}>
+                          <Text>x</Text>
+                        </TouchableOpacity>
+                        <Text>{topicFirebase}</Text>
+                        <Text>{taskDetail}</Text>
+                        <Text>{notification}</Text>
+                        <Text>{urlPhoto}</Text>
+                        <Text>{priority}</Text>
+
+                      </ScrollView>
+                    </View>
+                  </View>
+                </Modal>
+
+
+
                 {/*Modal for edit task */}
                 <Modal
                   animationType="slide"
@@ -398,7 +443,8 @@ export default function TaskPage({ navigation }) {
                     <View style={styles.paper_madal}>
                       <ScrollView>
                         <Text style={styles.text_normal}>
-                          EDIT TASK</Text>
+                          EDIT TASK
+                        </Text>
                         <View style={{ alignItems: 'center' }}>
                           <TextInput
                             placeholder="Enter something..."
@@ -721,10 +767,10 @@ export default function TaskPage({ navigation }) {
                 <Text style={styles.text_normal}>
                   ADD PICTURE
                 </Text>
-                    <Image
-                      style={styles.logoPic}
-                      source={require('./img/picture.png')}
-                    />
+                <Image
+                  style={styles.logoPic}
+                  source={require('./img/picture.png')}
+                />
 
                 <View style={styles.imageContainer}>
                   {image !== null ? (
