@@ -28,6 +28,7 @@ import PushNotification from 'react-native-push-notification';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ModalPickerDropdow } from './ModalPickerDropdow';
 const { width } = Dimensions.get('window');
 
@@ -413,16 +414,50 @@ export default function TaskPage({ navigation }) {
                 >
                   <View style={styles.bg_modal}>
                     <View style={styles.paper_madal}>
-                      <ScrollView>
-                        <TouchableOpacity
-                          onPress={() => { setModalVisible3(false) }}>
-                          <Text>x</Text>
-                        </TouchableOpacity>
-                        <Text>{topicFirebase}</Text>
-                        <Text>{taskDetail}</Text>
-                        <Text>{notification}</Text>
-                        <Text>{urlPhoto}</Text>
-                        <Text>{priority}</Text>
+                      <ScrollView style={styles.showDetailTaskBody}>
+                        <View style={styles.closeDetailContainer}>
+                          <TouchableOpacity onPress={() => { setModalVisible3(false) }}>
+                            <FontAwesome name="close" color={'white'} size={18} />
+                          </TouchableOpacity>
+                        </View>
+                        {/* Header Topic */}
+                        <View style={{ flexDirection: 'row', marginVertical: 20, }}>
+                          <View style={styles.headerShowTaskContainer}>
+                            <Text style={styles.textShowTask}>{topicFirebase}</Text>
+                          </View>
+                          <View style={{
+                            justifyContent: 'center', alignItems: 'center', backgroundColor: '#9fff80',
+                            paddingHorizontal: 20, borderRadius: 10,
+                          }}>
+                            <Text>{priority}</Text>
+                          </View>
+                        </View>
+
+
+                        {/* Date Time Notification ? */}
+                        <View style={styles.notiShowTaskContainer}>
+                          <Text>{notification} notification time</Text>
+                        </View>
+                        {/* Priority */}
+
+                        {/* Task Discription */}
+                        <View style={styles.taskdetailShowContainer}>
+                          <Text style={styles.textdetailShowTask}>{taskDetail}</Text>
+                        </View>
+
+
+                        <View style={{
+                          alignItems: 'center', justifyContent: 'center', marginVertical: 15,
+                        }}>
+                          <Image
+                            style={{
+                              width: 200,
+                              height: 200,
+                              resizeMode: 'stretch',
+                              marginBottom: 25,
+                            }}
+                            source={{uri: 'https://thumbs.dreamstime.com/b/female-businessman-holds-pencil-completed-tasks-stamped-notes-execution-setting-green-check-marks-fo-their-126333961.jpg'}} />
+                        </View>
 
                       </ScrollView>
                     </View>
@@ -767,10 +802,15 @@ export default function TaskPage({ navigation }) {
                 <Text style={styles.text_normal}>
                   ADD PICTURE
                 </Text>
-                <Image
-                  style={styles.logoPic}
-                  source={require('./img/picture.png')}
-                />
+                <View style={{ alignItems: 'center' }}>
+                  <TouchableOpacity
+                    onPress={selectImage}>
+                    <Image
+                      style={styles.logoPic}
+                      source={require('./img/picture.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
 
                 <View style={styles.imageContainer}>
                   {image !== null ? (
@@ -808,6 +848,46 @@ export default function TaskPage({ navigation }) {
 
 // These are user defined styles
 const styles = StyleSheet.create({
+  notiShowTaskContainer: {
+    width: '100%',
+    height: 30,
+    backgroundColor: '#E5F1F1',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
+  taskdetailShowContainer: {
+    margin: 12,
+    marginVertical: 20,
+  },
+  textdetailShowTask: {
+    color: 'grey',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  headerShowTaskContainer: {
+    flex: 1,
+  },
+  textShowTask: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  closeDetailContainer: {
+    backgroundColor: 'red',
+    width: 30,
+    height: 30,
+    borderWidth: 2,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  showDetailTaskBody: {
+    flex: 1,
+    flexDirection: 'column',
+    alignContent: 'flex-start'
+  },
   addButtonIcon: {
     marginHorizontal: 7,
     padding: 5,
