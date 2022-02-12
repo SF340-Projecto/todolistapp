@@ -427,7 +427,7 @@ export default function TaskPage({ navigation }) {
                           </View>
                           <View style={{
                             justifyContent: 'center', alignItems: 'center', backgroundColor: '#9fff80',
-                            paddingHorizontal: 20, borderRadius: 10,
+                            paddingHorizontal: 20, borderRadius: 10, elevation: 10,
                           }}>
                             <Text>{priority}</Text>
                           </View>
@@ -456,7 +456,7 @@ export default function TaskPage({ navigation }) {
                               resizeMode: 'stretch',
                               marginBottom: 25,
                             }}
-                            source={{uri: 'https://thumbs.dreamstime.com/b/female-businessman-holds-pencil-completed-tasks-stamped-notes-execution-setting-green-check-marks-fo-their-126333961.jpg'}} />
+                            source={{uri: urlPhoto}} />
                         </View>
 
                       </ScrollView>
@@ -855,6 +855,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    elevation: 10,
 
   },
   taskdetailShowContainer: {
@@ -886,7 +887,7 @@ const styles = StyleSheet.create({
   showDetailTaskBody: {
     flex: 1,
     flexDirection: 'column',
-    alignContent: 'flex-start'
+    alignContent: 'flex-start',
   },
   addButtonIcon: {
     marginHorizontal: 7,
@@ -1063,7 +1064,8 @@ const styles = StyleSheet.create({
 
   bg_modal: {
     backgroundColor: '#000000aa',
-    flex: 1
+    flex: 1,
+    
   },
   paper_madal: {
     backgroundColor: '#ffffff',
@@ -1072,7 +1074,10 @@ const styles = StyleSheet.create({
     marginBottom: 90,
     padding: 20,
     borderRadius: 10,
-    flex: 1
+    flex: 1,
+    borderWidth: 15,
+    borderRadius: 15,
+    borderColor: "#25ced1"
   },
   text_normal: {
     fontWeight: 'bold',
