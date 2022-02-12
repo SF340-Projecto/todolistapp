@@ -436,7 +436,8 @@ export default function TaskPage({ navigation }) {
 
                         {/* Date Time Notification ? */}
                         <View style={styles.notiShowTaskContainer}>
-                          <Text>{notification} notification time</Text>
+                          <Text>{textDate}</Text>
+                          <Text>{textTime}</Text>
                         </View>
                         {/* Priority */}
 
@@ -854,8 +855,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5F1F1',
     borderRadius: 10,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     elevation: 10,
+    flexDirection: 'row'
 
   },
   taskdetailShowContainer: {
