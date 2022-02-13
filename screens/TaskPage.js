@@ -108,7 +108,7 @@ export default function TaskPage({ navigation }) {
       })
       // Sort priority
       let sortedData = dataTask.slice().sort((a, b) => b.priority - a.priority);
-
+      changePriorityToText(sortedData)
       setDataTask(sortedData);
       setisLoading(false);
       createChannels();
@@ -121,6 +121,25 @@ export default function TaskPage({ navigation }) {
   if (isLoading) {
     return <ActivityIndicator />;
   }
+
+
+  const changePriorityToText=(data)=>{
+    for (var i = 0; i < data.length; i++){
+      var obj = data[i];
+      for (var key in obj){
+        if (key==="priority"){
+          var value = obj[key];
+          if(value == "1"){
+            obj[key] = "Low"
+          }else if (value == "2"){
+            obj[key] = "Medium"
+          }else if (value == "3"){
+            obj[key] = "High"
+          }
+        }
+      }
+    }
+  };
 
   // Notification /////
   const createChannels = () => {

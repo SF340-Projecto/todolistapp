@@ -99,8 +99,6 @@ export default function CategoriesTask({route, navigation}) {
             <View style={styles.row}>
               <Text style={ [styles.taskText, {flex: 1, color: theme.fontColor }]}>{item.topic}</Text>
               <Text>{item.taskDetail}</Text>
-
-              
             </View>
 
           </View>
