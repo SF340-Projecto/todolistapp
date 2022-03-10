@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { useContext, useEffect } from 'react';
 import {
@@ -30,6 +29,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ModalPickerDropdow } from './ModalPickerDropdow';
+import AddTaskPage from '../components/AddTaskPage';
 const { width } = Dimensions.get('window');
 
 export default function TaskPage({ navigation }) {
@@ -422,6 +422,7 @@ export default function TaskPage({ navigation }) {
 
                 </View>
 
+
                 {/*Modal for show detail */}
                 <Modal
                   animationType="slide"
@@ -669,15 +670,8 @@ export default function TaskPage({ navigation }) {
 
         {/* This is Add Button Bottom */}
         <View>
-          <View style={styles.addButtonContainer}>
-            <TouchableOpacity
-              style={[styles.addButton, { backgroundColor: theme.buttonColor }]}
-              onPress={toggleModalVisibility}>
-              <Text style={[styles.addButtonText, { color: theme.fontColor }]}>
-                +
-              </Text>
-            </TouchableOpacity>
-          </View>
+        <AddTaskPage />
+
         </View>
 
         {/*This is Button Log out*/}
@@ -693,172 +687,7 @@ export default function TaskPage({ navigation }) {
           </View>
         </View> */}
 
-        {/** This is our modal component containing textinput and a button */}
-        <Modal
-          animationType="slide"
-          transparent
-          visible={isModalVisible}
-          presentationStyle="overFullScreen"
-          onDismiss={toggleModalVisibility}>
-
-          <View style={styles.bg_modal}>
-            <View style={styles.paper_madal}>
-              <ScrollView >
-                <Text style={styles.text_normal}>
-                  ADD TASK</Text>
-                <View style={{ alignItems: 'center' }}>
-                  <TextInput
-                    placeholder="Enter something..."
-                    value={topic}
-                    style={styles.input}
-                    onChangeText={topic => topicInput(topic)}
-                  />
-                </View>
-
-                <Text style={styles.text_normal}>Detail Task</Text>
-                <View style={{ alignItems: 'center' }}>
-                  <TextInput
-                    placeholder="Enter something..."
-                    value={detailTask}
-                    style={styles.input2}
-                    multiline={true}
-                    numberOfLines={4}
-                    onChangeText={detailTask => detailTaskInput(detailTask)}
-                  />
-                </View>
-
-
-                <Text style={styles.text_normal}>Priority : </Text>
-                <Picker
-                  selectedValue={selectedValue}
-                  style={{ height: 50, width: 300 }}
-                  onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                >
-                  <Picker.Item label="None" value="0" />
-                  <Picker.Item label="Low" value="1" />
-                  <Picker.Item label="Medium" value="2" />
-                  <Picker.Item label="High" value="3" />
-                </Picker>
-
-
-                {/* <View> */}
-                {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
-                <View>
-                  <Button onPress={showDatepicker} title="Show date picker!" />
-                </View>
-                <View>
-                  <Button onPress={showTimepicker} title="Show time picker!" />
-                </View> */}
-                {show && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode={mode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChange}
-                  />
-                )}
-                <Text style={styles.text_normal}>
-                  DUE DATE
-                </Text>
-                {/* --------------------Date-------------------- */}
-                <View style={{ alignItems: 'center', paddingBottom: 10 }}>
-                  <View style={styles.input_f}>
-                    <TouchableHighlight onPress={() => showMode('date')}>
-                      <Image
-                        style={styles.logo}
-                        source={require('./img/calendar.png')}
-                      />
-                    </TouchableHighlight>
-
-                    <Text style={styles.style_text_date}>{textDate}</Text>
-                  </View>
-                </View >
-                {/* ---------------Time--------------- */}
-                <View style={{ alignItems: 'center' }}>
-                  <View style={styles.input_f}>
-                    <TouchableHighlight
-                      onPress={() => showMode('time')}>
-                      <Image
-                        style={styles.logo}
-                        source={require('./img/time.png')}
-                      />
-                    </TouchableHighlight>
-
-                    <Text style={styles.style_text_date}>{textTime}</Text>
-                  </View>
-                </View >
-                <Text style={styles.text_normal}>
-                  CATEGORY
-                </Text>
-
-                <View style={{ alignItems: 'center' }}>
-                  <View style={styles.input_f}>
-                    <TouchableOpacity onPress={() => changeModalVisibility(true)}>
-                      <Image
-                        style={styles.logo}
-                        source={require('./img/dropdown.png')}
-                      />
-                    </TouchableOpacity>
-                    <Text style={styles.style_text_date}>{chooseData}</Text>
-                    <Modal
-                      transparent={true}
-                      animationType='fade'
-                      visible={isModalVisible_d}
-                      nRequestClose={() => changeModalVisibility(false)}
-                    >
-                      <ModalPickerDropdow
-                        changeModalVisibility={changeModalVisibility}
-                        // -----------------value is setData-------------
-                        setData={setData}
-                      />
-
-                    </Modal>
-                  </View>
-                </View>
-
-                {/* </View> */}
-                <Text style={styles.text_normal}>
-                  ADD PICTURE
-                </Text>
-                <View style={{ alignItems: 'center' }}>
-                  <TouchableOpacity
-                    onPress={selectImage}>
-                    <Image
-                      style={styles.logoPic}
-                      source={require('./img/picture.png')}
-                    />
-                  </TouchableOpacity>
-                </View>
-
-                <View style={styles.imageContainer}>
-                  {image !== null ? (
-                    <Image source={{ uri: image.uri }} style={styles.imageBox} />
-                  ) : null}
-                  {uploading ? (
-                    <View style={styles.progressBarContainer}>
-                      <Progress.Bar progress={transferred} width={300} />
-                    </View>
-                  ) : null}
-                </View>
-
-                <View style={styles.style_flex_button}>
-                  <TouchableOpacity
-                    style={styles.addButtonL}
-                    onPress={() => { cancelAdd() }}
-                  >
-                    <Text style={styles.addButtonText1} >CANCLE</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.addButtonR} onPress={toggleModalVisibility}>
-                    <Text style={styles.addButtonText1}>SAVE</Text>
-                  </TouchableOpacity>
-                </View>
-              </ScrollView>
-            </View>
-          </View>
-
-        </Modal>
+    
 
 
       </ScrollView>
