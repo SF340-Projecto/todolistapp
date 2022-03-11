@@ -16,15 +16,13 @@ import {ScrollView} from 'react-native-gesture-handler';
 import PushNotification from 'react-native-push-notification';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AddTaskPage from '../components/AddTaskPage';
 import EditTaskPage from '../components/EditTaskPage';
 import styles from './component.style.js';
-
+import ShowDetail from '../components/ShowDetail';
 
 export default function TaskPage({navigation}) {
   // This is to manage Modal State
-
 
   // Variable modal edit data
   const [isModalVisible1, setModalVisible1] = useState(false);
@@ -36,12 +34,10 @@ export default function TaskPage({navigation}) {
   // This is to manage TextInput State
   const theme = useContext(themeContext);
 
-
   // This is user data from firebase
   const {user, logout} = useContext(AuthContext);
 
   // Variable contain value from user
-
 
   const [urlUser, setUrl] = useState('');
 
@@ -49,8 +45,6 @@ export default function TaskPage({navigation}) {
   const [date, setDate] = useState(new Date());
   const [textDate, setText] = useState('CHOOSE DUE DATE...');
   const [textTime, setTime] = useState('CHOOSE DUE TIME...');
-
-
 
   const [isModalVisible3, setModalVisible3] = useState(false);
 
@@ -121,12 +115,10 @@ export default function TaskPage({navigation}) {
 
   //// Notification close /////
 
-
   // Function call to open modal edit
   const toggleModalVisibility1 = userDocId => {
     setModalVisible1(!isModalVisible1);
     // Set doc id
-    setDocId(userDocId);
   };
 
   const toggleModalVisibility3 = item => {
@@ -146,7 +138,6 @@ export default function TaskPage({navigation}) {
       .doc(userDocId)
       .delete();
   }
-
 
   // Open toggle add task and add data to firebase
   async function achiveTask(userDocId, topic, taskDetail) {
@@ -255,84 +246,23 @@ export default function TaskPage({navigation}) {
                 </View>
 
                 {/*Modal for show detail */}
+
                 <Modal
                   animationType="slide"
                   transparent
                   visible={isModalVisible3}
                   presentationStyle="overFullScreen"
                   onDismiss={toggleModalVisibility3}
-                  onRequestClose={() => {
-                    setModalVisible3(false);
-                  }}>
-                  <View style={styles.bg_modal}>
-                    <View style={styles.paper_madal}>
-                      <ScrollView style={styles.showDetailTaskBody}>
-                        <View style={styles.closeDetailContainer}>
-                          <TouchableOpacity
-                            onPress={() => {
-                              setModalVisible3(false);
-                            }}>
-                            <FontAwesome
-                              name="close"
-                              color={'white'}
-                              size={18}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                        {/* Header Topic */}
-                        <View
-                          style={{flexDirection: 'row', marginVertical: 20}}>
-                          <View style={styles.headerShowTaskContainer}>
-                            <Text style={styles.textShowTask}>
-                              {topicFirebase}
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              backgroundColor: '#9fff80',
-                              paddingHorizontal: 20,
-                              borderRadius: 10,
-                              elevation: 10,
-                            }}>
-                            <Text>{priority}</Text>
-                          </View>
-                        </View>
-
-                        {/* Date Time Notification ? */}
-                        <View style={styles.notiShowTaskContainer}>
-                          <Text>{textDate}</Text>
-                          <Text>{textTime}</Text>
-                        </View>
-                        {/* Priority */}
-
-                        {/* Task Discription */}
-                        <View style={styles.taskdetailShowContainer}>
-                          <Text style={styles.textdetailShowTask}>
-                            {taskDetail}
-                          </Text>
-                        </View>
-
-                        <View
-                          style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginVertical: 15,
-                          }}>
-                          <Image
-                            style={{
-                              width: 200,
-                              height: 200,
-                              resizeMode: 'stretch',
-                              marginBottom: 25,
-                            }}
-                            source={{uri: urlPhoto}}
-                          />
-                        </View>
-                      </ScrollView>
-                    </View>
-                  </View>
+                  >
+                  <ShowDetail
+                    topicFirebase={topicFirebase}
+                    priority={priority}
+                    textDate={textDate}
+                    textTime={textTime}
+                    taskDetail={taskDetail}
+                    urlPhoto={urlPhoto}
+                    setModalVisible3={setModalVisible3}
+                  />
                 </Modal>
 
                 {/*Modal for edit task */}
@@ -342,7 +272,7 @@ export default function TaskPage({navigation}) {
                   visible={isModalVisible1}
                   presentationStyle="overFullScreen"
                   onDismiss={toggleModalVisibility1}>
-                  <EditTaskPage modalEdit={setModalVisible1} item={item.id}/>
+                  <EditTaskPage modalEdit={setModalVisible1} item={item.id} />
                 </Modal>
               </TouchableOpacity>
             )}
