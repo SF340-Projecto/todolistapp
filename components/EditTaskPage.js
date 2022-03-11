@@ -1,62 +1,61 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
-import React, {useState, useContext, useEffect} from 'react';
+import React from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {
+  StyleSheet,
   Modal,
   View,
-  TextInput,
-  StyleSheet,
+  Dimensions,
   Text,
   TouchableOpacity,
   Image,
-  TouchableHighlight,
-  Dimensions,
+  TextInput,
   Alert,
+  TouchableHighlight,
 } from 'react-native';
-import {ModalPickerDropdow} from '../screens/ModalPickerDropdow';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
-import themeContext from '../config/themeContext';
-import firestore from '@react-native-firebase/firestore';
-import { AuthContext } from '../navigation/AuthProviders';
-import PushNotification from 'react-native-push-notification';
+import {ModalPickerDropdow} from '../screens/ModalPickerDropdow';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
+import { AuthContext } from '../navigation/AuthProviders';
 import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 
 const {width} = Dimensions.get('window');
 
-function AddTaskPage(props) {
-
-
-  const [selectedValue, setSelectedValue] = useState('0');
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [chooseData, setchooseData] = useState('SELECT CATEGORY...');
-  const [isModalVisible_d, setisModalVisible_d] = useState(false); //
-  const theme = useContext(themeContext);
-  const [mode, setMode] = useState('date');
-  const [docID, setDocId] = useState('');
-
-  const [show, setShow] = useState(false);
-  const [textDate, setText] = useState('CHOOSE DUE DATE...');
-  const [textTime, setTime] = useState('CHOOSE DUE TIME...');
-  const [date, setDate] = useState(new Date());
-  const [transferred, setTransferred] = useState(0);
-
-  const { user, logout } = useContext(AuthContext);
-  const [urlUser, setUrl] = useState('');
+function EditTaskPage(props) {
   const [topic, topicInput] = useState('');
   const [detailTask, detailTaskInput] = useState('');
-  const [image, setImage] = useState(null);
+  const [dataTask, setDataTask] = useState([]);
+  const [urlUser, setUrl] = useState('');
+  const [chooseData, setchooseData] = useState('SELECT CATEGORY...');
+  const [isModalVisible_d, setisModalVisible_d] = useState(false); //
   const [uploading, setUploading] = useState(false);
-  
+  const { user, logout } = useContext(AuthContext);
+  const [transferred, setTransferred] = useState(0);
 
-  const showMode = currentMode => {
-    setShow(true);
-    setMode(currentMode);
+  const [selectedValue, setSelectedValue] = useState('0');
+  const [isModalVisible1, setModalVisible1] = useState(false);
+  const [docID, setDocId] = useState('');
+  const [show, setShow] = useState(false);
+  const [image, setImage] = useState(null);
+  const [date, setDate] = useState(new Date());
+
+  const [textDate, setText] = useState('CHOOSE DUE DATE...');
+  const [textTime, setTime] = useState('CHOOSE DUE TIME...');
+  const [mode, setMode] = useState('date');
+
+  const changeModalVisibility = bool => {
+    setisModalVisible_d(bool);
   };
 
-  const setData = option_drop => {
-    setchooseData(option_drop);
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
   };
 
   const onChange = (event, selectedDate) => {
@@ -71,11 +70,15 @@ function AddTaskPage(props) {
     setTime(fTime)
   };
 
-  // Call firebase show data
-  let usersCollectionRef = firestore()
-    .collection('user')
-    .doc(user.uid)
-    .collection('Task');
+  const setData = option_drop => {
+    setchooseData(option_drop);
+  };
+
+  const showMode = currentMode => {
+    setShow(true);
+    setMode(currentMode);
+  };
+  
 
   // Select image and get url firebase storage //
   const selectImage = () => {
@@ -133,214 +136,186 @@ function AddTaskPage(props) {
     });
   };
 
-  const changeModalVisibility = bool => {
-    setisModalVisible_d(bool);
-  };
-
-
-  // Open toggle add task and add data to firebase
-  const toggleModalVisibility = (userDocId, check) => {
-    setModalVisible(!isModalVisible);
-    setDocId(userDocId);
-    console.log(check);
-
-    // Check condition and send to firebase
+  // Function call to update task list
+  const updateTasklist = userDocId => {
+    // Set doc id
+    // Call firebase to update
     if (topic != '' && detailTask != '') {
-      usersCollectionRef.add({
+      const userCollection1 = firestore()
+        .collection('user')
+        .doc(user.uid)
+        .collection('Task')
+        .doc(userDocId);
+      // set new data
+      userCollection1.set({
         timestamp: firestore.FieldValue.serverTimestamp(),
         topic: topic,
         taskDetail: detailTask,
         urlPhoto: urlUser,
         date: date,
         textDate: textDate,
-        textTime: textTime.replace,
+        textTime: textTime,
         priority: selectedValue,
       });
-
+      // Set data to null
       topicInput('');
       detailTaskInput('');
+      setDataTask(dataTask);
+      setDocId('');
       setUrl('');
       setSelectedValue('0');
-
-      PushNotification.localNotificationSchedule({
-        channelId: 'test-channel',
-        id: '123',
-        title: topic + date,
-        message: new Date(Date.now()).toString(),
-        date: date,
-        allowWhileIdle: true,
-      });
     }
+    props.modalEdit(false);
+
   };
+  console.log(props.item)
 
   return (
-    <View>
-      <View>
-        <View style={styles.addButtonContainer}>
-          <TouchableOpacity
-            style={[styles.addButton, {backgroundColor: theme.buttonColor}]}
-            onPress={toggleModalVisibility}>
-            <Text style={[styles.addButtonText, {color: theme.fontColor}]}>
-              +
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      {/** This is our modal component containing textinput and a button */}
-      <Modal
-        animationType="slide"
-        transparent
-        visible={isModalVisible}
-        presentationStyle="overFullScreen"
-        onDismiss={toggleModalVisibility}>
-        <View style={styles.bg_modal}>
-          <View style={styles.paper_madal}>
-            <ScrollView>
-              <Text style={styles.text_normal}>ADD TASK</Text>
-              <View style={{alignItems: 'center'}}>
-                <TextInput
-                  placeholder="Enter something..."
-                  value={topic}
-                  style={styles.input}
-                  onChangeText={topic => topicInput(topic)}
-                />
-              </View>
-
-              <Text style={styles.text_normal}>Detail Task</Text>
-              <View style={{alignItems: 'center'}}>
-                <TextInput
-                  placeholder="Enter something..."
-                  value={detailTask}
-                  style={styles.input2}
-                  multiline={true}
-                  numberOfLines={4}
-                  onChangeText={detailTask => detailTaskInput(detailTask)}
-                />
-              </View>
-
-              <Text style={styles.text_normal}>Priority : </Text>
-              <Picker
-                selectedValue={selectedValue}
-                style={{height: 50, width: 300}}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSelectedValue(itemValue)
-                }>
-                <Picker.Item label="None" value="0" />
-                <Picker.Item label="Low" value="1" />
-                <Picker.Item label="Medium" value="2" />
-                <Picker.Item label="High" value="3" />
-              </Picker>
-
-              {/* <View> */}
-              {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
-                <View>
-                  <Button onPress={showDatepicker} title="Show date picker!" />
-                </View>
-                <View>
-                  <Button onPress={showTimepicker} title="Show time picker!" />
-                </View> */}
-              {show && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date}
-                  mode={mode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={onChange}
-                />
-              )}
-              <Text style={styles.text_normal}>DUE DATE</Text>
-              {/* --------------------Date-------------------- */}
-              <View style={{alignItems: 'center', paddingBottom: 10}}>
-                <View style={styles.input_f}>
-                  <TouchableHighlight onPress={() => showMode('date')}>
-                    <Image
-                      style={styles.logo}
-                      source={require('../screens/img/calendar.png')}
-                    />
-                  </TouchableHighlight>
-
-                  <Text style={styles.style_text_date}>{textDate}</Text>
-                </View>
-              </View>
-              {/* ---------------Time--------------- */}
-              <View style={{alignItems: 'center'}}>
-                <View style={styles.input_f}>
-                  <TouchableHighlight onPress={() => showMode('time')}>
-                    <Image
-                      style={styles.logo}
-                      source={require('../screens/img/time.png')}
-                    />
-                  </TouchableHighlight>
-
-                  <Text style={styles.style_text_date}>{textTime}</Text>
-                </View>
-              </View>
-              <Text style={styles.text_normal}>CATEGORY</Text>
-
-              <View style={{alignItems: 'center'}}>
-                <View style={styles.input_f}>
-                  <TouchableOpacity onPress={() => changeModalVisibility(true)}>
-                    <Image
-                      style={styles.logo}
-                      source={require('../screens/img/dropdown.png')}
-                    />
-                  </TouchableOpacity>
-                  <Text style={styles.style_text_date}>{chooseData}</Text>
-                  <Modal
-                    transparent={true}
-                    animationType="fade"
-                    visible={isModalVisible_d}
-                    nRequestClose={() => changeModalVisibility(false)}>
-                    <ModalPickerDropdow
-                      changeModalVisibility={changeModalVisibility}
-                      // -----------------value is setData-------------
-                      setData={setData}
-                    />
-                  </Modal>
-                </View>
-              </View>
-
-              {/* </View> */}
-              <Text style={styles.text_normal}>ADD PICTURE</Text>
-              <View style={{alignItems: 'center'}}>
-                <TouchableOpacity onPress={selectImage}>
-                  <Image
-                    style={styles.logoPic}
-                    source={require('../screens/img/picture.png')}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.imageContainer}>
-                {image !== null ? (
-                  <Image source={{uri: image.uri}} style={styles.imageBox} />
-                ) : null}
-                {uploading ? (
-                  <View style={styles.progressBarContainer}>
-                    <Progress.Bar progress={transferred} width={300} />
-                  </View>
-                ) : null}
-              </View>
-
-              <View style={styles.style_flex_button}>
-                <TouchableOpacity
-                  style={styles.addButtonL}
-                  onPress={() => {
-                    setModalVisible(!isModalVisible);
-                  }}>
-                  <Text style={styles.addButtonText1}>CANCLE</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.addButtonR}
-                  onPress={toggleModalVisibility}>
-                  <Text style={styles.addButtonText1}>SAVE</Text>
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
+    <View style={styles.bg_modal}>
+      <View style={styles.paper_madal}>
+        <ScrollView>
+          <Text style={styles.text_normal}>EDIT TASK</Text>
+          <View style={{alignItems: 'center'}}>
+            <TextInput
+              placeholder="Enter something..."
+              value={topic}
+              style={styles.input}
+              onChangeText={topic => topicInput(topic)}
+            />
           </View>
-        </View>
-      </Modal>
+
+          <Text style={styles.text_normal}>Detail Task</Text>
+          <View style={{alignItems: 'center'}}>
+            <TextInput
+              placeholder="Enter something..."
+              value={detailTask}
+              style={styles.input2}
+              multiline={true}
+              numberOfLines={4}
+              onChangeText={detailTask => detailTaskInput(detailTask)}
+            />
+          </View>
+
+          <Text style={styles.text_normal}>Priority : </Text>
+          <Picker
+            selectedValue={selectedValue}
+            style={{height: 50, width: 300}}
+            onValueChange={(itemValue, itemIndex) =>
+              setSelectedValue(itemValue)
+            }>
+            <Picker.Item label="None" value="0" />
+            <Picker.Item label="Low" value="1" />
+            <Picker.Item label="Medium" value="2" />
+            <Picker.Item label="High" value="3" />
+          </Picker>
+
+          <View>
+            {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
+                        <View>
+                          <Button onPress={showDatepicker} title="Show date picker!" />
+                        </View>
+                        <View>
+                          <Button onPress={showTimepicker} title="Show time picker!" />
+                        </View> */}
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+            <Text style={styles.text_normal}>DUE DATE</Text>
+          </View>
+          {/* --------------------Date-------------------- */}
+          <View style={{alignItems: 'center', paddingBottom: 10}}>
+            <View style={styles.input_f}>
+              <TouchableHighlight onPress={showDatepicker}>
+                <Image
+                  style={styles.logo}
+                  source={require('../screens/img/calendar.png')}
+                />
+              </TouchableHighlight>
+              <Text style={styles.style_text_date}>{textDate}</Text>
+            </View>
+          </View>
+          {/* ---------------Time--------------- */}
+          <View style={{alignItems: 'center'}}>
+            <View style={styles.input_f}>
+              <TouchableHighlight onPress={showTimepicker}>
+                <Image
+                  style={styles.logo}
+                  source={require('../screens/img/time.png')}
+                />
+              </TouchableHighlight>
+              <Text style={styles.style_text_date}>{textTime}</Text>
+            </View>
+          </View>
+          <Text style={styles.text_normal}>CATEGORY</Text>
+
+          <View style={{alignItems: 'center'}}>
+            <View style={styles.input_f}>
+              <TouchableOpacity onPress={() => changeModalVisibility(true)}>
+                <Image
+                  style={styles.logo}
+                  source={require('../screens/img/dropdown.png')}
+                />
+              </TouchableOpacity>
+              <Text style={styles.style_text_date}>{chooseData}</Text>
+              <Modal
+                transparent={true}
+                animationType="fade"
+                visible={isModalVisible_d}
+                nRequestClose={() => changeModalVisibility(false)}>
+                <ModalPickerDropdow
+                  changeModalVisibility={changeModalVisibility}
+                  // -----------------value is setData-------------
+                  setData={setData}
+                />
+              </Modal>
+            </View>
+          </View>
+          <Text style={styles.text_normal}>ADD PICTURE</Text>
+          <View style={{alignItems: 'center'}}>
+            <TouchableOpacity onPress={selectImage}>
+              <Image
+                style={styles.logoPic}
+                source={require('../screens/img/picture.png')}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.imageContainer}>
+            {image !== null ? (
+              <Image source={{uri: image.uri}} style={styles.imageBox} />
+            ) : null}
+            {uploading ? (
+              <View style={styles.progressBarContainer}>
+                <Progress.Bar progress={transferred} width={300} />
+              </View>
+            ) : null}
+          </View>
+          <View style={styles.style_flex_button}>
+            <TouchableOpacity
+              style={styles.addButtonL}
+              onPress={() => {
+                props.modalEdit(false);
+              }}>
+              <Text style={styles.addButtonText1}>CANCEL</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.addButtonR}
+              onPress={() => {
+                updateTasklist(props.item);
+              }}>
+              <Text style={styles.addButtonText1}>SAVE</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
     </View>
   );
 }
@@ -670,4 +645,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddTaskPage;
+export default EditTaskPage;
