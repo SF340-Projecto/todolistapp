@@ -30,7 +30,7 @@ const Categories = ({ navigation }) => {
 
   let CategoriesRef = firestore()
     .collection('user')
-    .doc(user.uid)
+    .doc(user)
     .collection('NameCategories')
     .orderBy('timestamp', 'desc');
 

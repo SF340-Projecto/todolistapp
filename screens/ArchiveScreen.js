@@ -12,7 +12,7 @@ export default function ArchiveScreen() {
 
   let usersCollectionRef = firestore()
     .collection('user')
-    .doc(user.uid)
+    .doc(user)
     .collection('Achive');
 
   useEffect(() => {

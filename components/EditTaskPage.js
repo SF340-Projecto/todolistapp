@@ -111,7 +111,7 @@ function EditTaskPage(props) {
         const filename = uri.substring(uri.lastIndexOf('/') + 1);
         const uploadUri =
           Platform.OS === 'android' ? uri.replace('file://', '') : uri;
-        const placeUrl = user.uid + '/' + 'task' + '/' + filename;
+        const placeUrl = user + '/' + 'task' + '/' + filename;
         //  console.log(placeUrl);
 
         setUploading(true);
@@ -144,7 +144,7 @@ function EditTaskPage(props) {
     if (topic != '' && detailTask != '') {
       const userCollection1 = firestore()
         .collection('user')
-        .doc(user.uid)
+        .doc(user)
         .collection('Task')
         .doc(userDocId);
       // set new data

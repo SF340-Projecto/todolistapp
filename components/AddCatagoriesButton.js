@@ -29,7 +29,7 @@ export default function AddCatagoriesButton() {
 
   let CategoriesRef = firestore()
     .collection('user')
-    .doc(user.uid)
+    .doc(user)
     .collection('NameCategories');
 
   const toggleModalVisibility = () => {

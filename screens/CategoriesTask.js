@@ -37,7 +37,7 @@ export default function CategoriesTask({route, navigation}) {
   const [transferred, setTransferred] = useState(0);
   const [docID, setDocId] = useState("")
 
-  let usersCollectionRef = firestore().collection("user").doc(user.uid).collection(name);
+  let usersCollectionRef = firestore().collection("user").doc(user).collection(name);
 
   //Query Task
   useEffect(() => {

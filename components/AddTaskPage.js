@@ -74,7 +74,7 @@ function AddTaskPage(props) {
   // Call firebase show data
   let usersCollectionRef = firestore()
     .collection('user')
-    .doc(user.uid)
+    .doc(user)
     .collection('Task');
 
   // Select image and get url firebase storage //
@@ -107,7 +107,7 @@ function AddTaskPage(props) {
         const filename = uri.substring(uri.lastIndexOf('/') + 1);
         const uploadUri =
           Platform.OS === 'android' ? uri.replace('file://', '') : uri;
-        const placeUrl = user.uid + '/' + 'task' + '/' + filename;
+        const placeUrl = user + '/' + 'task' + '/' + filename;
         //  console.log(placeUrl);
 
         setUploading(true);

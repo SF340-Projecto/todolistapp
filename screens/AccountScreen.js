@@ -1,43 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Text, View, Button, Switch, StyleSheet, TouchableOpacity, SafeAreaView, Image, Modal } from 'react-native';
-import { EventRegister } from 'react-native-event-listeners';
-import { AuthContext } from '../navigation/AuthProviders';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import firestore from '@react-native-firebase/firestore';
+import { logout } from '../redux/actions/authActions';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function HomeScreen({ navigation }) {
 
-    const { user, logout } = useContext(AuthContext);
-    const [name, setName] = useState("");
-
-    let usersCollectionRef = firestore()
-    .collection('users')
+    const dispatch = useDispatch();
+    const dataApi = useSelector(state => state.data.user)
     
-    useEffect(() => {
-        const subscriber = usersCollectionRef.onSnapshot(querySnapshot => {
-          const data = [];
-    
-          querySnapshot.forEach(documentSnapshot => {
-            data.push({
-              ...documentSnapshot.data(),
-              id: documentSnapshot.id,
-            });      
-          })
+    console.log(dataApi[0]['email'])
 
-          if (data != []) {
-              data.map((item) => {
-                  if(user.email === item.Email) {
-                    setName(item.Name);
-                  }
-              })
-          }
-
-        });
-        return () => subscriber();
-
-    }, []);
-
+    const logoutAuth = () => {
+        dispatch(logout())
+      }
 
     return (
         <SafeAreaView style={styles.body}>
@@ -52,7 +30,7 @@ export default function HomeScreen({ navigation }) {
             </View>
 
             <View style={styles.userNameTopContainer}>
-                <Text style={styles.userNameTopText}>{name}</Text>
+                <Text style={styles.userNameTopText}>{dataApi[0]['first_name']}</Text>
             </View>
 
             {/* SECTION MENU */}
@@ -83,7 +61,7 @@ export default function HomeScreen({ navigation }) {
                         <View style={styles.textLeft}>
                             <Text style={styles.menuText}>EMAIL</Text>
                         </View>
-                        <Text style={styles.menuTextRight}>{user.email}</Text>
+                        <Text style={styles.menuTextRight}>{dataApi[0]['email']}</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -118,7 +96,7 @@ export default function HomeScreen({ navigation }) {
                 </TouchableOpacity>
 
                 {/* Logout */}
-                <TouchableOpacity style={styles.menuHeaderLogout} onPress={() => logout()}>
+                <TouchableOpacity style={styles.menuHeaderLogout} onPress={() => logoutAuth()}>
                     <View style={styles.menuSection}>
                         <View style={styles.textLeft}>
                             <Text style={styles.menuText}>LOGOUT</Text>
@@ -127,12 +105,6 @@ export default function HomeScreen({ navigation }) {
                     </View>
                 </TouchableOpacity>
             </View>
-
-            {/* For Modal */}
-
-
-
-            {/* For Modal */}
 
         </SafeAreaView>
     );

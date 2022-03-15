@@ -10,13 +10,22 @@ import {
   View,
   Image,
 } from 'react-native';
-import { fonts } from 'react-native-elements/dist/config';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/actions/authActions';
 
 const LoginScreen = ({ navigation }) => {
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const { login } = useContext(AuthContext);
+
+  const dispatch = useDispatch();
+
+  const SignIn = async (email, password) => {
+    dispatch(login(email, password))
+  }
+
   return (
+
     <SafeAreaView
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
@@ -45,15 +54,13 @@ const LoginScreen = ({ navigation }) => {
           secureTextEntry={true}
         />
 
-        <TouchableOpacity style={styles.loginButton} onPress={() => login(email, password)}>
+        <TouchableOpacity style={styles.loginButton} onPress={() => SignIn(email, password)}>
           <Text style={styles.loginButtonText}>
             LOG IN
           </Text>
         </TouchableOpacity>
 
       </View>
-
-
 
       <TouchableOpacity>
         <Text style={styles.text} onPress={() => navigation.navigate('RegisterScreen')}>

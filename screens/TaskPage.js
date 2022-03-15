@@ -20,9 +20,12 @@ import AddTaskPage from '../components/AddTaskPage';
 import EditTaskPage from '../components/EditTaskPage';
 import styles from './component.style.js';
 import ShowDetail from '../components/ShowDetail';
+import { getTaskList } from '../redux/actions/todoActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function TaskPage({navigation}) {
   // This is to manage Modal State
+  const dispatch = useDispatch();
 
   // Variable modal edit data
   const [isModalVisible1, setModalVisible1] = useState(false);
@@ -54,33 +57,29 @@ export default function TaskPage({navigation}) {
   const [urlPhoto, setUrlPhoto] = useState();
   const [priority, setPriority] = useState();
 
-  // Call firebase show data
-  let usersCollectionRef = firestore()
-    .collection('user')
-    .doc(user.uid)
-    .collection('Task');
 
+
+
+    dispatch(getTaskList())
+
+    
   // Use for update realtime data
   useEffect(() => {
-    const subscriber = usersCollectionRef.onSnapshot(querySnapshot => {
-      const dataTask = [];
+    const dataApi = await useSelector(state => state.data.todolist)
 
-      querySnapshot.forEach(documentSnapshot => {
-        dataTask.push({
-          ...documentSnapshot.data(),
-          id: documentSnapshot.id,
-        });
-      });
-      // Sort priority
-      let sortedData = dataTask.slice().sort((a, b) => b.priority - a.priority);
+    setDataTask(dataApi)
+    {dataApi.map(item => {
+       console.log(item);
+       console.log("  ")
+    })}
+
+    let sortedData = dataTask.slice().sort((a, b) => b.priority - a.priority);
       changePriorityToText(sortedData);
       setDataTask(sortedData);
       setisLoading(false);
       createChannels();
-    });
 
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
+
   }, []);
 
   if (isLoading) {
@@ -133,7 +132,7 @@ export default function TaskPage({navigation}) {
   async function deleteTasklist(userDocId) {
     const res = await firestore()
       .collection('user')
-      .doc(user.uid)
+      .doc(user)
       .collection('Task')
       .doc(userDocId)
       .delete();
@@ -145,7 +144,7 @@ export default function TaskPage({navigation}) {
     // Check condition and send to firebase
     const achiveCollection = firestore()
       .collection('user')
-      .doc(user.uid)
+      .doc(user)
       .collection('Achive');
 
     achiveCollection.add({
@@ -163,7 +162,7 @@ export default function TaskPage({navigation}) {
   return (
     <SafeAreaView
       style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
-      <ScrollView>
+      <ScrollView >
         <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
           <View style={styles.header_container}>
             {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}

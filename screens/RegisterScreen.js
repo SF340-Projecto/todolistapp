@@ -1,36 +1,43 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Input } from '../components/Input';
-import { AuthContext } from '../navigation/AuthProviders';
-import firestore from '@react-native-firebase/firestore';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { register } from '../redux/actions/authActions';
+
 const RegisterScreen = () => {
+  
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [name, setName] = useState();
+  const [first_name, setFirstName] = useState();
+  const [last_name, setLastName] = useState('');
+
+  const dispatch = useDispatch();
 
 
-  const { register } = useContext(AuthContext);
+  const registerUser = async (first_name, last_name, email, password) => {
+    dispatch(register(first_name, last_name, email, password))
+  }
 
-  const usersCollectionRef = firestore().collection('users');
-
-  const addusers = () => {
-    usersCollectionRef.add({
-      Name: name,
-      Email: email,
-    });
-  };
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>CREATE ACCOUNT</Text>
         <View style={styles.bgInput}>
-          <Text style={styles.inputText}>USERNAME</Text>
+          <Text style={styles.inputText}>First name</Text>
           <Input
             style={styles.input}
-            labelValue={name}
-            onChangeText={userName => setName(userName)}
+            labelValue={first_name}
+            onChangeText={userName => setFirstName(userName)}
+            placeholder=""
+            autoCorrect={false}
+          />
+          <Text style={styles.inputText}>Last name</Text>
+          <Input
+            style={styles.input}
+            labelValue={last_name}
+            onChangeText={userName => setLastName(userName)}
             placeholder=""
             autoCorrect={false}
           />
@@ -56,8 +63,7 @@ const RegisterScreen = () => {
           <TouchableOpacity
             style={styles.loginButton}
             onPress={() => {
-              register(email, password, name);
-              addusers();
+              registerUser(first_name, last_name,email, password);
             }}>
             <Text style={styles.loginButtonText}>SIGN UP</Text>
           </TouchableOpacity>

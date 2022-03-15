@@ -9,13 +9,20 @@ import { EventRegister } from 'react-native-event-listeners';
 import themeContext from '../config/themeContext';
 import theme from "../config/theme";
 
+//redux stuff
+import { useSelector } from 'react-redux'
+
 const Routes = () => {
+  const dataApi = useSelector(state => state.data.userLog)
+
   const {user, setUser} = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
   const onAuthStateChanged = user => {
     setUser(user);
     if (initializing) setInitializing(false);
   };
+
+
 
   const [mode, setMode] = useState(false);
 
@@ -37,7 +44,7 @@ const Routes = () => {
   return (
     <themeContext.Provider value={mode === true ? theme.dark : theme.light}>
         <NavigationContainer>
-          {user ? <AppStack /> : <AuthStack />}
+          {dataApi ? <AppStack /> : <AuthStack />}
         </NavigationContainer>
     </themeContext.Provider>
   );
