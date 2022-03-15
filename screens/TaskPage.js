@@ -20,8 +20,8 @@ import AddTaskPage from '../components/AddTaskPage';
 import EditTaskPage from '../components/EditTaskPage';
 import styles from './component.style.js';
 import ShowDetail from '../components/ShowDetail';
-import { getTaskList } from '../redux/actions/todoActions';
-import { useSelector, useDispatch } from 'react-redux';
+import {getTaskList} from '../redux/actions/todoActions';
+import {useSelector, useDispatch} from 'react-redux';
 
 export default function TaskPage({navigation}) {
   // This is to manage Modal State
@@ -32,7 +32,7 @@ export default function TaskPage({navigation}) {
 
   // For loop data from firebase
   const [isLoading, setisLoading] = useState(false);
-  const [dataTask, setDataTask] = useState([]);
+  const [dataTask, setDataTask] = useState(null);
 
   // This is to manage TextInput State
   const theme = useContext(themeContext);
@@ -57,30 +57,29 @@ export default function TaskPage({navigation}) {
   const [urlPhoto, setUrlPhoto] = useState();
   const [priority, setPriority] = useState();
 
-
-
-
-    dispatch(getTaskList())
-
+  const dataApi =  useSelector(state => state.data.todolist);
     
-  // Use for update realtime data
-  useEffect(() => {
-    const dataApi = await useSelector(state => state.data.todolist)
-
-    setDataTask(dataApi)
-    {dataApi.map(item => {
-       console.log(item);
-       console.log("  ")
-    })}
-
-    let sortedData = dataTask.slice().sort((a, b) => b.priority - a.priority);
-      changePriorityToText(sortedData);
-      setDataTask(sortedData);
-      setisLoading(false);
-      createChannels();
+       dispatch(getTaskList())
+       
+     
 
 
-  }, []);
+  // // Use for update realtime data
+  // useEffect(() => {
+
+  //   if (dataApi.length === 0 && dataTask == null ){
+  //     dispatch(getTaskList())
+  //   }
+    
+  //   setDataTask(dataApi[0]);
+    
+  //     //  let sortedData = dataApi[0].slice().sort((a, b) => b.priority - a.priority);
+  //     //  changePriorityToText(sortedData);
+  //     //  setDataTask(sortedData);
+  //     //  setisLoading(false);
+  //     //  createChannels();
+     
+  // }, []);
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -162,7 +161,7 @@ export default function TaskPage({navigation}) {
   return (
     <SafeAreaView
       style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
-      <ScrollView >
+      <ScrollView>
         <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
           <View style={styles.header_container}>
             {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
@@ -177,7 +176,7 @@ export default function TaskPage({navigation}) {
           {/**  Displays Task Data */}
 
           <FlatList
-            data={dataTask}
+            data={dataApi[0]}
             renderItem={({item}) => (
               <TouchableOpacity onPress={() => toggleModalVisibility3(item)}>
                 <View style={styles.row}>
@@ -251,8 +250,7 @@ export default function TaskPage({navigation}) {
                   transparent
                   visible={isModalVisible3}
                   presentationStyle="overFullScreen"
-                  onDismiss={toggleModalVisibility3}
-                  >
+                  onDismiss={toggleModalVisibility3}>
                   <ShowDetail
                     topicFirebase={topicFirebase}
                     priority={priority}
