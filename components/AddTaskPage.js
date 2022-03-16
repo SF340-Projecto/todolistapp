@@ -23,10 +23,15 @@ import { launchImageLibrary } from 'react-native-image-picker'; // Migration fro
 import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
 
+import {useSelector, useDispatch} from 'react-redux';
+import {addTaskList} from '../redux/actions/todoActions';
+
+
 const {width} = Dimensions.get('window');
 
 function AddTaskPage(props) {
 
+  const dispatch = useDispatch();
 
   const [selectedValue, setSelectedValue] = useState('0');
   const [isModalVisible, setModalVisible] = useState(false);
@@ -137,6 +142,20 @@ function AddTaskPage(props) {
     setisModalVisible_d(bool);
   };
 
+  const addTask = async () => {
+    console.log("Yes")
+    dispatch(addTaskList(
+      "date",
+      "priority",
+      "taskDetail",
+      "taskDate",
+      "taskDatetaskDate",
+      "timestamp",
+      "topic",
+      "urlPhoto",
+      ))
+  }
+
 
   // Open toggle add task and add data to firebase
   const toggleModalVisibility = (userDocId, check) => {
@@ -146,6 +165,7 @@ function AddTaskPage(props) {
 
     // Check condition and send to firebase
     if (topic != '' && detailTask != '') {
+     
       usersCollectionRef.add({
         timestamp: firestore.FieldValue.serverTimestamp(),
         topic: topic,
@@ -328,12 +348,18 @@ function AddTaskPage(props) {
                   style={styles.addButtonL}
                   onPress={() => {
                     setModalVisible(!isModalVisible);
+                    addTask();
+
                   }}>
                   <Text style={styles.addButtonText1}>CANCLE</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.addButtonR}
-                  onPress={toggleModalVisibility}>
+                  onPress={()=>{
+                   // toggleModalVisibility
+                    addTask();
+
+                    }}>
                   <Text style={styles.addButtonText1}>SAVE</Text>
                 </TouchableOpacity>
               </View>

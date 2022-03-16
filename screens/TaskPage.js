@@ -25,7 +25,6 @@ import {useSelector, useDispatch} from 'react-redux';
 
 export default function TaskPage({navigation}) {
   // This is to manage Modal State
-  const dispatch = useDispatch();
 
   // Variable modal edit data
   const [isModalVisible1, setModalVisible1] = useState(false);
@@ -57,29 +56,26 @@ export default function TaskPage({navigation}) {
   const [urlPhoto, setUrlPhoto] = useState();
   const [priority, setPriority] = useState();
 
-  const dataApi =  useSelector(state => state.data.todolist);
-    
-       dispatch(getTaskList())
-       
-     
+  // get data todolist and user_id
+  const dataApi = useSelector(state => state.data.todolist);
+  const user_id = useSelector(state => state.data.user[0]['_id']);
 
+  console.log(user_id);
 
-  // // Use for update realtime data
-  // useEffect(() => {
+  const dispatch = useDispatch();
+  // Use for update realtime data
+  useEffect(() => {
+    dispatch(getTaskList(user_id));
 
-  //   if (dataApi.length === 0 && dataTask == null ){
-  //     dispatch(getTaskList())
-  //   }
-    
-  //   setDataTask(dataApi[0]);
-    
-  //     //  let sortedData = dataApi[0].slice().sort((a, b) => b.priority - a.priority);
-  //     //  changePriorityToText(sortedData);
-  //     //  setDataTask(sortedData);
-  //     //  setisLoading(false);
-  //     //  createChannels();
-     
-  // }, []);
+    setDataTask(dataApi[0]);
+
+    let sortedData = dataApi[0].slice().sort((a, b) => b.priority - a.priority);
+    changePriorityToText(sortedData);
+    setDataTask(sortedData);
+    setisLoading(false);
+    createChannels();
+    console.log(dataTask)
+  }, [dispatch]);
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -176,7 +172,7 @@ export default function TaskPage({navigation}) {
           {/**  Displays Task Data */}
 
           <FlatList
-            data={dataApi[0]}
+            data={dataTask}
             renderItem={({item}) => (
               <TouchableOpacity onPress={() => toggleModalVisibility3(item)}>
                 <View style={styles.row}>
