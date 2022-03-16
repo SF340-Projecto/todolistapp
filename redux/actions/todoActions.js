@@ -1,6 +1,5 @@
 import {API_TODO, API_TODOADD} from '../types';
 import axios from 'axios';
-import {useSelector} from 'react-redux';
 
 const API_URL = 'http://10.0.2.2:4001/todos';
 
@@ -27,12 +26,9 @@ export const addTaskList =
     timestamp,
     topic,
     urlPhoto,
+    user_id
   ) =>
   (dispatch) => {
-    const user_id = useSelector(state => state.data.user[0]['_id']);
-    console.log(user_id)
-    console.log("in redux")
-
     axios
       .post(API_URL, {
         date,
@@ -43,16 +39,12 @@ export const addTaskList =
         timestamp,
         topic,
         urlPhoto,
-        user_id,
+        _id:user_id,
       })
       .then(response => {
-        console.log(response.data);
-        dispatch({type: API_TODOADD, payload: response.data});
-
         return response.data;
       })
       .catch(err => {
-        alert('Please check your input');
       });
   };
 
@@ -88,7 +80,6 @@ export const updateTaskList =
         return response.data;
       })
       .catch(err => {
-        alert('Please check your input');
       });
   };
 
@@ -99,6 +90,5 @@ export const deleteTask = _id => dispatch => {
       dispatch({type: API_TODODELETE, payload: []})
     )
     .catch(err => {
-      alert('Please check your input');
     });
 };

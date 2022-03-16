@@ -56,26 +56,30 @@ export default function TaskPage({navigation}) {
   const [urlPhoto, setUrlPhoto] = useState();
   const [priority, setPriority] = useState();
 
+
   // get data todolist and user_id
   const dataApi = useSelector(state => state.data.todolist);
   const user_id = useSelector(state => state.data.user[0]['_id']);
 
-  console.log(user_id);
+  // if(dataApi.length === 0){
+  //   setDataLength(dataApi.length)
+  // }
 
   const dispatch = useDispatch();
+
   // Use for update realtime data
   useEffect(() => {
     dispatch(getTaskList(user_id));
 
-    setDataTask(dataApi[0]);
+    // setDataTask(dataApi[0]);
+    // dataApi = dataApi.slice().sort((a, b) => b.priority - a.priority);
+    // setDataTask(sortedData);
+    // changePriorityToText(dataApi);
 
-    let sortedData = dataApi[0].slice().sort((a, b) => b.priority - a.priority);
-    changePriorityToText(sortedData);
-    setDataTask(sortedData);
     setisLoading(false);
     createChannels();
-    console.log(dataTask)
-  }, [dispatch]);
+
+  }, [dataApi]);
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -172,7 +176,7 @@ export default function TaskPage({navigation}) {
           {/**  Displays Task Data */}
 
           <FlatList
-            data={dataTask}
+            data={dataApi}
             renderItem={({item}) => (
               <TouchableOpacity onPress={() => toggleModalVisibility3(item)}>
                 <View style={styles.row}>

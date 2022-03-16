@@ -54,6 +54,8 @@ function AddTaskPage(props) {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   
+  const user_id = useSelector(state => state.data.user[0]['_id']);
+
 
   const showMode = currentMode => {
     setShow(true);
@@ -143,7 +145,7 @@ function AddTaskPage(props) {
   };
 
   const addTask = async () => {
-    console.log("Yes")
+
     dispatch(addTaskList(
       "date",
       "priority",
@@ -153,6 +155,7 @@ function AddTaskPage(props) {
       "timestamp",
       "topic",
       "urlPhoto",
+      user_id
       ))
   }
 
@@ -348,7 +351,6 @@ function AddTaskPage(props) {
                   style={styles.addButtonL}
                   onPress={() => {
                     setModalVisible(!isModalVisible);
-                    addTask();
 
                   }}>
                   <Text style={styles.addButtonText1}>CANCLE</Text>
