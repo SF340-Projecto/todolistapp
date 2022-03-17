@@ -22,7 +22,8 @@ export const register = (first_name, last_name, email, password) =>  (dispatch) 
    
    return response.data;
    
- }).catch((err)=>{alert("Please check your input")});
+ }).catch((err)=>{alert("Please check your input")
+console.log(err)});
 };
 
 

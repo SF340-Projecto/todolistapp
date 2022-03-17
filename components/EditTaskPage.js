@@ -310,6 +310,7 @@ function EditTaskPage(props) {
               style={styles.addButtonR}
               onPress={() => {
                 updateTask(props.item);
+                console.log(props.item)
                 
               }}>
               <Text style={styles.addButtonText1}>SAVE</Text>

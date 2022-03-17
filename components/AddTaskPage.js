@@ -24,7 +24,7 @@ import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {addTaskList, getTaskList} from '../redux/actions/todoActions';
+import {addTaskList} from '../redux/actions/todoActions';
 
 
 const {width} = Dimensions.get('window');
