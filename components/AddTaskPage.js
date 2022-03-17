@@ -24,7 +24,7 @@ import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {addTaskList} from '../redux/actions/todoActions';
+import {addTaskList, getTaskList} from '../redux/actions/todoActions';
 
 
 const {width} = Dimensions.get('window');
@@ -53,9 +53,9 @@ function AddTaskPage(props) {
   const [detailTask, detailTaskInput] = useState('');
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+
   
   const user_id = useSelector(state => state.data.user[0]['_id']);
-
 
   const showMode = currentMode => {
     setShow(true);
@@ -114,8 +114,8 @@ function AddTaskPage(props) {
         const filename = uri.substring(uri.lastIndexOf('/') + 1);
         const uploadUri =
           Platform.OS === 'android' ? uri.replace('file://', '') : uri;
-        const placeUrl = user + '/' + 'task' + '/' + filename;
-        //  console.log(placeUrl);
+        const placeUrl = user_id + '/' + 'task' + '/' + filename;
+        console.log(placeUrl);
 
         setUploading(true);
         setTransferred(0);
@@ -125,11 +125,10 @@ function AddTaskPage(props) {
         task.on('state_changed', snapshot => {
           setTransferred(
             Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000,
+
           );
           task.snapshot.ref.getDownloadURL().then(downloadURL => {
-            //  console.log('File available at', downloadURL);
             setUrl(downloadURL);
-            //   console.log('Checkkkk  ', downloadURL);
           });
         });
         setUploading(false);
@@ -145,18 +144,20 @@ function AddTaskPage(props) {
   };
 
   const addTask = async () => {
-
+    setModalVisible(!isModalVisible);
+    console.log(urlUser)
     dispatch(addTaskList(
-      "date",
-      "priority",
-      "taskDetail",
-      "taskDate",
-      "taskDatetaskDate",
-      "timestamp",
-      "topic",
-      "urlPhoto",
-      user_id
+      user_id,
+      mode,
+      selectedValue,
+      detailTask,
+      textDate,
+      date,
+      textTime,
+      topic,
+      urlUser,
       ))
+
   }
 
 
@@ -195,6 +196,7 @@ function AddTaskPage(props) {
       });
     }
   };
+
 
   return (
     <View>
@@ -253,15 +255,7 @@ function AddTaskPage(props) {
                 <Picker.Item label="Medium" value="2" />
                 <Picker.Item label="High" value="3" />
               </Picker>
-
-              {/* <View> */}
-              {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
-                <View>
-                  <Button onPress={showDatepicker} title="Show date picker!" />
-                </View>
-                <View>
-                  <Button onPress={showTimepicker} title="Show time picker!" />
-                </View> */}
+              
               {show && (
                 <DateTimePicker
                   testID="dateTimePicker"

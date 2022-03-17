@@ -11,8 +11,6 @@ export default function HomeScreen({ navigation }) {
     const dispatch = useDispatch();
     const dataApi = useSelector(state => state.data.user)
     
-    console.log(dataApi[0]['email'])
-
     const logoutAuth = () => {
         dispatch(logout())
       }

@@ -20,7 +20,7 @@ import AddTaskPage from '../components/AddTaskPage';
 import EditTaskPage from '../components/EditTaskPage';
 import styles from './component.style.js';
 import ShowDetail from '../components/ShowDetail';
-import {getTaskList} from '../redux/actions/todoActions';
+import {deleteTask, getTaskList} from '../redux/actions/todoActions';
 import {useSelector, useDispatch} from 'react-redux';
 
 export default function TaskPage({navigation}) {
@@ -55,11 +55,12 @@ export default function TaskPage({navigation}) {
   const [taskDetail, setTaskDetail] = useState();
   const [urlPhoto, setUrlPhoto] = useState();
   const [priority, setPriority] = useState();
-
+  const [length, setLength] = useState();
 
   // get data todolist and user_id
   const dataApi = useSelector(state => state.data.todolist);
   const user_id = useSelector(state => state.data.user[0]['_id']);
+
 
   // if(dataApi.length === 0){
   //   setDataLength(dataApi.length)
@@ -71,15 +72,13 @@ export default function TaskPage({navigation}) {
   useEffect(() => {
     dispatch(getTaskList(user_id));
 
-    // setDataTask(dataApi[0]);
-    // dataApi = dataApi.slice().sort((a, b) => b.priority - a.priority);
-    // setDataTask(sortedData);
-    // changePriorityToText(dataApi);
+     dataApi.slice().sort((a, b) => b.priority - a.priority);
+     changePriorityToText(dataApi);
 
     setisLoading(false);
     createChannels();
 
-  }, [dataApi]);
+  });
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -215,7 +214,10 @@ export default function TaskPage({navigation}) {
                         {backgroundColor: '#f33d3d'},
                       ]}
                       onPress={() => {
-                        deleteTasklist(item.id);
+                        console.log(item._id)
+                        deleteTask(item._id)
+                        //deleteTasklist(item.id);
+                        dispatch(deleteTask(item._id))
                       }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                       <MaterialCommunityIcons
@@ -269,7 +271,7 @@ export default function TaskPage({navigation}) {
                   visible={isModalVisible1}
                   presentationStyle="overFullScreen"
                   onDismiss={toggleModalVisibility1}>
-                  <EditTaskPage modalEdit={setModalVisible1} item={item.id} />
+                  <EditTaskPage modalEdit={setModalVisible1} item={item._id} />
                 </Modal>
               </TouchableOpacity>
             )}

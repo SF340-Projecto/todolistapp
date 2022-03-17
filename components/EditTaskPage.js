@@ -22,10 +22,16 @@ import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import styles from '../screens/component.style.js';
+import {useSelector, useDispatch} from 'react-redux';
+import {updateTaskList} from '../redux/actions/todoActions';
 
 const {width} = Dimensions.get('window');
 
 function EditTaskPage(props) {
+
+  const dispatch = useDispatch();
+
+
   const [topic, topicInput] = useState('');
   const [detailTask, detailTaskInput] = useState('');
   const [dataTask, setDataTask] = useState([]);
@@ -37,8 +43,6 @@ function EditTaskPage(props) {
   const [transferred, setTransferred] = useState(0);
 
   const [selectedValue, setSelectedValue] = useState('0');
-  const [isModalVisible1, setModalVisible1] = useState(false);
-  const [docID, setDocId] = useState('');
   const [show, setShow] = useState(false);
   const [image, setImage] = useState(null);
   const [date, setDate] = useState(new Date());
@@ -46,6 +50,14 @@ function EditTaskPage(props) {
   const [textDate, setText] = useState('CHOOSE DUE DATE...');
   const [textTime, setTime] = useState('CHOOSE DUE TIME...');
   const [mode, setMode] = useState('date');
+
+  const [taskId, setTaskId] = useState();
+
+  useEffect(() => {
+    
+    console.log(taskId)
+    setTaskId(props.item)
+  }, []);
 
   const changeModalVisibility = bool => {
     setisModalVisible_d(bool);
@@ -137,38 +149,32 @@ function EditTaskPage(props) {
     });
   };
 
+  
+
   // Function call to update task list
-  const updateTasklist = userDocId => {
-    // Set doc id
-    // Call firebase to update
-    if (topic != '' && detailTask != '') {
-      const userCollection1 = firestore()
-        .collection('user')
-        .doc(user)
-        .collection('Task')
-        .doc(userDocId);
-      // set new data
-      userCollection1.set({
-        timestamp: firestore.FieldValue.serverTimestamp(),
-        topic: topic,
-        taskDetail: detailTask,
-        urlPhoto: urlUser,
-        date: date,
-        textDate: textDate,
-        textTime: textTime,
-        priority: selectedValue,
-      });
-      // Set data to null
-      topicInput('');
-      detailTaskInput('');
-      setDataTask(dataTask);
-      setDocId('');
-      setUrl('');
-      setSelectedValue('0');
-    }
-    props.modalEdit(false);
+  const updateTask = userDocId => {
+
+    dispatch(updateTaskList(
+      userDocId, 
+      date,
+      selectedValue,
+      detailTask,
+      textDate,
+      textTime,
+      "data",
+      topic,
+      urlUser
+      ))
+      props.modalEdit(false);
+       topicInput('');
+       detailTaskInput('');
+       setDataTask(dataTask);
+       setDocId('');
+       setUrl('');
+       setSelectedValue('0');
 
   };
+
   console.log(props.item)
 
   return (
@@ -211,13 +217,6 @@ function EditTaskPage(props) {
           </Picker>
 
           <View>
-            {/* <Text style={styles.pickedDate}>{date.toString()}</Text>
-                        <View>
-                          <Button onPress={showDatepicker} title="Show date picker!" />
-                        </View>
-                        <View>
-                          <Button onPress={showTimepicker} title="Show time picker!" />
-                        </View> */}
             {show && (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -310,7 +309,8 @@ function EditTaskPage(props) {
             <TouchableOpacity
               style={styles.addButtonR}
               onPress={() => {
-                updateTasklist(props.item);
+                updateTask(props.item);
+                
               }}>
               <Text style={styles.addButtonText1}>SAVE</Text>
             </TouchableOpacity>

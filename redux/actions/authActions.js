@@ -8,7 +8,6 @@ export const login = (email, password) =>  (dispatch) => {
    axios.post(API_URL + 'login', {email, password}).then(response => {
 
     dispatch({ type: API_USER, payload: response.data})
-    console.log(response.data)
     
     return response.data;
     
@@ -20,7 +19,6 @@ export const register = (first_name, last_name, email, password) =>  (dispatch) 
   axios.post(API_URL + 'register', {first_name, last_name, email, password}).then(response => {
 
    dispatch({ type: API_USER, payload: response.data})
-   console.log(response.data)
    
    return response.data;
    
