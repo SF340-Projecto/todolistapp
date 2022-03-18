@@ -49,11 +49,8 @@ function EditTaskPage(props) {
 
   const [taskId, setTaskId] = useState();
 
-  useEffect(() => {
-    
-    console.log(taskId)
-    setTaskId(props.item)
-  }, []);
+  const user_id = useSelector(state => state.data.user[0]['_id']);
+  console.log(props.item)
 
   const changeModalVisibility = bool => {
     setisModalVisible_d(bool);
@@ -89,69 +86,67 @@ function EditTaskPage(props) {
   };
   
 
-  // Select image and get url firebase storage //
-  const selectImage = () => {
-    const options = {
-      maxWidth: 2000,
-      maxHeight: 2000,
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    launchImageLibrary(options, response => {
-      // Use launchImageLibrary to open image gallery
-      //console.log('Response = ', response.assets[0].uri);
-
-      if (response.didCancel) {
-        // console.log('User cancelled image picker');
-      } else if (response.error) {
-        // console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        //  console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = {uri: response.uri};
-
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        const uri = response.assets[0].uri;
-        const filename = uri.substring(uri.lastIndexOf('/') + 1);
-        const uploadUri =
-          Platform.OS === 'android' ? uri.replace('file://', '') : uri;
-        const placeUrl = user + '/' + 'task' + '/' + filename;
-        //  console.log(placeUrl);
-
-        setUploading(true);
-        setTransferred(0);
-        const task = storage().ref(placeUrl).putFile(uploadUri);
-        // set progress state
-
-        task.on('state_changed', snapshot => {
-          setTransferred(
-            Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000,
-          );
-          task.snapshot.ref.getDownloadURL().then(downloadURL => {
-            //  console.log('File available at', downloadURL);
-            setUrl(downloadURL);
-            //   console.log('Checkkkk  ', downloadURL);
-          });
-        });
-        setUploading(false);
-        Alert.alert('Photo uploaded!', 'Your photo has been uploaded');
-        setImage(null);
-        setUrl('');
-      }
-    });
+// Select image and get url firebase storage //
+const selectImage = () => {
+  const options = {
+    maxWidth: 2000,
+    maxHeight: 2000,
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
   };
+  launchImageLibrary(options, response => {
+    // Use launchImageLibrary to open image gallery
+    //console.log('Response = ', response.assets[0].uri);
 
+    if (response.didCancel) {
+      // console.log('User cancelled image picker');
+    } else if (response.error) {
+      // console.log('ImagePicker Error: ', response.error);
+    } else if (response.customButton) {
+      //  console.log('User tapped custom button: ', response.customButton);
+    } else {
+      const source = {uri: response.uri};
+
+      // You can also display the image using data:
+      // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+      const uri = response.assets[0].uri;
+      const filename = uri.substring(uri.lastIndexOf('/') + 1);
+      const uploadUri =
+        Platform.OS === 'android' ? uri.replace('file://', '') : uri;
+      const placeUrl = user_id + '/' + 'task' + '/' + filename;
+      console.log(placeUrl);
+
+      setUploading(true);
+      setTransferred(0);
+      const task = storage().ref(placeUrl).putFile(uploadUri);
+      // set progress state
+
+      task.on('state_changed', snapshot => {
+        setTransferred(
+          Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000,
+
+        );
+        task.snapshot.ref.getDownloadURL().then(downloadURL => {
+          setUrl(downloadURL);
+        });
+      });
+      setUploading(false);
+      Alert.alert('Photo uploaded!', 'Your photo has been uploaded');
+      setImage(null);
+      setUrl('');
+    }
+  });
+};
   
 
   // Function call to update task list
   const updateTask = userDocId => {
-
+    
     dispatch(updateTaskList(
-      userDocId, 
+      props.item, 
       date,
       selectedValue,
       detailTask,
@@ -161,17 +156,14 @@ function EditTaskPage(props) {
       topic,
       urlUser
       ))
+      topicInput('');
+      detailTaskInput('');
+      setDataTask(dataTask);
+      setUrl('');
+      setSelectedValue('0');
       props.modalEdit(false);
-       topicInput('');
-       detailTaskInput('');
-       setDataTask(dataTask);
-       setDocId('');
-       setUrl('');
-       setSelectedValue('0');
 
   };
-
-  console.log(props.item)
 
   return (
     <View style={styles.bg_modal}>

@@ -42,7 +42,9 @@ export const addTaskList =
         urlPhoto:urlPhoto,
       })
       .then(response => {
-        
+        //dispatch({type: API_TODOUPDATE, payload: response.data});
+        dispatch({type: API_TODODELETE, payload: []})
+
         return response.data;
       })
       .catch(err => {
@@ -63,6 +65,18 @@ export const updateTaskList =
     urlPhoto,
   ) =>
   dispatch => {
+    console.log(    _id,
+      date,
+      priority,
+      taskDetail,
+      taskDate,
+      taskDatetaskDate,
+      timestamp,
+      topic,
+      urlPhoto)
+    
+      console.log(urlPhoto)
+      
     axios
       .put(API_URL, {
         _id,
@@ -76,13 +90,14 @@ export const updateTaskList =
         urlPhoto:urlPhoto,
       })
       .then(response => {
-        dispatch({type: API_TODOUPDATE, payload: response.data});
+        dispatch({type: API_TODODELETE, payload: []})
         console.log(response.data);
 
         return response.data;
       })
       .catch(err => {
         console.log("Update fail")
+        console.log(err)
       });
   };
 

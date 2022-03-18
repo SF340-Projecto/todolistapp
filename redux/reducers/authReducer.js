@@ -32,11 +32,6 @@ export default function (state = initialState, action) {
         ...state,
         todolist: action.payload,
       };
-    case API_TODOADD:
-      return {
-        ...state,
-        todolist: action.payload,
-      };
     case API_TODOUPDATE:
       return {
         ...state,

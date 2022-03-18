@@ -51,11 +51,12 @@ export default function TaskPage({navigation}) {
   const [taskDetail, setTaskDetail] = useState();
   const [urlPhoto, setUrlPhoto] = useState();
   const [priority, setPriority] = useState();
-
+  const [length, setLength] = useState(0)
+  const [objId, setObjId] = useState()
   // get data todolist and user_id
   const dataApi = useSelector(state => state.data.todolist);
   const user_id = useSelector(state => state.data.user[0]['_id']);
-
+  
 
   // if(dataApi.length === 0){
   //   setDataLength(dataApi.length)
@@ -65,8 +66,19 @@ export default function TaskPage({navigation}) {
 
   // Use for update realtime data
   useEffect(() => {
-    dispatch(getTaskList(user_id));
-
+      if(length != dataApi.length){
+        console.log("dif")
+        console.log(length, dataApi.length)
+        setLength(dataApi.length)
+        dispatch(getTaskList(user_id));
+      } else if (length == 0){
+        dispatch(getTaskList(user_id));
+        console.log(length, dataApi.length)
+        console.log("not dif")
+      } else{
+        console.log("else")
+        console.log(length, dataApi.length)
+      }
      dataApi.slice().sort((a, b) => b.priority - a.priority);
      changePriorityToText(dataApi);
 
@@ -110,6 +122,8 @@ export default function TaskPage({navigation}) {
   // Function call to open modal edit
   const toggleModalVisibility1 = userDocId => {
     setModalVisible1(!isModalVisible1);
+    setObjId(userDocId)
+
     // Set doc id
   };
 
@@ -167,7 +181,7 @@ export default function TaskPage({navigation}) {
                         {backgroundColor: theme.buttonColor},
                       ]}
                       onPress={() => {
-                        toggleModalVisibility1(item.id);
+                        toggleModalVisibility1(item._id);
                       }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
                       <MaterialIcons name="edit" color={'black'} size={24} />
@@ -180,8 +194,7 @@ export default function TaskPage({navigation}) {
                       ]}
                       onPress={() => {
                         console.log(item._id)
-                        deleteTask(item._id)
-                        //deleteTasklist(item.id);
+
                         dispatch(deleteTask(item._id))
                       }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
@@ -236,7 +249,7 @@ export default function TaskPage({navigation}) {
                   visible={isModalVisible1}
                   presentationStyle="overFullScreen"
                   onDismiss={toggleModalVisibility1}>
-                  <EditTaskPage modalEdit={setModalVisible1} item={item._id} />
+                  <EditTaskPage modalEdit={setModalVisible1} item={objId} />
                 </Modal>
               </TouchableOpacity>
             )}
