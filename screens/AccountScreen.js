@@ -39,7 +39,7 @@ export default function HomeScreen({ navigation }) {
                         <View style={styles.textLeft}>
                             <Text style={styles.menuText}>USERNAME</Text>
                         </View>
-                        <Text style={styles.menuTextRight}>CHANGE USERNAME</Text>
+                        <Text style={styles.menuTextRight}>{dataApi[0]['first_name']}</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -77,7 +77,7 @@ export default function HomeScreen({ navigation }) {
                 <TouchableOpacity style={styles.menuHeader}>
                     <View style={styles.menuSection}>
                         <View style={styles.textLeft}>
-                            <Text style={styles.menuText}>CALENDAR</Text>
+                            <Text style={styles.menuText}>TEMPLATE</Text>
                         </View>
                         <Ionicons name="chevron-forward-outline" color={'#707070'} size={20} />
                     </View>

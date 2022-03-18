@@ -38,7 +38,6 @@ const MainScreen = ({ navigation }) => {
           
         },
       }}
-      initialRouteName="Main"
       screenOptions={{
         headerShown: false,
         tabBarStyle:{
