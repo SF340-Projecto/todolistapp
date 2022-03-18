@@ -16,8 +16,6 @@ import {ModalPickerDropdow} from '../screens/ModalPickerDropdow';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import themeContext from '../config/themeContext';
-import firestore from '@react-native-firebase/firestore';
-import { AuthContext } from '../navigation/AuthProviders';
 import PushNotification from 'react-native-push-notification';
 import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
 import * as Progress from 'react-native-progress';
@@ -47,7 +45,6 @@ function AddTaskPage(props) {
   const [date, setDate] = useState(new Date());
   const [transferred, setTransferred] = useState(0);
 
-  const { user, logout } = useContext(AuthContext);
   const [urlUser, setUrl] = useState('');
   const [topic, topicInput] = useState('');
   const [detailTask, detailTaskInput] = useState('');
@@ -78,11 +75,7 @@ function AddTaskPage(props) {
     setTime(fTime)
   };
 
-  // Call firebase show data
-  let usersCollectionRef = firestore()
-    .collection('user')
-    .doc(user)
-    .collection('Task');
+
 
   // Select image and get url firebase storage //
   const selectImage = () => {
@@ -170,16 +163,6 @@ function AddTaskPage(props) {
     // Check condition and send to firebase
     if (topic != '' && detailTask != '') {
      
-      usersCollectionRef.add({
-        timestamp: firestore.FieldValue.serverTimestamp(),
-        topic: topic,
-        taskDetail: detailTask,
-        urlPhoto: urlUser,
-        date: date,
-        textDate: textDate,
-        textTime: textTime.replace,
-        priority: selectedValue,
-      });
 
       topicInput('');
       detailTaskInput('');

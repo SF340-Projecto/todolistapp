@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { useContext, useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Input } from '../components/Input';
-import { AuthContext } from '../navigation/AuthProviders';
 import {
   SafeAreaView,
   StyleSheet,

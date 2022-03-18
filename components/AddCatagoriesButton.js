@@ -27,20 +27,11 @@ export default function AddCatagoriesButton() {
   // This is to manage TextInput State
   const [topic, topicInput] = useState('');
 
-  let CategoriesRef = firestore()
-    .collection('user')
-    .doc(user)
-    .collection('NameCategories');
+
 
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);
-    if (topic != '') {
-      CategoriesRef.add({
-        name: topic,
-        timestamp: firestore.FieldValue.serverTimestamp(),
-      });
-      topicInput('');
-    }
+
   };
 
   const cancelAdd = () => {

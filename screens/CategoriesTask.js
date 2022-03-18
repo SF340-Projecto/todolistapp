@@ -14,9 +14,6 @@ import {
   ScrollView,
   FlatList
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
-import {AuthContext} from '../navigation/AuthProviders';
-import {StackNavigator} from 'react-navigation';
 import themeContext from '../config/themeContext';
 
 const {width} = Dimensions.get('window');
@@ -39,25 +36,6 @@ export default function CategoriesTask({route, navigation}) {
 
   let usersCollectionRef = firestore().collection("user").doc(user).collection(name);
 
-  //Query Task
-  useEffect(() => {
-    const subscriber = usersCollectionRef.onSnapshot(querySnapshot => {
-      const dataTask = [];
-
-      querySnapshot.forEach(documentSnapshot => {
-        dataTask.push({
-          ...documentSnapshot.data(),
-          id: documentSnapshot.id
-        });
-      });
-
-      setDataTask(dataTask);
-
-    });
-
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
-  }, []);
  
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);

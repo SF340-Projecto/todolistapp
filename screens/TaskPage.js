@@ -9,8 +9,6 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
-import {AuthContext} from '../navigation/AuthProviders';
 import themeContext from '../config/themeContext';
 import {ScrollView} from 'react-native-gesture-handler';
 import PushNotification from 'react-native-push-notification';
@@ -36,8 +34,6 @@ export default function TaskPage({navigation}) {
   // This is to manage TextInput State
   const theme = useContext(themeContext);
 
-  // This is user data from firebase
-  const {user, logout} = useContext(AuthContext);
 
   // Variable contain value from user
 
@@ -55,7 +51,6 @@ export default function TaskPage({navigation}) {
   const [taskDetail, setTaskDetail] = useState();
   const [urlPhoto, setUrlPhoto] = useState();
   const [priority, setPriority] = useState();
-  const [length, setLength] = useState();
 
   // get data todolist and user_id
   const dataApi = useSelector(state => state.data.todolist);
@@ -126,36 +121,6 @@ export default function TaskPage({navigation}) {
     setModalVisible3(!isModalVisible3);
   };
 
-  // Delete tasklist function
-  async function deleteTasklist(userDocId) {
-    const res = await firestore()
-      .collection('user')
-      .doc(user)
-      .collection('Task')
-      .doc(userDocId)
-      .delete();
-  }
-
-  // Open toggle add task and add data to firebase
-  async function achiveTask(userDocId, topic, taskDetail) {
-    setDocId(userDocId);
-    // Check condition and send to firebase
-    const achiveCollection = firestore()
-      .collection('user')
-      .doc(user)
-      .collection('Achive');
-
-    achiveCollection.add({
-      timestamp: firestore.FieldValue.serverTimestamp(),
-      topic: topic,
-      taskDetail: taskDetail,
-      urlPhoto: urlUser,
-      date: date,
-      textDate: textDate,
-      textTime: textTime,
-    });
-    deleteTasklist(userDocId);
-  }
 
   return (
     <SafeAreaView

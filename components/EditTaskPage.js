@@ -1,7 +1,6 @@
 import React from 'react';
 import {useContext, useEffect, useState} from 'react';
 import {
-  StyleSheet,
   Modal,
   View,
   Dimensions,
@@ -17,10 +16,8 @@ import {Picker} from '@react-native-picker/picker';
 import {ModalPickerDropdow} from '../screens/ModalPickerDropdow';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
-import { AuthContext } from '../navigation/AuthProviders';
 import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
-import firestore from '@react-native-firebase/firestore';
 import styles from '../screens/component.style.js';
 import {useSelector, useDispatch} from 'react-redux';
 import {updateTaskList} from '../redux/actions/todoActions';
@@ -39,7 +36,6 @@ function EditTaskPage(props) {
   const [chooseData, setchooseData] = useState('SELECT CATEGORY...');
   const [isModalVisible_d, setisModalVisible_d] = useState(false); //
   const [uploading, setUploading] = useState(false);
-  const { user, logout } = useContext(AuthContext);
   const [transferred, setTransferred] = useState(0);
 
   const [selectedValue, setSelectedValue] = useState('0');

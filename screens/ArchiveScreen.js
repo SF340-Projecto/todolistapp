@@ -1,37 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useState, useEffect, useContext } from 'react';
-import firestore from '@react-native-firebase/firestore';
+import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
-import { AuthContext } from '../navigation/AuthProviders';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 export default function ArchiveScreen() {
+  
   const [dataTask, setDataTask] = useState([]);
-  const { user } = useContext(AuthContext);
 
-  let usersCollectionRef = firestore()
-    .collection('user')
-    .doc(user)
-    .collection('Achive');
-
-  useEffect(() => {
-    const subscriber = usersCollectionRef.onSnapshot(querySnapshot => {
-      const dataTask = [];
-
-      querySnapshot.forEach(documentSnapshot => {
-        dataTask.push({
-          ...documentSnapshot.data(),
-          id: documentSnapshot.id,
-        });
-      });
-
-      setDataTask(dataTask);
-    });
-
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
-  }, []);
 
   return (
     <View style={styles.body}>

@@ -15,9 +15,6 @@ import {
   FlatList,
 } from 'react-native';
 import themeContext from '../config/themeContext';
-
-import firestore from '@react-native-firebase/firestore';
-import { AuthContext } from '../navigation/AuthProviders';
 import AddCatagoriesButton from '../components/AddCatagoriesButton';
 
 const numColumns = 2
@@ -26,31 +23,8 @@ const WIDTH = Dimensions.get('window').width
 const Categories = ({ navigation }) => {
   const theme = useContext(themeContext);
   const [dataTask, setDataTask] = useState([]);
-  const { user } = useContext(AuthContext);
 
-  let CategoriesRef = firestore()
-    .collection('user')
-    .doc(user)
-    .collection('NameCategories')
-    .orderBy('timestamp', 'desc');
 
-  useEffect(() => {
-    const subscriber = CategoriesRef.onSnapshot(querySnapshot => {
-      const dataTask = [];
-
-      querySnapshot.forEach(documentSnapshot => {
-        dataTask.push({
-          ...documentSnapshot.data(),
-          id: documentSnapshot.id,
-        });
-      });
-
-      setDataTask(dataTask);
-    });
-
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
-  }, []);
 
   const formatData = (dataTask, numColumns) => {
     const totalRows = Math.floor(dataTask.length / numColumns)

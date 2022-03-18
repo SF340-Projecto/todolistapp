@@ -16,7 +16,8 @@ const RegisterScreen = () => {
   const dispatch = useDispatch();
 
 
-  const registerUser = async (first_name, last_name, email, password) => {
+  const registerUser = async () => {
+    console.log(first_name, last_name, email, password)
     dispatch(register(first_name, last_name, email, password))
   }
 
