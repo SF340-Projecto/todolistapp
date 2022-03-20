@@ -3,10 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useSelector, useDispatch} from 'react-redux';
 
 export default function ArchiveScreen() {
   
   const [dataTask, setDataTask] = useState([]);
+
+  const dataApi = useSelector(state => state.data.todolist);
+
+  const dispatch = useDispatch();
 
 
   return (
@@ -15,10 +20,13 @@ export default function ArchiveScreen() {
         <Text style={styles.headerText}>ARCHIVE TASK</Text>
       </View>
       <FlatList
-        data={dataTask}
+        data={dataApi}
         renderItem={({ item }) => (
-
+          
           <View style={styles.taskContainer}>
+            {/* check achive or not */}
+            {item.achive === true && (
+              <View>
             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10, }}>
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <FontAwesome name="circle" color={'#707070'} size={13} />
@@ -43,6 +51,8 @@ export default function ArchiveScreen() {
                 <FontAwesome name="bookmark" color={'#E47434'} size={30} />
               </TouchableOpacity>
             </View>
+            </View>
+          )}
           </View>
         )}
 

@@ -18,7 +18,7 @@ import AddTaskPage from '../components/AddTaskPage';
 import EditTaskPage from '../components/EditTaskPage';
 import styles from './component.style.js';
 import ShowDetail from '../components/ShowDetail';
-import {deleteTask, getTaskList} from '../redux/actions/todoActions';
+import {deleteTask, getTaskList, achiveTask} from '../redux/actions/todoActions';
 import {useSelector, useDispatch} from 'react-redux';
 
 export default function TaskPage({navigation}) {
@@ -79,6 +79,7 @@ export default function TaskPage({navigation}) {
         console.log("else")
         console.log(length, dataApi.length)
       }
+
      dataApi.slice().sort((a, b) => b.priority - a.priority);
      changePriorityToText(dataApi);
 
@@ -157,13 +158,17 @@ export default function TaskPage({navigation}) {
             data={dataApi}
             renderItem={({item}) => (
               <TouchableOpacity onPress={() => toggleModalVisibility3(item)}>
-                <View style={styles.row}>
+                {/* check achive or not */}
+                {item.achive === false && (
+                <View>
+
+                  <View style={styles.row}>
                   <Image
                     style={styles.tinyLogo}
                     source={{
                       uri: item.urlPhoto,
                     }}
-                  />
+                    />
                   <Text
                     style={[
                       styles.taskText,
@@ -194,7 +199,7 @@ export default function TaskPage({navigation}) {
                       ]}
                       onPress={() => {
                         console.log(item._id)
-
+                        
                         dispatch(deleteTask(item._id))
                       }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
@@ -202,7 +207,7 @@ export default function TaskPage({navigation}) {
                         name="trash-can"
                         color={'black'}
                         size={24}
-                      />
+                        />
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -211,14 +216,14 @@ export default function TaskPage({navigation}) {
                         {backgroundColor: '#52a336'},
                       ]}
                       onPress={() => {
-                        achiveTask(item.id, item.topic, item.taskDetail);
+                        dispatch(achiveTask(item._id))
                       }}>
                       {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                       <MaterialCommunityIcons
                         name="check-circle-outline"
                         color={'black'}
                         size={24}
-                      />
+                        />
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -226,11 +231,11 @@ export default function TaskPage({navigation}) {
                 {/*Modal for show detail */}
 
                 <Modal
-                  animationType="slide"
-                  transparent
-                  visible={isModalVisible3}
-                  presentationStyle="overFullScreen"
-                  onDismiss={toggleModalVisibility3}>
+                animationType="slide"
+                transparent
+                visible={isModalVisible3}
+                presentationStyle="overFullScreen"
+                onDismiss={toggleModalVisibility3}>
                   <ShowDetail
                     topicFirebase={topicFirebase}
                     priority={priority}
@@ -239,18 +244,20 @@ export default function TaskPage({navigation}) {
                     taskDetail={taskDetail}
                     urlPhoto={urlPhoto}
                     setModalVisible3={setModalVisible3}
-                  />
+                    />
                 </Modal>
 
                 {/*Modal for edit task */}
                 <Modal
-                  animationType="slide"
-                  transparent
-                  visible={isModalVisible1}
-                  presentationStyle="overFullScreen"
-                  onDismiss={toggleModalVisibility1}>
+                animationType="slide"
+                transparent
+                visible={isModalVisible1}
+                presentationStyle="overFullScreen"
+                onDismiss={toggleModalVisibility1}>
                   <EditTaskPage modalEdit={setModalVisible1} item={objId} />
                 </Modal>
+            </View>  
+              )}
               </TouchableOpacity>
             )}
           />

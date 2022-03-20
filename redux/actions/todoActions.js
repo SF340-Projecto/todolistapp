@@ -65,17 +65,6 @@ export const updateTaskList =
     urlPhoto,
   ) =>
   dispatch => {
-    console.log(    _id,
-      date,
-      priority,
-      taskDetail,
-      taskDate,
-      taskDatetaskDate,
-      timestamp,
-      topic,
-      urlPhoto)
-    
-      console.log(urlPhoto)
       
     axios
       .put(API_URL, {
@@ -100,6 +89,25 @@ export const updateTaskList =
         console.log(err)
       });
   };
+
+  export const achiveTask = _id => dispatch => {
+    axios
+      .put(API_URL, {
+        _id,
+        achive: true
+      })
+      .then(response => {
+        dispatch({type: API_TODODELETE, payload: []})
+        console.log(response.data);
+
+        return response.data;
+      })
+      .catch(err => {
+        console.log("Update fail")
+        console.log(err)
+      });
+  };
+
 
 export const deleteTask = _id => dispatch => {
   axios
