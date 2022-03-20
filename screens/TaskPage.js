@@ -79,7 +79,7 @@ export default function TaskPage({navigation}) {
         console.log("else")
         console.log(length, dataApi.length)
       }
-
+      console.log(dataApi)
      dataApi.slice().sort((a, b) => b.priority - a.priority);
      changePriorityToText(dataApi);
 
@@ -254,7 +254,12 @@ export default function TaskPage({navigation}) {
                 visible={isModalVisible1}
                 presentationStyle="overFullScreen"
                 onDismiss={toggleModalVisibility1}>
-                  <EditTaskPage modalEdit={setModalVisible1} item={objId} />
+                  <EditTaskPage 
+                  urlPhoto={urlPhoto}
+                  modalEdit={setModalVisible1} 
+                  item={objId}
+                  
+                   />
                 </Modal>
             </View>  
               )}
