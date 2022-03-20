@@ -21,13 +21,13 @@ import storage from '@react-native-firebase/storage';
 import styles from '../screens/component.style.js';
 import {useSelector, useDispatch} from 'react-redux';
 import {updateTaskList} from '../redux/actions/todoActions';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const {width} = Dimensions.get('window');
 
 function EditTaskPage(props) {
 
   const dispatch = useDispatch();
-
+  const url = props.urlP
 
   const [topic, topicInput] = useState('');
   const [detailTask, detailTaskInput] = useState('');
@@ -159,7 +159,7 @@ const selectImage = () => {
       topicInput('');
       detailTaskInput('');
       setDataTask(dataTask);
-      setUrl('');
+      setUrl();
       setSelectedValue('0');
       props.modalEdit(false);
 
@@ -168,6 +168,15 @@ const selectImage = () => {
   return (
     <View style={styles.bg_modal}>
       <View style={styles.paper_madal}>
+      <View style={styles.closeDetailContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                props.modalEdit(false);
+              }}
+              >
+              <FontAwesome name="close" color={'white'} size={18} />
+            </TouchableOpacity>
+          </View>
         <ScrollView>
           <Text style={styles.text_normal}>EDIT TASK</Text>
           <View style={{alignItems: 'center'}}>
@@ -190,19 +199,21 @@ const selectImage = () => {
               onChangeText={detailTask => detailTaskInput(detailTask)}
             />
           </View>
-
-          <Text style={styles.text_normal}>Priority : </Text>
+          <View style={styles.priority}>
+            <Text style={styles.text_normal}>Priority : </Text>
           <Picker
             selectedValue={selectedValue}
-            style={{height: 50, width: 300}}
+            style={styles.priority_select}
             onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
+            setSelectedValue(itemValue)
             }>
             <Picker.Item label="None" value="0" />
             <Picker.Item label="Low" value="1" />
             <Picker.Item label="Medium" value="2" />
             <Picker.Item label="High" value="3" />
           </Picker>
+          </View>
+          
 
           <View>
             {show && (
@@ -285,15 +296,7 @@ const selectImage = () => {
               </View>
             ) : null}
           </View>
-          <View style={styles.style_flex_button}>
-            <TouchableOpacity
-              style={styles.addButtonL}
-              onPress={() => {
-                props.modalEdit(false);
-              }}>
-              <Text style={styles.addButtonText1}>CANCEL</Text>
-            </TouchableOpacity>
-
+          <View style={{alignItems:'center'}}>
             <TouchableOpacity
               style={styles.addButtonR}
               onPress={() => {
