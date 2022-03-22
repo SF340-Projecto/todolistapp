@@ -83,7 +83,6 @@ const RegisterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   button_wrapper: {
     flexDirection: 'row',
-    
   },
   inputText: {
     color: '#fff',
@@ -150,10 +149,9 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    padding: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    
+    paddingVertical: 90,
   },
 
   text: {
