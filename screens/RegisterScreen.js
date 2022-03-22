@@ -6,7 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { register } from '../redux/actions/authActions';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
   
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -60,20 +60,31 @@ const RegisterScreen = () => {
             secureTextEntry={true}
           />
 
-
+          <View style={styles.button_wrapper}>
           <TouchableOpacity
             style={styles.loginButton}
             onPress={() => {
               registerUser(first_name, last_name,email, password);
             }}>
-            <Text style={styles.loginButtonText}>SIGN UP</Text>
+            <Text style={styles.loginButtonText}>CREATE</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.loginButtonText}>BACK</Text>
+          </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ScrollView>
   );
 };
 const styles = StyleSheet.create({
+  button_wrapper: {
+    flexDirection: 'row',
+    
+  },
   inputText: {
     color: '#fff',
     fontSize: 18,
@@ -83,7 +94,7 @@ const styles = StyleSheet.create({
   },
   bgInput: {
     backgroundColor: '#25ced1',
-    height: 380,
+    height: 430,
     width: 310,
     borderRadius: 20,
     justifyContent: 'center',
@@ -117,9 +128,10 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   loginButton: {
+    marginHorizontal: 14,
     marginVertical: 20,
     backgroundColor: '#fff',
-    width: 125,
+    width: 110,
     height: 40,
     borderRadius: 20,
     shadowColor: "#000000",
