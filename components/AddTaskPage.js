@@ -81,7 +81,7 @@ function AddTaskPage(props) {
 
   // Select image and get url firebase storage //
   const selectImage = () => {
-    setCheckPic(true)
+    //setCheckPic(true)
     const options = {
       maxWidth: 2000,
       maxHeight: 2000,
@@ -140,7 +140,7 @@ function AddTaskPage(props) {
   };
 
   const addTask = async () => {
-    setCheckPic(false);
+    //setCheckPic(false);
     setModalVisible(!isModalVisible);
     console.log(urlUser)
     dispatch(addTaskList(

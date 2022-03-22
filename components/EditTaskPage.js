@@ -32,7 +32,7 @@ function EditTaskPage(props) {
   const [topic, topicInput] = useState('');
   const [detailTask, detailTaskInput] = useState('');
   const [dataTask, setDataTask] = useState([]);
-  const [urlUser, setUrl] = useState('');
+  const [urlUser, setUrl] = useState('https://www.unityhighschool.org/wp-content/uploads/2014/08/default-placeholder.png');
   const [chooseData, setchooseData] = useState('SELECT CATEGORY...');
   const [isModalVisible_d, setisModalVisible_d] = useState(false); //
   const [uploading, setUploading] = useState(false);
@@ -48,6 +48,8 @@ function EditTaskPage(props) {
   const [mode, setMode] = useState('date');
 
   const [taskId, setTaskId] = useState();
+
+  // const [checkPic, setCheckPic] = useState(false);
 
   const user_id = useSelector(state => state.data.user[0]['_id']);
   console.log(props.item)
@@ -159,7 +161,7 @@ const selectImage = () => {
       topicInput('');
       detailTaskInput('');
       setDataTask(dataTask);
-      setUrl();
+      setUrl('https://www.unityhighschool.org/wp-content/uploads/2014/08/default-placeholder.png');
       setSelectedValue('0');
       props.modalEdit(false);
 
@@ -279,10 +281,10 @@ const selectImage = () => {
           <Text style={styles.text_normal}>ADD PICTURE</Text>
           <View style={{alignItems: 'center'}}>
             <TouchableOpacity onPress={selectImage}>
-              <Image
-                style={styles.logoPic}
-                source={require('../screens/img/picture.png')}
-              />
+            <Image
+                    style={styles.logoPic}
+                    source={{uri: urlUser}}
+                  />
             </TouchableOpacity>
           </View>
 

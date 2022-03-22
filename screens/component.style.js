@@ -195,7 +195,6 @@ export default StyleSheet.create({
       },
       imageContainer: {
         marginTop: 30,
-        marginBottom: 50,
         alignItems: 'center',
       },
       progressBarContainer: {
@@ -271,11 +270,11 @@ export default StyleSheet.create({
         flexDirection: 'row',
       },
       logoPic: {
-        width: 250,
-        height: 250,
+        width: 230,
+        height: 200,
         resizeMode: 'stretch',
         marginTop:10,
-        borderRadius:20,
+        borderRadius:20
       },
       addButtonL: {
         backgroundColor: '#707070',
