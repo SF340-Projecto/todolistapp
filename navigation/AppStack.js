@@ -10,6 +10,7 @@ import CategoriesTask from '../screens/CategoriesTask';
 import AccountScreen from '../screens/AccountScreen'
 import { NavigationContainer } from '@react-navigation/native';
 import ArchiveScreen from '../screens/ArchiveScreen';
+import CalendarScreen from '../screens/CalendarScreen';
 
 const Stack = createStackNavigator();
 
@@ -68,6 +69,11 @@ function AppStack() {
       <Stack.Screen
         name="ArchiveTask"
         component={ArchiveScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Calendar"
+        component={CalendarScreen}
         options={{ headerShown: false }}
       />
 

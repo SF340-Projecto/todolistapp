@@ -1,5 +1,5 @@
 // import React from 'react';
-import React, {useState , useContext} from "react";
+import React, { useState, useContext } from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,6 +9,8 @@ import TaskPage from './TaskPage';
 import CategoriesScreen from "./CategoriesScreen";
 import ThemeScreen from './ThemeScreen';
 import AccountScreen from './AccountScreen'
+import CalendarScreen from "./CalendarScreen";
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import themeContext from '../config/themeContext';
 
@@ -29,21 +31,21 @@ const MainScreen = ({ navigation }) => {
         labelStyle: {
           fontSize: 16,
           paddingBottom: 7,
-          
+
           fontWeight: 'bold',
         },
         style: {
           height: 67 + insets.bottom,
           paddingTop: 0.5,
-          
+
         },
       }}
       screenOptions={{
         headerShown: false,
-        tabBarStyle:{
+        tabBarStyle: {
           height: 67 + insets.bottom,
-          
-          
+
+
         },
       }}
     >
@@ -51,7 +53,7 @@ const MainScreen = ({ navigation }) => {
         name='Task'
         component={TaskPage}
         options={{
-          tabBarLabel:() => {return null},
+          tabBarLabel: () => { return null },
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={30} />
           ),
@@ -61,7 +63,7 @@ const MainScreen = ({ navigation }) => {
         name='Categories'
         component={CategoriesScreen}
         options={{
-          tabBarLabel:() => {return null},
+          tabBarLabel: () => { return null },
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="category" color={color} size={30} />
           ),
@@ -77,16 +79,29 @@ const MainScreen = ({ navigation }) => {
           ),
         }}
       /> */}
+
+      <Tab.Screen
+        name='Calendar'
+        component={CalendarScreen}
+        options={{
+          tabBarLabel: () => { return null },
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="calendar" color={color} size={size} />
+          ),
+        }}
+      />
+
       <Tab.Screen
         name='AccountScreen'
         component={AccountScreen}
         options={{
-          tabBarLabel:() => {return null},
+          tabBarLabel: () => { return null },
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="user-alt" color={color} size={size} />
           ),
         }}
       />
+
     </Tab.Navigator>
   )
 };
