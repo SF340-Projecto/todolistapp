@@ -1,8 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Text, View, Button, Switch, StyleSheet, TouchableOpacity, SafeAreaView, Image, Modal } from 'react-native';
+import React from 'react';
+import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { logout } from '../redux/actions/authActions';
+import styles from '../css/AccountScreen';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -107,84 +108,3 @@ export default function HomeScreen({ navigation }) {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    textLeft: {
-        flex: 1,
-    },
-    menuSection: {
-        flexDirection: 'row',
-    },
-    menuText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#707070',
-    },
-    menuTextRight: {
-        fontSize: 14,
-        color: '#707070',
-
-    },
-    menuHeader: {
-        padding: 17,
-        backgroundColor: '#E5F1F1',
-        width: '100%',
-        borderBottomWidth: 1,
-        borderColor: "#707070",
-    },
-    menuHeaderLogout: {
-        padding: 17,
-        backgroundColor: '#E5F1F1',
-        width: '100%',
-    },
-    menuContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        marginTop: 10,
-        width: '100%',
-    },
-    body: {
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-    },
-    headerContainer: {
-        height: 75,
-        backgroundColor: '#25ced1',
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    headerText: {
-        color: '#FFFFFF',
-        fontWeight: 'bold',
-        fontSize: 24,
-    },
-    userProfileBg: {
-        marginTop: 20,
-        backgroundColor: '#E5F1F1',
-        width: 100,
-        height: 100,
-        borderRadius: 100,
-        alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: "#000000",
-        shadowOpacity: 5,
-        shadowRadius: 5,
-        elevation: 5,
-    },
-    userLogo: {
-        width: 60,
-        height: 60,
-    },
-    userNameTopContainer: {
-        margin: 20,
-    },
-    userNameTopText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-});

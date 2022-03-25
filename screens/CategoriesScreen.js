@@ -1,21 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import {
-  Button,
   SafeAreaView,
-  StyleSheet,
-  Modal,
   View,
-  TextInput,
   Dimensions,
   Text,
   TouchableOpacity,
-  Alert,
   FlatList,
 } from 'react-native';
 import themeContext from '../config/themeContext';
 import AddCatagoriesButton from '../components/AddCatagoriesButton';
+import styles from '../css/categoryScreen';
 
 const numColumns = 2
 const WIDTH = Dimensions.get('window').width
@@ -80,54 +75,5 @@ const Categories = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-// These are user defined styles
-const styles = StyleSheet.create({
-  itemInvisible: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    elevation: 0,
-  },  
-  row: {
-
-    justifyContent: 'space-around'
-  },
-  body: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
-  header: {
-    height: 75,
-    backgroundColor: '#25ced1',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 24,
-  },
-  categorieContainer: {
-    elevation: 5,
-    padding: 10,
-    backgroundColor: '#FFFFFF',
-    width: 150,
-    height: 130,
-    margin: 15,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 10,
-    borderColor: '#25ced1'
-  },
-  categorieText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: 'orange'
-  },
-});
 
 export default Categories;
