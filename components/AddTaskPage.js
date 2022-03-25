@@ -11,6 +11,7 @@ import {
   TouchableHighlight,
   Dimensions,
   Alert,
+
 } from 'react-native';
 import {ModalPickerDropdow} from '../screens/ModalPickerDropdow';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -20,10 +21,10 @@ import PushNotification from 'react-native-push-notification';
 import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
 import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector, useDispatch} from 'react-redux';
 import {addTaskList} from '../redux/actions/todoActions';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const {width} = Dimensions.get('window');
 
@@ -45,12 +46,13 @@ function AddTaskPage(props) {
   const [date, setDate] = useState(new Date());
   const [transferred, setTransferred] = useState(0);
 
-  const [urlUser, setUrl] = useState('');
+  const [urlUser, setUrl] = useState('https://www.unityhighschool.org/wp-content/uploads/2014/08/default-placeholder.png');
   const [topic, topicInput] = useState('');
   const [detailTask, detailTaskInput] = useState('');
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
 
+  const [checkPic, setCheckPic] = useState(false);
   
   const user_id = useSelector(state => state.data.user[0]['_id']);
 
@@ -79,6 +81,7 @@ function AddTaskPage(props) {
 
   // Select image and get url firebase storage //
   const selectImage = () => {
+    //setCheckPic(true)
     const options = {
       maxWidth: 2000,
       maxHeight: 2000,
@@ -86,7 +89,8 @@ function AddTaskPage(props) {
         skipBackup: true,
         path: 'images',
       },
-    };
+    }
+    
     launchImageLibrary(options, response => {
       // Use launchImageLibrary to open image gallery
       //console.log('Response = ', response.assets[0].uri);
@@ -99,7 +103,6 @@ function AddTaskPage(props) {
         //  console.log('User tapped custom button: ', response.customButton);
       } else {
         const source = {uri: response.uri};
-
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
@@ -137,6 +140,7 @@ function AddTaskPage(props) {
   };
 
   const addTask = async () => {
+    //setCheckPic(false);
     setModalVisible(!isModalVisible);
     console.log(urlUser)
     dispatch(addTaskList(
@@ -166,7 +170,7 @@ function AddTaskPage(props) {
 
       topicInput('');
       detailTaskInput('');
-      setUrl('');
+      setUrl('https://www.unityhighschool.org/wp-content/uploads/2014/08/default-placeholder.png');
       setSelectedValue('0');
 
       PushNotification.localNotificationSchedule({
@@ -195,6 +199,7 @@ function AddTaskPage(props) {
         </View>
       </View>
       {/** This is our modal component containing textinput and a button */}
+
       <Modal
         animationType="slide"
         transparent
@@ -203,7 +208,16 @@ function AddTaskPage(props) {
         onDismiss={toggleModalVisibility}>
         <View style={styles.bg_modal}>
           <View style={styles.paper_madal}>
+          <View style={styles.closeDetailContainer}>
+            <TouchableOpacity
+              onPress={() => {setModalVisible(!isModalVisible)}}
+              >
+              <FontAwesome name="close" color={'white'} size={18} />
+            </TouchableOpacity>
+          </View>
             <ScrollView>
+            
+            
               <Text style={styles.text_normal}>ADD TASK</Text>
               <View style={{alignItems: 'center'}}>
                 <TextInput
@@ -226,18 +240,23 @@ function AddTaskPage(props) {
                 />
               </View>
 
-              <Text style={styles.text_normal}>Priority : </Text>
+              <View style={styles.priority}>
+                <Text style={styles.text_normal}>Priority : </Text>
               <Picker
-                selectedValue={selectedValue}
-                style={{height: 50, width: 300}}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSelectedValue(itemValue)
-                }>
-                <Picker.Item label="None" value="0" />
-                <Picker.Item label="Low" value="1" />
-                <Picker.Item label="Medium" value="2" />
-                <Picker.Item label="High" value="3" />
-              </Picker>
+                    selectedValue={selectedValue}
+                    style={styles.priority_select}
+                    onValueChange={(itemValue, itemIndex) =>
+                      setSelectedValue(itemValue)}>
+
+                    <Picker.Item label="None" value="0" />
+                    <Picker.Item label="Low" value="1" />
+                    <Picker.Item label="Medium" value="2" />
+                    <Picker.Item label="High" value="3" />
+                  </Picker>
+              </View>
+
+              
+              
               
               {show && (
                 <DateTimePicker
@@ -304,41 +323,36 @@ function AddTaskPage(props) {
               {/* </View> */}
               <Text style={styles.text_normal}>ADD PICTURE</Text>
               <View style={{alignItems: 'center'}}>
-                <TouchableOpacity onPress={selectImage}>
-                  <Image
+                <TouchableOpacity            
+                onPress={selectImage}>
+                <Image
                     style={styles.logoPic}
-                    source={require('../screens/img/picture.png')}
+                    source={{uri: urlUser}}
                   />
+              <View style={{alignItems:'center'}}>
+                </View>
                 </TouchableOpacity>
               </View>
+                
 
+              
               <View style={styles.imageContainer}>
                 {image !== null ? (
                   <Image source={{uri: image.uri}} style={styles.imageBox} />
                 ) : null}
                 {uploading ? (
                   <View style={styles.progressBarContainer}>
-                    <Progress.Bar progress={transferred} width={300} />
+                    <Progress.Bar progress={transferred} width={300} 
+                   
+                    />
                   </View>
                 ) : null}
               </View>
 
-              <View style={styles.style_flex_button}>
-                <TouchableOpacity
-                  style={styles.addButtonL}
-                  onPress={() => {
-                    setModalVisible(!isModalVisible);
-
-                  }}>
-                  <Text style={styles.addButtonText1}>CANCLE</Text>
-                </TouchableOpacity>
+              <View style={{alignItems:'center'}}>
                 <TouchableOpacity
                   style={styles.addButtonR}
-                  onPress={()=>{
-                   // toggleModalVisibility
-                    addTask();
-
-                    }}>
+                  onPress={()=>{addTask(); }}>
                   <Text style={styles.addButtonText1}>SAVE</Text>
                 </TouchableOpacity>
               </View>
@@ -346,6 +360,7 @@ function AddTaskPage(props) {
           </View>
         </View>
       </Modal>
+
     </View>
   );
 }
@@ -387,6 +402,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom:10
   },
   showDetailTaskBody: {
     flex: 1,
@@ -397,6 +413,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 7,
     padding: 5,
     borderRadius: 10,
+  },
+  addButtonIcon1:{
+    borderRadius: 10,
+    alignItems:'center',
+    backgroundColor:'red'
   },
   buttonContainerIcon: {
     flexDirection: 'row',
@@ -553,8 +574,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   imageContainer: {
-    marginTop: 30,
-    marginBottom: 50,
     alignItems: 'center',
   },
   progressBarContainer: {
@@ -630,8 +649,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   logoPic: {
-    width: 250,
-    height: 250,
+    width: 230,
+    height: 200,
+    resizeMode: 'stretch',
+    marginBottom:20,
+    marginTop:10,
+    borderRadius:20
+
   },
   addButtonL: {
     backgroundColor: '#707070',
@@ -672,7 +696,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     textAlign: 'center',
+    
   },
+  priority:{
+    flexDirection:'row',
+    paddingTop:10
+
+ 
+  },
+  priority_select:{
+    paddingLeft:50,
+    height:10,
+    width:300,
+    marginVertical: -7,
+    
+  },
+
 });
 
 export default AddTaskPage;

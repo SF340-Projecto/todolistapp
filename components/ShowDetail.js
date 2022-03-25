@@ -14,6 +14,7 @@ function ShowDetail(props) {
     <View style={styles.bg_modal}>
       <View style={styles.paper_madal}>
         <ScrollView style={styles.showDetailTaskBody}>
+          
           <View style={styles.closeDetailContainer}>
             <TouchableOpacity
               onPress={() => {
@@ -21,7 +22,7 @@ function ShowDetail(props) {
               }}>
               <FontAwesome name="close" color={'white'} size={18} />
             </TouchableOpacity>
-          </View>
+          </View> 
           {/* Header Topic */}
           <View style={{flexDirection: 'row', marginVertical: 20}}>
             <View style={styles.headerShowTaskContainer}>

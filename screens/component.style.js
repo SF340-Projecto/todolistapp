@@ -29,15 +29,6 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         color: '#000',
       },
-      closeDetailContainer: {
-        backgroundColor: 'red',
-        width: 30,
-        height: 30,
-        borderWidth: 2,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
       showDetailTaskBody: {
         flex: 1,
         flexDirection: 'column',
@@ -204,7 +195,6 @@ export default StyleSheet.create({
       },
       imageContainer: {
         marginTop: 30,
-        marginBottom: 50,
         alignItems: 'center',
       },
       progressBarContainer: {
@@ -280,8 +270,11 @@ export default StyleSheet.create({
         flexDirection: 'row',
       },
       logoPic: {
-        width: 250,
-        height: 250,
+        width: 230,
+        height: 200,
+        resizeMode: 'stretch',
+        marginTop:10,
+        borderRadius:20
       },
       addButtonL: {
         backgroundColor: '#707070',
@@ -294,7 +287,7 @@ export default StyleSheet.create({
         shadowOpacity: 5,
         shadowRadius: 5,
         elevation: 5,
-        marginBottom: 20,
+
       },
       addButtonR: {
         backgroundColor: '#25ced1',
@@ -307,7 +300,7 @@ export default StyleSheet.create({
         shadowOpacity: 5,
         shadowRadius: 5,
         elevation: 5,
-        marginBottom: 20,
+        marginBottom: 10,
       },
       style_flex_button: {
         flex: 1,
@@ -322,5 +315,27 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
         textAlign: 'center',
+      },
+      priority:{
+        flexDirection:'row',
+        paddingTop:10
+ 
+      },
+      priority_select:{
+        paddingLeft:50,
+        height:10,
+        width:300,
+        marginVertical: -7,
+        
+      },
+      closeDetailContainer: {
+        backgroundColor: 'red',
+        width: 30,
+        height: 30,
+        borderWidth: 2,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom:10
       },
 });

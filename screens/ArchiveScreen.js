@@ -23,35 +23,40 @@ export default function ArchiveScreen() {
         data={dataApi}
         renderItem={({ item }) => (
           
+
+          
           <View style={styles.taskContainer}>
             {/* check achive or not */}
             {item.achive === true && (
-              <View>
-            <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10, }}>
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <FontAwesome name="circle" color={'#707070'} size={13} />
+                  <View>
+                <View style={{ flexDirection: 'row',}}>
+                    <FontAwesome name="circle" style={styles.buttoncircle} />
+                    <Text style={styles.taskText}>{item.topic}</Text>
+                    
+                    <View style={styles.buttonContainerIcon}>
+                      <TouchableOpacity style={[styles.addButtonIcon]} >
+                        {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
+                        <FontAwesome name="star" color={'#DEC129'} size={25} />
+                      </TouchableOpacity>
+
+                      <TouchableOpacity style={[styles.addButtonIcon]} >
+                        {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
+                        <MaterialCommunityIcons name="check-circle-outline" color={'#52A336'} size={25} />
+                      </TouchableOpacity>
+
+                      <TouchableOpacity style={[styles.addButtonIcon]} >
+                        {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
+                        <FontAwesome name="bookmark" color={'#E47434'} size={25} />
+                    </TouchableOpacity> 
+                </View>
+                </View>
+                <View style={[styles.contentline]}>
+                  <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
               </View>
-              <Text style={styles.taskText}>{item.topic}</Text>
 
-            </View>
-
-            <View style={styles.buttonContainerIcon}>
-              <TouchableOpacity style={[styles.addButtonIcon, ]} >
-                {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
-                <FontAwesome name="star" color={'#DEC129'} size={30} />
-              </TouchableOpacity>
-
-              <TouchableOpacity style={[styles.addButtonIcon]} >
-                {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
-                <MaterialCommunityIcons name="check-circle-outline" color={'#52A336'} size={30} />
-              </TouchableOpacity>
-
-              <TouchableOpacity style={[styles.addButtonIcon]} >
-                {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
-                <FontAwesome name="bookmark" color={'#E47434'} size={30} />
-              </TouchableOpacity>
-            </View>
-            </View>
+                
+                </View>
+                
           )}
           </View>
         )}
@@ -64,18 +69,26 @@ export default function ArchiveScreen() {
 const styles = StyleSheet.create({
   addButtonIcon: {
     marginHorizontal: 5,
+    marginVertical:-10,
+    marginTop:-3,
+
+    
    
   },
   buttonContainerIcon: {
+    flex:1,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '35%',
+    justifyContent:'flex-end',
+    paddingBottom:20,
+    paddingRight:10
+
+
   },
   body: {
     flex: 1,
     alignContent: 'flex-start',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    backgroundColor:'#FFFFFF'
   },
   header: {
     height: 75,
@@ -83,6 +96,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom:20
   },
   headerText: {
     color: '#FFFFFF',
@@ -90,15 +104,24 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   taskContainer: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: '#707070',
     backgroundColor: '#FFFFFF',
-    padding: 15,
+    paddingTop:1
+
   },
   taskText: {
     fontWeight: 'bold',
     fontSize: 20,
     marginLeft: 15,
+    marginTop:-8,
   },
+  buttoncircle:{
+    size:30,
+    color:'#707070',
+    paddingLeft:10
+  },
+  contentline:{
+    flexDirection:'row',
+    alignItems:'center',
+    paddingBottom:20
+  }
 })
