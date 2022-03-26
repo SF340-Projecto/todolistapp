@@ -19,7 +19,6 @@ const {width} = Dimensions.get('window');
 export default function CategoriesTask({route, navigation}) {
   const {name} = route.params;
   const theme = useContext(themeContext);
-  const { user } = useContext(AuthContext);
   
   // This is to manage Modal State
   const [isModalVisible, setModalVisible] = useState(false);
@@ -27,7 +26,6 @@ export default function CategoriesTask({route, navigation}) {
   const [topic, topicInput] = useState("");
   const [detailTask, detailTaskInput] = useState("");
 
-  let usersCollectionRef = firestore().collection("user").doc(user).collection(name);
 
  
   const toggleModalVisibility = () => {

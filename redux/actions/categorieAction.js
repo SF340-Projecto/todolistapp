@@ -24,11 +24,10 @@ export const createCategorie =
     name
   ) =>
   (dispatch) => {
-    console.log("Check create cate")
     axios
       .post(API_URL, {
         _id:user_id,
-        name:topic,
+        name:name,
       })
       .then(response => {
         //dispatch({type: API_TODOUPDATE, payload: response.data});
