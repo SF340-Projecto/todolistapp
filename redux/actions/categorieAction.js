@@ -17,34 +17,21 @@ export const getCategoriesName = (user_id) => dispatch => {
     });
 };
 
-export const addTaskList =
+export const createCategorie =
    (
     user_id,
-    date,
-    priority,
-    taskDetail,
-    taskDate,
-    taskDatetaskDate,
-    timestamp,
-    topic,
-    urlPhoto,
+    name
   ) =>
   (dispatch) => {
+    console.log("Check create cate")
     axios
       .post(API_URL, {
         _id:user_id,
-        date,
-        priority,
-        taskDetail,
-        taskDate,
-        taskDatetaskDate,
-        timestamp,
-        topic,
-        urlPhoto:urlPhoto,
+        name: name
       })
       .then(response => {
-        //dispatch({type: API_TODOUPDATE, payload: response.data});
-        dispatch({type: API_TODODELETE, payload: []})
+        console.log(response.data)
+        dispatch({type: API_CATEGORIE, payload: []})
 
         return response.data;
       })
@@ -81,7 +68,6 @@ export const updateTaskList =
       })
       .then(response => {
         dispatch({type: API_TODODELETE, payload: []})
-        console.log(response.data);
 
         return response.data;
       })
@@ -99,7 +85,6 @@ export const updateTaskList =
       })
       .then(response => {
         dispatch({type: API_TODODELETE, payload: []})
-        console.log(response.data);
 
         return response.data;
       })

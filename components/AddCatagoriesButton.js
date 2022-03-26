@@ -13,9 +13,12 @@ import {
   Alert
 } from 'react-native';
 import {useContext, useEffect, useState} from 'react';
-import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../navigation/AuthProviders';
 import styles from '../screens/component.style.js';
+
+// Redux
+import {useSelector, useDispatch} from 'react-redux';
+import {createCategorie } from '../redux/actions/categorieAction';
 
 const { width } = Dimensions.get('window');
 var value = ''
@@ -26,13 +29,23 @@ export default function AddCatagoriesButton() {
   const [isModalVisible, setModalVisible] = useState(false);
   // This is to manage TextInput State
   const [topic, topicInput] = useState('');
+  const dispatch = useDispatch();
+  const user_id = useSelector(state => state.data.user[0]['_id']);
 
 
 
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);
-
   };
+
+  const createCategories = () => {
+    if(topic != null){
+      dispatch(createCategorie(user_id, topic))
+      topicInput(null)
+    }
+    setModalVisible(!isModalVisible);
+  }
+
 
   const cancelAdd = () => {
     setModalVisible(!isModalVisible);
@@ -118,7 +131,7 @@ export default function AddCatagoriesButton() {
                     >CANCLE</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.addButtonR} onPress={toggleModalVisibility}>
+                <TouchableOpacity style={styles.addButtonR} onPress={createCategories}>
                     <Text style={styles.addButtonText}>OK</Text>
                 </TouchableOpacity>
               </View>

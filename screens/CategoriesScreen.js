@@ -28,7 +28,6 @@ const Categories = ({ navigation }) => {
   // Use for update realtime data
   useEffect(() => {
     dispatch(getCategoriesName(user_id))
-    console.log(categorieApi)
 },[]);
 
   const formatData = (dataTask, numColumns) => {
@@ -48,7 +47,6 @@ const Categories = ({ navigation }) => {
   }
 
   const renderItem = ({item, index}) => {
-    console.log("dataa",item)
     if (item.empty == true) {
       return <View style={[styles.categorieContainer, styles.itemInvisible]}></View>
     }
