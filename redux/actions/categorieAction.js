@@ -1,7 +1,8 @@
-import {API_CATEGORIE, API_TODODELETE} from '../types';
+import {API_ADDCATEGORIE, API_CATEGORIE, API_TODODELETE} from '../types';
 import axios from 'axios';
 
-const API_URL = 'https://app-todolist-api.herokuapp.com/categories';
+// const API_URL = 'https://app-todolist-api.herokuapp.com/categories';
+const API_URL = 'http://10.0.2.2:4001/categories';
 
 export const getCategoriesName = (user_id) => dispatch => {
     console.log(user_id)
@@ -17,34 +18,20 @@ export const getCategoriesName = (user_id) => dispatch => {
     });
 };
 
-export const addTaskList =
+export const addCategory =
    (
     user_id,
-    date,
-    priority,
-    taskDetail,
-    taskDate,
-    taskDatetaskDate,
-    timestamp,
     topic,
-    urlPhoto,
   ) =>
   (dispatch) => {
     axios
       .post(API_URL, {
         _id:user_id,
-        date,
-        priority,
-        taskDetail,
-        taskDate,
-        taskDatetaskDate,
-        timestamp,
-        topic,
-        urlPhoto:urlPhoto,
+        name:topic,
       })
       .then(response => {
         //dispatch({type: API_TODOUPDATE, payload: response.data});
-        dispatch({type: API_TODODELETE, payload: []})
+        dispatch({type: API_ADDCATEGORIE, payload: []})
 
         return response.data;
       })

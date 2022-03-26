@@ -1,7 +1,8 @@
 import {API_TODO, API_TODODELETE} from '../types';
 import axios from 'axios';
 
-const API_URL = 'https://app-todolist-api.herokuapp.com/todos';
+// const API_URL = 'https://app-todolist-api.herokuapp.com/todos';
+const API_URL = 'http://10.0.2.2:4001/todos';
 
 export const getTaskList = (user_id) => dispatch => {
   axios

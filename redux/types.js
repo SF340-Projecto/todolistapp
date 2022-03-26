@@ -7,6 +7,7 @@ export const API_TODOUPDATE = "API_TODOUPDATE";
 export const API_TODODELETE = "API_TODODELETE";
 
 export const API_CATEGORIE = "API_CATEGORIE";
+export const API_ADDCATEGORIE = "API_ADDCATEGORIE";
 
 
 
