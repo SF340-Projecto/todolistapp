@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import {
   SafeAreaView,
@@ -11,6 +11,8 @@ import {
 import themeContext from '../config/themeContext';
 import AddCatagoriesButton from '../components/AddCatagoriesButton';
 import styles from '../css/categoryScreen';
+import {useSelector, useDispatch} from 'react-redux';
+import {getCategoriesName } from '../redux/actions/categorieAction';
 
 const numColumns = 2
 const WIDTH = Dimensions.get('window').width
@@ -18,8 +20,16 @@ const WIDTH = Dimensions.get('window').width
 const Categories = ({ navigation }) => {
   const theme = useContext(themeContext);
   const [dataTask, setDataTask] = useState([]);
+  const dispatch = useDispatch();
 
+  const categorieApi = useSelector(state => state.data.categorie);
+  const user_id = useSelector(state => state.data.user[0]['_id']);
 
+  // Use for update realtime data
+  useEffect(() => {
+    dispatch(getCategoriesName(user_id))
+    console.log(categorieApi)
+},[]);
 
   const formatData = (dataTask, numColumns) => {
     const totalRows = Math.floor(dataTask.length / numColumns)
@@ -38,6 +48,7 @@ const Categories = ({ navigation }) => {
   }
 
   const renderItem = ({item, index}) => {
+    console.log("dataa",item)
     if (item.empty == true) {
       return <View style={[styles.categorieContainer, styles.itemInvisible]}></View>
     }
@@ -69,8 +80,18 @@ const Categories = ({ navigation }) => {
         key={'#'}
         horizontal={false}
         keyExtractor={(item, index) => index.toString()}
-        data={formatData(dataTask, numColumns)}
-        renderItem={renderItem}
+        data={categorieApi}
+        renderItem={({item})=>(
+          <TouchableOpacity
+          style={styles.categorieContainer}
+          onPress={() =>
+            navigation.navigate('CategoriesTask', { name: item.name })
+          }
+          onLongPress={LongPress}
+        >
+          <Text style={styles.categorieText}>{item.name}</Text>
+          </TouchableOpacity>
+        )}
       />
     </SafeAreaView>
   );

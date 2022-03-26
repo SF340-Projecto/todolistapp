@@ -1,13 +1,14 @@
-import {API_TODO, API_TODODELETE} from '../types';
+import {API_CATEGORIE, API_TODODELETE} from '../types';
 import axios from 'axios';
 
-const API_URL = 'https://app-todolist-api.herokuapp.com/todos';
+const API_URL = 'https://app-todolist-api.herokuapp.com/categories';
 
-export const getTaskList = (user_id) => dispatch => {
+export const getCategoriesName = (user_id) => dispatch => {
+    console.log(user_id)
   axios
     .get(API_URL + '/' + user_id)
     .then(response => {
-      dispatch({type: API_TODO, payload: response.data});
+      dispatch({type: API_CATEGORIE, payload: response.data});
 
       return response.data;
     })

@@ -1,7 +1,7 @@
 import {API_USER, API_LOGOUT} from '../types';
 import axios from 'axios';
 
-const API_URL = 'http://10.0.2.2:4001/auths/';
+const API_URL = 'https://app-todolist-api.herokuapp.com/auths/';
 
 export const login = (email, password) =>  (dispatch) => {
 

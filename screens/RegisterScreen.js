@@ -5,6 +5,7 @@ import { Input } from '../components/Input';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { register } from '../redux/actions/authActions';
+import styles from '../css/RegisterScreen';
 
 const RegisterScreen = ({ navigation }) => {
   

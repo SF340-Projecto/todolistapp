@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/actions/authActions';
-import styles from '../css/categoriesTask';
+import styles from '../css/LoginScreen';
 
 const LoginScreen = ({ navigation }) => {
 
