@@ -4,14 +4,15 @@ import {
   API_TODO,
   API_TODOUPDATE,
   API_TODODELETE,
-  API_CATEGORIE
+  API_CATEGORIE,
+  API_ADDCATEGORIE,
 } from '../types';
 
 const initialState = {
   user: [],
   userLog: false,
   todolist: [],
-  categorie: []
+  categorie: [],
 };
 
 export default function (state = initialState, action) {
@@ -46,8 +47,13 @@ export default function (state = initialState, action) {
     case API_CATEGORIE:
       return {
         ...state,
-        categorie: action.payload
-      }
+        categorie: action.payload,
+      };
+    case API_ADDCATEGORIE:
+      return {
+        ...state,
+        categorie: action.payload,
+      };
 
     default:
       return state;
