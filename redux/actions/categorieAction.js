@@ -106,3 +106,17 @@ export const deleteTask = _id => dispatch => {
 
     });
 };
+
+export const getTaskInCategorie = (user_id, _id) => dispatch => {
+  console.log(user_id)
+axios
+  .get(API_URL + '/' + user_id+"/"+_id)
+  .then(response => {
+    dispatch({type: API_CATEGORIE, payload: response.data});
+
+    return response.data;
+  })
+  .catch(err => {
+    alert('Get data error');
+  });
+};

@@ -83,7 +83,7 @@ const Categories = ({ navigation }) => {
           <TouchableOpacity
           style={styles.categorieContainer}
           onPress={() =>
-            navigation.navigate('CategoriesTask', { name: item.name })
+            navigation.navigate('CategoriesTask', { categorieData: item })
           }
           onLongPress={LongPress}
         >

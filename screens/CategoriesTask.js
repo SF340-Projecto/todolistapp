@@ -17,9 +17,9 @@ import styles from '../css/categoriesTask';
 const {width} = Dimensions.get('window');
 
 export default function CategoriesTask({route, navigation}) {
-  const {name} = route.params;
+  const {categorieData} = route.params;
   const theme = useContext(themeContext);
-  
+  console.log(categorieData)
   // This is to manage Modal State
   const [isModalVisible, setModalVisible] = useState(false);
   const [dataTask, setDataTask] = useState([]);
@@ -46,13 +46,13 @@ export default function CategoriesTask({route, navigation}) {
   }
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
     <ScrollView>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       <View style={[styles.header, { backgroundColor: theme.hudColor }]}>
         <View style={styles.header_container}>
           {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
           <View>
-            <Text style={styles.textHeader}>{name} TASK</Text>
+            <Text style={styles.textHeader}>{categorieData.name} TASK</Text>
           </View>
         </View>
       </View>
@@ -61,7 +61,7 @@ export default function CategoriesTask({route, navigation}) {
 
         {/**  Displays Task Data */}
         <FlatList
-        data={dataTask}
+        data={categorieData.task_lists}
         renderItem={({ item }) => (
 
           <View>
@@ -140,7 +140,7 @@ export default function CategoriesTask({route, navigation}) {
         </View>
       </Modal>
 
-    </ScrollView>
   </SafeAreaView>
+    </ScrollView>
   );
 }
