@@ -1,24 +1,89 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-import { Calendar } from 'react-native-calendars'
+import React, {useState} from 'react';
+import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {Agenda} from 'react-native-calendars';
+import {Card, Avatar} from 'react-native-paper';
+// import Typography from '../components/Typography';
+
 
 const CalendarScreen = () => {
+
+    const [items, setItems] = useState({});
+
+    const timeToString = (time) => {
+        const date = new Date(time);
+        return date.toISOString().split('T')[0];
+      };
+
+    const loadItems = (day) => {
+        setTimeout(() => {
+            for (let i = -15; i < 85; i++) {
+                const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+                const strTime = timeToString(time);
+                if (!items[strTime]) {
+                    items[strTime] = [];
+                    const numItems = 2;
+                    for (let j = 0; j < numItems; j++) {
+                        items[strTime].push({
+                            name: 'Item for ' + strTime + ' #' + j,
+                            height: Math.max(50, Math.floor(Math.random() * 150)),
+                        });
+                    }
+                }
+            }
+            const newItems = {};
+            Object.keys(items).forEach((key) => {
+                newItems[key] = items[key];
+            });
+            setItems(newItems);
+        }, 1000);
+    };
+
+    const renderItem = (item) => {
+        return (
+          <TouchableOpacity style={{marginRight: 10, marginTop: 17}}>
+            <Card>
+              <Card.Content>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <Text>Pet Shop</Text>
+                  <Avatar.Text label="M" />
+                </View>
+              </Card.Content>
+            </Card>
+          </TouchableOpacity>
+        );
+      };
+
     return (
-        <>
-            <Calendar 
-            markingType={'period'}
-            markedDates={{
-                '2022-02-15': {marked: true, dotColor: '#50cebb'},
-                '2022-02-16': {marked: true, dotColor: '#50cebb'},
-                '2022-02-21': {startingDay: true, color: '#50cebb', textColor: 'white'},
-                '2022-02-22': {color: '#70d7c7', textColor: 'white'},
-                '2022-02-23': {color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white'},
-                '2022-02-24': {color: '#70d7c7', textColor: 'white'},
-                '2022-02-25': {endingDay: true, color: '#50cebb', textColor: 'white'}
-              }}
+        <View style={{flex: 1}}>
+            <Agenda
+                items={items}
+                loadItemsForMonth={loadItems}
+                selected={'2022-03-01'}
+                renderItem={renderItem}
             />
-        </>
+        </View>
     )
 }
 
 export default CalendarScreen;
+
+const styles = StyleSheet.create({
+    item: {
+      backgroundColor: 'red',
+      flex: 1,
+      borderRadius: 5,
+      padding: 10,
+      marginRight: 10,
+      marginTop: 17
+    },
+    emptyDate: {
+      height: 15,
+      flex: 1,
+      paddingTop: 30
+    }
+  });
