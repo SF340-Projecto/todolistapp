@@ -164,6 +164,14 @@ function AddTaskPage(props) {
     setDocId(userDocId);
     console.log(check);
 
+    var noti_id = "";
+    var possible = "0123456789";
+
+    for (var i = 0; i < 10; i++)
+      noti_id += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    console.log(noti_id);
+    console.log("test1");
     // Check condition and send to firebase
     if (topic != '' && detailTask != '') {
      
@@ -175,12 +183,17 @@ function AddTaskPage(props) {
 
       PushNotification.localNotificationSchedule({
         channelId: 'test-channel',
-        id: '123',
+        id: noti_id,
         title: topic + date,
         message: new Date(Date.now()).toString(),
         date: date,
         allowWhileIdle: true,
       });
+
+      PushNotification.getScheduledLocalNotifications((nots)=>{
+        console.log(nots);
+})
+      PushNotification.cancelAllLocalNotifications(66799)
     }
   };
 
