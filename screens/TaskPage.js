@@ -60,10 +60,6 @@ export default function TaskPage({navigation}) {
   const dataApi = useSelector(state => state.data.todolist);
   const user_id = useSelector(state => state.data.user[0]['_id']);
 
-  // if(dataApi.length === 0){
-  //   setDataLength(dataApi.length)
-  // }
-
   const dispatch = useDispatch();
 
   // Use for update realtime data

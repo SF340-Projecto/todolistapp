@@ -20,10 +20,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EditTaskPage from '../components/EditTaskPage';
 import ShowDetail from '../components/ShowDetail';
+import { deleteCategorieTask } from '../redux/actions/categorieAction';
+import {useSelector, useDispatch} from 'react-redux';
 
 const {width} = Dimensions.get('window');
 
 export default function CategoriesTask({route, navigation}) {
+
+  const dispatch = useDispatch();
 
   const {categorieData} = route.params;
   const theme = useContext(themeContext);
@@ -157,7 +161,7 @@ export default function CategoriesTask({route, navigation}) {
                           onPress={() => {
                             console.log(item._id);
 
-                            dispatch(deleteTask(item._id));
+                            dispatch(deleteCategorieTask(item._id));
                           }}>
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                           <MaterialCommunityIcons

@@ -60,18 +60,6 @@ export const createCategorie =
   };
 
 
-export const deleteTask = _id => dispatch => {
-  axios
-    .delete(API_URL + '/' + _id)
-    .then( 
-      dispatch({type: API_TODODELETE, payload: []})
-    )
-    .catch(err => {
-      console.log("Delete fail")
-
-    });
-};
-
 export const getTaskInCategorie = (user_id, _id) => dispatch => {
   console.log(user_id)
 axios
@@ -165,5 +153,17 @@ export const addTaskCategorie =
 
         console.log(err)
         console.log("Add fail")
+      });
+  };
+
+  export const deleteCategorieTask = _id => dispatch => {
+    axios
+      .delete(API_URL_TASK + '/' + _id)
+      .then( 
+        dispatch({type: API_TODODELETE, payload: []})
+      )
+      .catch(err => {
+        console.log("Delete fail")
+  
       });
   };
