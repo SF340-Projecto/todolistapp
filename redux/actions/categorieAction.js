@@ -3,6 +3,8 @@ import axios from 'axios';
 
 // const API_URL = 'https://app-todolist-api.herokuapp.com/categories';
 const API_URL = 'http://10.0.2.2:4001/categories';
+const API_URL_TASK = 'http://10.0.2.2:4001/categoryTasks';
+
 
 export const getCategoriesName = (user_id) => dispatch => {
     console.log(user_id)
@@ -37,43 +39,6 @@ export const createCategorie =
       })
       .catch(err => {
         console.log("Add fail")
-      });
-  };
-
-export const updateTaskList =
-  (
-    _id,
-    date,
-    priority,
-    taskDetail,
-    taskDate,
-    taskDatetaskDate,
-    timestamp,
-    topic,
-    urlPhoto,
-  ) =>
-  dispatch => {
-      
-    axios
-      .put(API_URL, {
-        _id,
-        date,
-        priority,
-        taskDetail,
-        taskDate,
-        taskDatetaskDate,
-        timestamp,
-        topic,
-        urlPhoto:urlPhoto,
-      })
-      .then(response => {
-        dispatch({type: API_TODODELETE, payload: []})
-
-        return response.data;
-      })
-      .catch(err => {
-        console.log("Update fail")
-        console.log(err)
       });
   };
 
@@ -120,3 +85,85 @@ axios
     alert('Get data error');
   });
 };
+
+export const addTaskCategorie =
+   (
+    user_id,
+    _id,
+    date,
+    priority,
+    taskDetail,
+    taskDate,
+    taskDatetaskDate,
+    timestamp,
+    topic,
+    urlPhoto,
+    achive
+  ) =>
+  (dispatch) => {
+    axios
+      .post(API_URL_TASK, {
+        user_id : user_id,
+        categorie_id : _id,
+        date,
+        priority,
+        taskDetail,
+        taskDate,
+        taskDatetaskDate,
+        timestamp,
+        topic,
+        urlPhoto:urlPhoto,
+        achive: achive
+      })
+      .then(response => {
+        //dispatch({type: API_TODOUPDATE, payload: response.data});
+        dispatch({type: API_CATEGORIE, payload: []})
+
+        return response.data;
+      })
+      .catch(err => {
+
+        console.log(err)
+        console.log("Add fail")
+      });
+  };
+
+  export const updateTaskCategorie =
+   (
+    user_id,
+    _id,
+    date,
+    priority,
+    taskDetail,
+    taskDate,
+    taskDatetaskDate,
+    timestamp,
+    topic,
+    urlPhoto,
+  ) =>
+  (dispatch) => {
+    axios
+      .put(API_URL_TASK, {
+        user_id,
+        _id,
+        date,
+        priority,
+        taskDetail,
+        taskDate,
+        taskDatetaskDate,
+        timestamp,
+        topic,
+        urlPhoto:urlPhoto,
+      })
+      .then(response => {
+        //dispatch({type: API_TODOUPDATE, payload: response.data});
+        dispatch({type: API_CATEGORIE, payload: []})
+
+        return response.data;
+      })
+      .catch(err => {
+
+        console.log(err)
+        console.log("Add fail")
+      });
+  };

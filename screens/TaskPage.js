@@ -18,7 +18,11 @@ import AddTaskPage from '../components/AddTaskPage';
 import EditTaskPage from '../components/EditTaskPage';
 import styles from './component.style.js';
 import ShowDetail from '../components/ShowDetail';
-import {deleteTask, getTaskList, achiveTask} from '../redux/actions/todoActions';
+import {
+  deleteTask,
+  getTaskList,
+  achiveTask,
+} from '../redux/actions/todoActions';
 import {useSelector, useDispatch} from 'react-redux';
 
 export default function TaskPage({navigation}) {
@@ -33,7 +37,6 @@ export default function TaskPage({navigation}) {
 
   // This is to manage TextInput State
   const theme = useContext(themeContext);
-
 
   // Variable contain value from user
 
@@ -51,12 +54,11 @@ export default function TaskPage({navigation}) {
   const [taskDetail, setTaskDetail] = useState();
   const [urlPhoto, setUrlPhoto] = useState();
   const [priority, setPriority] = useState();
-  const [length, setLength] = useState(0)
-  const [objId, setObjId] = useState()
+  const [length, setLength] = useState(0);
+  const [objId, setObjId] = useState();
   // get data todolist and user_id
   const dataApi = useSelector(state => state.data.todolist);
   const user_id = useSelector(state => state.data.user[0]['_id']);
-  
 
   // if(dataApi.length === 0){
   //   setDataLength(dataApi.length)
@@ -66,26 +68,25 @@ export default function TaskPage({navigation}) {
 
   // Use for update realtime data
   useEffect(() => {
-      if(length != dataApi.length){
-        console.log("dif")
-        console.log(length, dataApi.length)
-        setLength(dataApi.length)
-        dispatch(getTaskList(user_id));
-      } else if (length == 0){
-        dispatch(getTaskList(user_id));
-        console.log(length, dataApi.length)
-        console.log("not dif")
-      } else{
-        console.log("else")
-        console.log(length, dataApi.length)
-      }
-      console.log(dataApi)
-     dataApi.slice().sort((a, b) => b.priority - a.priority);
-     changePriorityToText(dataApi);
+    if (length != dataApi.length) {
+      console.log('dif');
+      console.log(length, dataApi.length);
+      setLength(dataApi.length);
+      dispatch(getTaskList(user_id));
+    } else if (length == 0) {
+      dispatch(getTaskList(user_id));
+      console.log(length, dataApi.length);
+      console.log('not dif');
+    } else {
+      console.log('else');
+      console.log(length, dataApi.length);
+    }
+    console.log(dataApi);
+    dataApi.slice().sort((a, b) => b.priority - a.priority);
+    changePriorityToText(dataApi);
 
     setisLoading(false);
     createChannels();
-
   });
 
   if (isLoading) {
@@ -123,7 +124,7 @@ export default function TaskPage({navigation}) {
   // Function call to open modal edit
   const toggleModalVisibility1 = userDocId => {
     setModalVisible1(!isModalVisible1);
-    setObjId(userDocId)
+    setObjId(userDocId);
 
     // Set doc id
   };
@@ -136,6 +137,7 @@ export default function TaskPage({navigation}) {
     setModalVisible3(!isModalVisible3);
   };
 
+  console.log("Console log", dataApi)
 
   return (
     <SafeAreaView
@@ -160,109 +162,111 @@ export default function TaskPage({navigation}) {
               <TouchableOpacity onPress={() => toggleModalVisibility3(item)}>
                 {/* check achive or not */}
                 {item.achive === false && (
-                <View>
-
-                  <View style={styles.row}>
-                  <Image
-                    style={styles.tinyLogo}
-                    source={{
-                      uri: item.urlPhoto,
-                    }}
-                    />
-                  <Text
-                    style={[
-                      styles.taskText,
-                      {flex: 1, color: theme.fontColor},
-                    ]}>
-                    {item.topic}
-                  </Text>
-                  {/* <Text>{item.taskDetail}</Text>
+                  <View>
+                    <View style={styles.row}>
+                      <Image
+                        style={styles.tinyLogo}
+                        source={{
+                          uri: item.urlPhoto,
+                        }}
+                      />
+                      <Text
+                        style={[
+                          styles.taskText,
+                          {flex: 1, color: theme.fontColor},
+                        ]}>
+                        {item.topic}
+                      </Text>
+                      {/* <Text>{item.taskDetail}</Text>
                   <Text>{item.id}</Text> */}
 
-                  <View style={styles.buttonContainerIcon}>
-                    <TouchableOpacity
-                      style={[
-                        styles.addButtonIcon,
-                        {backgroundColor: theme.buttonColor},
-                      ]}
-                      onPress={() => {
-                        toggleModalVisibility1(item._id);
-                      }}>
-                      {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
-                      <MaterialIcons name="edit" color={'black'} size={24} />
-                    </TouchableOpacity>
+                      <View style={styles.buttonContainerIcon}>
+                        <TouchableOpacity
+                          style={[
+                            styles.addButtonIcon,
+                            {backgroundColor: theme.buttonColor},
+                          ]}
+                          onPress={() => {
+                            toggleModalVisibility1(item._id);
+                          }}>
+                          {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
+                          <MaterialIcons
+                            name="edit"
+                            color={'black'}
+                            size={24}
+                          />
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                      style={[
-                        styles.addButtonIcon,
-                        {backgroundColor: '#f33d3d'},
-                      ]}
-                      onPress={() => {
-                        console.log(item._id)
-                        
-                        dispatch(deleteTask(item._id))
-                      }}>
-                      {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
-                      <MaterialCommunityIcons
-                        name="trash-can"
-                        color={'black'}
-                        size={24}
-                        />
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                          style={[
+                            styles.addButtonIcon,
+                            {backgroundColor: '#f33d3d'},
+                          ]}
+                          onPress={() => {
+                            console.log(item._id);
 
-                    <TouchableOpacity
-                      style={[
-                        styles.addButtonIcon,
-                        {backgroundColor: '#52a336'},
-                      ]}
-                      onPress={() => {
-                        dispatch(achiveTask(item._id))
-                      }}>
-                      {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
-                      <MaterialCommunityIcons
-                        name="check-circle-outline"
-                        color={'black'}
-                        size={24}
-                        />
-                    </TouchableOpacity>
+                            dispatch(deleteTask(item._id));
+                          }}>
+                          {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
+                          <MaterialCommunityIcons
+                            name="trash-can"
+                            color={'black'}
+                            size={24}
+                          />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          style={[
+                            styles.addButtonIcon,
+                            {backgroundColor: '#52a336'},
+                          ]}
+                          onPress={() => {
+                            dispatch(achiveTask(item._id));
+                          }}>
+                          {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
+                          <MaterialCommunityIcons
+                            name="check-circle-outline"
+                            color={'black'}
+                            size={24}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+
+                    {/*Modal for show detail */}
+
+                    <Modal
+                      animationType="slide"
+                      transparent
+                      visible={isModalVisible3}
+                      presentationStyle="overFullScreen"
+                      onDismiss={toggleModalVisibility3}>
+                      <ShowDetail
+                        topicFirebase={topicFirebase}
+                        priority={priority}
+                        textDate={textDate}
+                        textTime={textTime}
+                        taskDetail={taskDetail}
+                        urlPhoto={urlPhoto}
+                        setModalVisible3={setModalVisible3}
+                      />
+                    </Modal>
+
+                    {/*Modal for edit task */}
+                    <Modal
+                      animationType="slide"
+                      transparent
+                      visible={isModalVisible1}
+                      presentationStyle="overFullScreen"
+                      onDismiss={toggleModalVisibility1}>
+                      <EditTaskPage
+                        urlPhoto={urlPhoto}
+                        modalEdit={setModalVisible1}
+                        item={objId}
+                      />
+                    </Modal>
                   </View>
-                </View>
-
-                {/*Modal for show detail */}
-
-                <Modal
-                animationType="slide"
-                transparent
-                visible={isModalVisible3}
-                presentationStyle="overFullScreen"
-                onDismiss={toggleModalVisibility3}>
-                  <ShowDetail
-                    topicFirebase={topicFirebase}
-                    priority={priority}
-                    textDate={textDate}
-                    textTime={textTime}
-                    taskDetail={taskDetail}
-                    urlPhoto={urlPhoto}
-                    setModalVisible3={setModalVisible3}
-                    />
-                </Modal>
-
-                {/*Modal for edit task */}
-                <Modal
-                animationType="slide"
-                transparent
-                visible={isModalVisible1}
-                presentationStyle="overFullScreen"
-                onDismiss={toggleModalVisibility1}>
-                  <EditTaskPage 
-                  urlPhoto={urlPhoto}
-                  modalEdit={setModalVisible1} 
-                  item={objId}
-                  
-                   />
-                </Modal>
-            </View>  
-              )}
+                )}
               </TouchableOpacity>
             )}
           />

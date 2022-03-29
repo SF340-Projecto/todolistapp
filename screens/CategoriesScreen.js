@@ -64,7 +64,6 @@ const Categories = ({ navigation }) => {
   }
 
 
-
   return (
     <SafeAreaView style={styles.body}>
       <View style={styles.header}>

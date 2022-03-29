@@ -1,5 +1,5 @@
 import React from 'react';
-import {useContext, useEffect, useState} from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Modal,
   View,
@@ -11,18 +11,20 @@ import {
   Alert,
   TouchableHighlight,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {Picker} from '@react-native-picker/picker';
-import {ModalPickerDropdow} from '../screens/ModalPickerDropdow';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Picker } from '@react-native-picker/picker';
+import { ModalPickerDropdow } from '../screens/ModalPickerDropdow';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
 import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
 import styles from '../screens/component.style.js';
-import {useSelector, useDispatch} from 'react-redux';
-import {updateTaskList} from '../redux/actions/todoActions';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateTaskList } from '../redux/actions/todoActions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-const {width} = Dimensions.get('window');
+import { updateTaskCategorie } from '../redux/actions/categorieAction';
+
+const { width } = Dimensions.get('window');
 
 function EditTaskPage(props) {
 
@@ -47,12 +49,7 @@ function EditTaskPage(props) {
   const [textTime, setTime] = useState('CHOOSE DUE TIME...');
   const [mode, setMode] = useState('date');
 
-  const [taskId, setTaskId] = useState();
-
-  // const [checkPic, setCheckPic] = useState(false);
-
   const user_id = useSelector(state => state.data.user[0]['_id']);
-  console.log(props.item)
 
   const changeModalVisibility = bool => {
     setisModalVisible_d(bool);
@@ -86,102 +83,118 @@ function EditTaskPage(props) {
     setShow(true);
     setMode(currentMode);
   };
-  
 
-// Select image and get url firebase storage //
-const selectImage = () => {
-  const options = {
-    maxWidth: 2000,
-    maxHeight: 2000,
-    storageOptions: {
-      skipBackup: true,
-      path: 'images',
-    },
-  };
-  launchImageLibrary(options, response => {
-    // Use launchImageLibrary to open image gallery
-    //console.log('Response = ', response.assets[0].uri);
 
-    if (response.didCancel) {
-      // console.log('User cancelled image picker');
-    } else if (response.error) {
-      // console.log('ImagePicker Error: ', response.error);
-    } else if (response.customButton) {
-      //  console.log('User tapped custom button: ', response.customButton);
-    } else {
-      const source = {uri: response.uri};
+  // Select image and get url firebase storage //
+  const selectImage = () => {
+    const options = {
+      maxWidth: 2000,
+      maxHeight: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchImageLibrary(options, response => {
+      // Use launchImageLibrary to open image gallery
+      //console.log('Response = ', response.assets[0].uri);
 
-      // You can also display the image using data:
-      // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+      if (response.didCancel) {
+        // console.log('User cancelled image picker');
+      } else if (response.error) {
+        // console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        //  console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
 
-      const uri = response.assets[0].uri;
-      const filename = uri.substring(uri.lastIndexOf('/') + 1);
-      const uploadUri =
-        Platform.OS === 'android' ? uri.replace('file://', '') : uri;
-      const placeUrl = user_id + '/' + 'task' + '/' + filename;
-      console.log(placeUrl);
+        // You can also display the image using data:
+        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-      setUploading(true);
-      setTransferred(0);
-      const task = storage().ref(placeUrl).putFile(uploadUri);
-      // set progress state
+        const uri = response.assets[0].uri;
+        const filename = uri.substring(uri.lastIndexOf('/') + 1);
+        const uploadUri =
+          Platform.OS === 'android' ? uri.replace('file://', '') : uri;
+        const placeUrl = user_id + '/' + 'task' + '/' + filename;
+        console.log(placeUrl);
 
-      task.on('state_changed', snapshot => {
-        setTransferred(
-          Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000,
+        setUploading(true);
+        setTransferred(0);
+        const task = storage().ref(placeUrl).putFile(uploadUri);
+        // set progress state
 
-        );
-        task.snapshot.ref.getDownloadURL().then(downloadURL => {
-          setUrl(downloadURL);
+        task.on('state_changed', snapshot => {
+          setTransferred(
+            Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000,
+
+          );
+          task.snapshot.ref.getDownloadURL().then(downloadURL => {
+            setUrl(downloadURL);
+          });
         });
-      });
-      setUploading(false);
-      Alert.alert('Photo uploaded!', 'Your photo has been uploaded');
-      setImage(null);
-      setUrl('');
-    }
-  });
-};
-  
+        setUploading(false);
+        Alert.alert('Photo uploaded!', 'Your photo has been uploaded');
+        setImage(null);
+        setUrl('');
+      }
+    });
+  };
+
 
   // Function call to update task list
   const updateTask = userDocId => {
-    
-    dispatch(updateTaskList(
-      props.item, 
-      date,
-      selectedValue,
-      detailTask,
-      textDate,
-      textTime,
-      "data",
-      topic,
-      urlUser
+    if (props.state) {
+      dispatch(updateTaskCategorie(
+        user_id,
+        props.item,
+        date,
+        selectedValue,
+        detailTask,
+        textDate,
+        textTime,
+        "data",
+        topic,
+        urlUser
       ))
-      topicInput('');
-      detailTaskInput('');
-      setDataTask(dataTask);
-      setUrl('https://www.unityhighschool.org/wp-content/uploads/2014/08/default-placeholder.png');
-      setSelectedValue('0');
-      props.modalEdit(false);
-
+    }
+    else {
+      dispatch(updateTaskList(
+        props.item,
+        date,
+        selectedValue,
+        detailTask,
+        textDate,
+        textTime,
+        "data",
+        topic,
+        urlUser
+      ))
+    }
+    console.log("YESSSS")
+    console.log(props.item)
+    topicInput('');
+    detailTaskInput('');
+    setDataTask(dataTask);
+    setUrl('https://www.unityhighschool.org/wp-content/uploads/2014/08/default-placeholder.png');
+    setSelectedValue('0');
+    props.modalEdit(false);
   };
 
   return (
     <View style={styles.bg_modal}>
       <View style={styles.paper_madal}>
-      <View style={styles.closeDetailContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                props.modalEdit(false);
-              }}
-              >
-              <FontAwesome name="close" color={'white'} size={18} />
-            </TouchableOpacity>
-          </View>
+        <View style={styles.closeDetailContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              props.modalEdit(false);
+            }}
+          >
+            <FontAwesome name="close" color={'white'} size={18} />
+          </TouchableOpacity>
+        </View>
         <ScrollView>
           <Text style={styles.text_normal}>EDIT TASK</Text>
-          <View style={{alignItems: 'center'}}>
+          <View style={{ alignItems: 'center' }}>
             <TextInput
               placeholder="Enter something..."
               value={topic}
@@ -191,7 +204,7 @@ const selectImage = () => {
           </View>
 
           <Text style={styles.text_normal}>Detail Task</Text>
-          <View style={{alignItems: 'center'}}>
+          <View style={{ alignItems: 'center' }}>
             <TextInput
               placeholder="Enter something..."
               value={detailTask}
@@ -203,19 +216,19 @@ const selectImage = () => {
           </View>
           <View style={styles.priority}>
             <Text style={styles.text_normal}>Priority : </Text>
-          <Picker
-            selectedValue={selectedValue}
-            style={styles.priority_select}
-            onValueChange={(itemValue, itemIndex) =>
-            setSelectedValue(itemValue)
-            }>
-            <Picker.Item label="None" value="0" />
-            <Picker.Item label="Low" value="1" />
-            <Picker.Item label="Medium" value="2" />
-            <Picker.Item label="High" value="3" />
-          </Picker>
+            <Picker
+              selectedValue={selectedValue}
+              style={styles.priority_select}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedValue(itemValue)
+              }>
+              <Picker.Item label="None" value="0" />
+              <Picker.Item label="Low" value="1" />
+              <Picker.Item label="Medium" value="2" />
+              <Picker.Item label="High" value="3" />
+            </Picker>
           </View>
-          
+
 
           <View>
             {show && (
@@ -231,7 +244,7 @@ const selectImage = () => {
             <Text style={styles.text_normal}>DUE DATE</Text>
           </View>
           {/* --------------------Date-------------------- */}
-          <View style={{alignItems: 'center', paddingBottom: 10}}>
+          <View style={{ alignItems: 'center', paddingBottom: 10 }}>
             <View style={styles.input_f}>
               <TouchableHighlight onPress={showDatepicker}>
                 <Image
@@ -243,7 +256,7 @@ const selectImage = () => {
             </View>
           </View>
           {/* ---------------Time--------------- */}
-          <View style={{alignItems: 'center'}}>
+          <View style={{ alignItems: 'center' }}>
             <View style={styles.input_f}>
               <TouchableHighlight onPress={showTimepicker}>
                 <Image
@@ -256,7 +269,7 @@ const selectImage = () => {
           </View>
           <Text style={styles.text_normal}>CATEGORY</Text>
 
-          <View style={{alignItems: 'center'}}>
+          <View style={{ alignItems: 'center' }}>
             <View style={styles.input_f}>
               <TouchableOpacity onPress={() => changeModalVisibility(true)}>
                 <Image
@@ -279,18 +292,18 @@ const selectImage = () => {
             </View>
           </View>
           <Text style={styles.text_normal}>ADD PICTURE</Text>
-          <View style={{alignItems: 'center'}}>
+          <View style={{ alignItems: 'center' }}>
             <TouchableOpacity onPress={selectImage}>
-            <Image
-                    style={styles.logoPic}
-                    source={{uri: urlUser}}
-                  />
+              <Image
+                style={styles.logoPic}
+                source={{ uri: urlUser }}
+              />
             </TouchableOpacity>
           </View>
 
           <View style={styles.imageContainer}>
             {image !== null ? (
-              <Image source={{uri: image.uri}} style={styles.imageBox} />
+              <Image source={{ uri: image.uri }} style={styles.imageBox} />
             ) : null}
             {uploading ? (
               <View style={styles.progressBarContainer}>
@@ -298,13 +311,13 @@ const selectImage = () => {
               </View>
             ) : null}
           </View>
-          <View style={{alignItems:'center'}}>
+          <View style={{ alignItems: 'center' }}>
             <TouchableOpacity
               style={styles.addButtonR}
               onPress={() => {
                 updateTask(props.item);
                 console.log(props.item)
-                
+
               }}>
               <Text style={styles.addButtonText1}>SAVE</Text>
             </TouchableOpacity>
