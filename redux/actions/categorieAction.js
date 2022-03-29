@@ -42,9 +42,9 @@ export const createCategorie =
       });
   };
 
-  export const achiveTask = _id => dispatch => {
+  export const achiveCategorieTask = _id => dispatch => {
     axios
-      .put(API_URL, {
+      .put(API_URL_TASK, {
         _id,
         achive: true
       })

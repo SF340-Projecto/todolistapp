@@ -14,6 +14,7 @@ import styles from '../css/categoryScreen';
 import {useSelector, useDispatch} from 'react-redux';
 import {getCategoriesName } from '../redux/actions/categorieAction';
 
+
 const numColumns = 2
 const WIDTH = Dimensions.get('window').width
 

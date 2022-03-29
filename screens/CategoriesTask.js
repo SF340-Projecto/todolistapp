@@ -22,6 +22,8 @@ import EditTaskPage from '../components/EditTaskPage';
 import ShowDetail from '../components/ShowDetail';
 import { deleteCategorieTask } from '../redux/actions/categorieAction';
 import {useSelector, useDispatch} from 'react-redux';
+import { achiveCategorieTask } from '../redux/actions/categorieAction';
+
 
 const {width} = Dimensions.get('window');
 
@@ -177,7 +179,7 @@ export default function CategoriesTask({route, navigation}) {
                             {backgroundColor: '#52a336'},
                           ]}
                           onPress={() => {
-                            dispatch(achiveTask(item._id));
+                            dispatch(achiveCategorieTask(item._id));
                           }}>
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                           <MaterialCommunityIcons
