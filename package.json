@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "todolistapp",
   "version": "0.0.1",
@@ -61,3 +62,68 @@
     "preset": "react-native"
   }
 }
+=======
+{
+  "name": "todolistapp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@react-native-community/datetimepicker": "^5.1.0",
+    "@react-native-firebase/app": "^14.2.2",
+    "@react-native-firebase/auth": "^14.2.2",
+    "@react-native-firebase/firestore": "^14.2.2",
+    "@react-native-firebase/storage": "^14.2.2",
+    "@react-native-picker/picker": "^2.2.1",
+    "@react-navigation/bottom-tabs": "^6.0.9",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
+    "@react-navigation/stack": "^6.0.11",
+    "axios": "^0.26.1",
+    "expo-status-bar": "^1.2.0",
+    "express": "^4.17.3",
+    "native-base": "^3.3.2",
+    "react": "17.0.2",
+    "react-native": "0.66.4",
+    "react-native-calendars": "^1.1279.0",
+    "react-native-document-picker": "^7.1.3",
+    "react-native-elements": "^3.4.2",
+    "react-native-event-listeners": "^1.0.7",
+    "react-native-gesture-handler": "^2.1.1",
+    "react-native-image-picker": "^4.7.1",
+    "react-native-paper": "^4.11.2",
+    "react-native-picker-modal": "^1.0.0",
+    "react-native-popup-menu": "^0.15.12",
+    "react-native-progress": "^5.0.0",
+    "react-native-push-notification": "^8.1.1",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.10.1",
+    "react-native-svg": "^12.1.1",
+    "react-native-template-native-base": "^1.0.7",
+    "react-native-vector-icons": "^9.0.0",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "7.14.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.66.2",
+    "react-test-renderer": "17.0.2",
+    "redux-devtools-extension": "^2.13.9"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
+>>>>>>> b64c1e877167c874ab94e60db7941bbe0ffd5950
