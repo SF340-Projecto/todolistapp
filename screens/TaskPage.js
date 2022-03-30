@@ -59,7 +59,7 @@ export default function TaskPage({navigation}) {
   // get data todolist and user_id
   const dataApi = useSelector(state => state.data.todolist);
   const user_id = useSelector(state => state.data.user[0]['_id']);
-
+  const user = useSelector(state => state.data.user[0]);
   const dispatch = useDispatch();
 
   // Use for update realtime data
