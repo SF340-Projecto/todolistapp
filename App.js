@@ -13,6 +13,7 @@ import Store from "./redux/store"
 import Providers from './navigation'
 import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs();
+LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
 const App = () => {
   return (
     <Provider store={Store}>

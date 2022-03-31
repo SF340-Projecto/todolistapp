@@ -6,6 +6,7 @@ import {
   API_TODODELETE,
   API_CATEGORIE,
   API_ADDCATEGORIE,
+  API_EDIT_CATEGORY,
 } from '../types';
 
 const initialState = {
@@ -53,6 +54,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         categorie: action.payload,
+      };
+
+    case API_EDIT_CATEGORY:
+      return {
+        ...state,
       };
 
     default:
