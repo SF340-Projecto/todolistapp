@@ -1,4 +1,4 @@
-import {API_ADDCATEGORIE, API_CATEGORIE, API_TODODELETE} from '../types';
+import {API_ADDCATEGORIE, API_CATEGORIE, API_TODODELETE, API_TASK} from '../types';
 import axios from 'axios';
 
 // const API_URL = 'https://app-todolist-api.herokuapp.com/categories';
@@ -49,7 +49,7 @@ export const createCategorie =
         achive: true
       })
       .then(response => {
-        dispatch({type: API_TODODELETE, payload: []})
+        dispatch({type: API_TASK, payload: []})
 
         return response.data;
       })
@@ -63,13 +63,14 @@ export const createCategorie =
 export const getTaskInCategorie = (user_id, _id) => dispatch => {
   console.log(user_id)
 axios
-  .get(API_URL + '/' + user_id+"/"+_id)
+  .get(API_URL_TASK + '/' + user_id+"/"+_id)
   .then(response => {
-    dispatch({type: API_CATEGORIE, payload: response.data});
+    dispatch({type: API_TASK, payload: response.data});
 
     return response.data;
   })
   .catch(err => {
+    console.log(err)
     alert('Get data error');
   });
 };
@@ -105,7 +106,7 @@ export const addTaskCategorie =
       })
       .then(response => {
         //dispatch({type: API_TODOUPDATE, payload: response.data});
-        dispatch({type: API_CATEGORIE, payload: []})
+        dispatch({type: API_TASK, payload: []})
 
         return response.data;
       })
@@ -145,7 +146,7 @@ export const addTaskCategorie =
       })
       .then(response => {
         //dispatch({type: API_TODOUPDATE, payload: response.data});
-        dispatch({type: API_CATEGORIE, payload: []})
+        dispatch({type: API_TASK, payload: []})
 
         return response.data;
       })
@@ -160,7 +161,7 @@ export const addTaskCategorie =
     axios
       .delete(API_URL_TASK + '/' + _id)
       .then( 
-        dispatch({type: API_TODODELETE, payload: []})
+        dispatch({type: API_TASK, payload: []})
       )
       .catch(err => {
         console.log("Delete fail")

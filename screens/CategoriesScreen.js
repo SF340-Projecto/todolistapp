@@ -22,14 +22,29 @@ const Categories = ({ navigation }) => {
   const theme = useContext(themeContext);
   const [dataTask, setDataTask] = useState([]);
   const dispatch = useDispatch();
+  const [length, setLength] = useState(0);
 
   const categorieApi = useSelector(state => state.data.categorie);
   const user_id = useSelector(state => state.data.user[0]['_id']);
 
   // Use for update realtime data
   useEffect(() => {
-    dispatch(getCategoriesName(user_id))
-},[]);
+
+    if (length != categorieApi.length) {
+      console.log('dif');
+      console.log(length, categorieApi.length);
+      setLength(categorieApi.length);
+      dispatch(getCategoriesName(user_id));
+    } else if (length == 0) {
+      dispatch(getCategoriesName(user_id));
+      console.log(length, categorieApi.length);
+      console.log('not dif');
+    } else {
+      console.log('else');
+      console.log(length, categorieApi.length);
+    }
+    
+});
 
   const formatData = (dataTask, numColumns) => {
     const totalRows = Math.floor(dataTask.length / numColumns)
@@ -83,7 +98,7 @@ const Categories = ({ navigation }) => {
           <TouchableOpacity
           style={styles.categorieContainer}
           onPress={() =>
-            navigation.navigate('CategoriesTask', { categorieData: item })
+            navigation.navigate('CategoriesTask', { categorieData: item._id })
           }
           onLongPress={LongPress}
         >

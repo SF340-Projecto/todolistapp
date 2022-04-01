@@ -20,9 +20,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EditTaskPage from '../components/EditTaskPage';
 import ShowDetail from '../components/ShowDetail';
-import { deleteCategorieTask } from '../redux/actions/categorieAction';
 import {useSelector, useDispatch} from 'react-redux';
-import { achiveCategorieTask } from '../redux/actions/categorieAction';
+import { achiveCategorieTask, deleteCategorieTask, getTaskInCategorie } from '../redux/actions/categorieAction';
 
 
 const {width} = Dimensions.get('window');
@@ -33,7 +32,8 @@ export default function CategoriesTask({route, navigation}) {
 
   const {categorieData} = route.params;
   const theme = useContext(themeContext);
-  
+  const user_id = useSelector(state => state.data.user[0]['_id']);
+
   // This is to manage Modal State
   const [isModalVisible, setModalVisible] = useState(false);
   const [topic, topicInput] = useState('');
@@ -54,6 +54,33 @@ export default function CategoriesTask({route, navigation}) {
   const [priority, setPriority] = useState();
   const [length, setLength] = useState(0);
   const [objId, setObjId] = useState();
+  
+  const categorieApi = useSelector(state => state.data.taskCategorie);
+
+
+  // Use for update realtime data
+  useEffect(() => {
+    if (length != categorieApi.length) {
+      console.log('dif');
+      console.log(length, categorieApi.length);
+      setLength(categorieApi.length);
+      dispatch(getTaskInCategorie(user_id, categorieData));
+    } else if (length == 0) {
+      dispatch(getTaskInCategorie(user_id, categorieData));
+      console.log(length, categorieApi.length);
+      console.log('not dif');
+    } else {
+      console.log('else');
+      console.log(length, categorieApi.length);
+    }
+
+    setisLoading(false);
+    createChannels();
+  });
+
+  console.log("Care ",categorieApi)
+  console.log("Cate id ",categorieData)
+  console.log("id ", user_id)
 
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);
@@ -96,6 +123,7 @@ export default function CategoriesTask({route, navigation}) {
     setModalVisible3(!isModalVisible3);
   };
 
+
   return (
     <ScrollView>
       <SafeAreaView
@@ -115,7 +143,7 @@ export default function CategoriesTask({route, navigation}) {
           {/**  Displays Task Data */}
 
           <FlatList
-            data={categorieData.task_lists}
+            data={categorieApi}
             renderItem={({item}) => (
               <TouchableOpacity onPress={() => toggleModalVisibility3(item)}>
                 {/* check achive or not */}
@@ -233,7 +261,7 @@ export default function CategoriesTask({route, navigation}) {
 
         {/* This is Add Button Bottom */}
         <View>
-          <AddTaskCategorie categorie={categorieData._id} />
+          <AddTaskCategorie categorie={categorieData} />
         </View>
 
         {/** This is our modal component containing textinput and a button */}

@@ -8,6 +8,7 @@ export const API_TODODELETE = "API_TODODELETE";
 
 export const API_CATEGORIE = "API_CATEGORIE";
 export const API_ADDCATEGORIE = "API_ADDCATEGORIE";
+export const API_TASK = "API_TASK";
 
 
 
