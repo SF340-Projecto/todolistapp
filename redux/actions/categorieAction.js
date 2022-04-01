@@ -42,6 +42,28 @@ export const createCategorie =
       });
   };
 
+  export const updateCategory =
+   (
+    id,
+    name
+  ) =>
+  (dispatch) => {
+    axios
+      .put(API_URL, {
+        _id:id,
+        name:name,
+      })
+      .then(response => {
+        //dispatch({type: API_TODOUPDATE, payload: response.data});
+        dispatch({type: API_EDIT_CATEGORY, payload: []})
+        console.log("EDIT: ", response.data);
+        return response.data;
+      })
+      .catch(err => {
+        console.log("Add fail")
+      });
+  };
+
   export const achiveCategorieTask = _id => dispatch => {
     axios
       .put(API_URL_TASK, {

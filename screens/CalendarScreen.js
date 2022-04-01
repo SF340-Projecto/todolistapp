@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import {Agenda} from 'react-native-calendars';
 import {Card, Avatar} from 'react-native-paper';
-// import Typography from '../components/Typography';
 
 
 const CalendarScreen = () => {
@@ -21,7 +20,7 @@ const CalendarScreen = () => {
                 const strTime = timeToString(time);
                 if (!items[strTime]) {
                     items[strTime] = [];
-                    const numItems = 2;
+                    const numItems = Math.floor(Math.random() * 5);;
                     for (let j = 0; j < numItems; j++) {
                         items[strTime].push({
                             name: 'Item for ' + strTime + ' #' + j,
@@ -40,7 +39,7 @@ const CalendarScreen = () => {
 
     const renderItem = (item) => {
         return (
-          <TouchableOpacity style={{marginRight: 10, marginTop: 17}}>
+          <TouchableOpacity style={{marginRight: 10, marginTop: 17,}}>
             <Card>
               <Card.Content>
                 <View
@@ -49,7 +48,7 @@ const CalendarScreen = () => {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                   }}>
-                  <Text>Pet Shop</Text>
+                  <Text>{item.name}</Text>
                   <Avatar.Text label="M" />
                 </View>
               </Card.Content>
@@ -58,6 +57,26 @@ const CalendarScreen = () => {
         );
       };
 
+    const renderEmptyDate = () => {
+        return (
+          <TouchableOpacity style={{marginRight: 10, marginTop: 17,}}>
+            <Card>
+              <Card.Content>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <Text>This is Empty Date</Text>
+                  <Avatar.Text label="" />
+                </View>
+              </Card.Content>
+            </Card>
+          </TouchableOpacity>
+        );
+      }
+
     return (
         <View style={{flex: 1}}>
             <Agenda
@@ -65,6 +84,7 @@ const CalendarScreen = () => {
                 loadItemsForMonth={loadItems}
                 selected={'2022-03-01'}
                 renderItem={renderItem}
+                renderEmptyDate={renderEmptyDate}
             />
         </View>
     )

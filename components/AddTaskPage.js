@@ -75,6 +75,7 @@ function AddTaskPage(props) {
     let fTime = 'Hours: ' + tempDate.getHours() + ' Minutes:' + tempDate.getMinutes();
     setText(fDate)
     setTime(fTime)
+    console.log("This is Date: ", fDate)
   };
 
 

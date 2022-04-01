@@ -62,6 +62,11 @@ export default function (state = initialState, action) {
         taskCategorie : action.payload
       }
 
+    case API_EDIT_CATEGORY:
+      return {
+        ...state,
+      };
+
     default:
       return state;
   }
