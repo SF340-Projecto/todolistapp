@@ -65,19 +65,13 @@ export default function TaskPage({navigation}) {
   // Use for update realtime data
   useEffect(() => {
     if (length != dataApi.length) {
-      console.log('dif');
-      console.log(length, dataApi.length);
       setLength(dataApi.length);
       dispatch(getTaskList(user_id));
     } else if (length == 0) {
       dispatch(getTaskList(user_id));
-      console.log(length, dataApi.length);
-      console.log('not dif');
     } else {
       console.log('else');
-      console.log(length, dataApi.length);
     }
-    console.log(dataApi);
     dataApi.slice().sort((a, b) => b.priority - a.priority);
     changePriorityToText(dataApi);
 
@@ -132,8 +126,6 @@ export default function TaskPage({navigation}) {
     setPriority(item.priority);
     setModalVisible3(!isModalVisible3);
   };
-
-  console.log("Console log", dataApi)
 
   return (
     <SafeAreaView

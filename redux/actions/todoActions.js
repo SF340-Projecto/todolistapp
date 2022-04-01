@@ -28,8 +28,10 @@ export const addTaskList =
     timestamp,
     topic,
     urlPhoto,
+    noti_id
   ) =>
   (dispatch) => {
+    console.log(noti_id)
     axios
       .post(API_URL, {
         _id:user_id,
@@ -41,6 +43,7 @@ export const addTaskList =
         timestamp,
         topic,
         urlPhoto:urlPhoto,
+        noti_id
       })
       .then(response => {
         //dispatch({type: API_TODOUPDATE, payload: response.data});

@@ -53,7 +53,8 @@ function AddTaskPage(props) {
   const [uploading, setUploading] = useState(false);
 
   const [checkPic, setCheckPic] = useState(false);
-  
+  const [noti_id, setNotification] = useState()
+
   const user_id = useSelector(state => state.data.user[0]['_id']);
 
   const showMode = currentMode => {
@@ -141,9 +142,17 @@ function AddTaskPage(props) {
   };
 
   const addTask = async () => {
-    //setCheckPic(false);
+    
     setModalVisible(!isModalVisible);
-    console.log(urlUser)
+    
+    var noti_id_forset = "";
+    var possible = "0123456789";
+
+    for (var i = 0; i < 10; i++)
+      noti_id_forset += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    console.log(noti_id_forset)
+
     dispatch(addTaskList(
       user_id,
       mode,
@@ -154,6 +163,7 @@ function AddTaskPage(props) {
       textTime,
       topic,
       urlUser,
+      noti_id_forset
       ))
 
   }
@@ -165,14 +175,6 @@ function AddTaskPage(props) {
     setDocId(userDocId);
     console.log(check);
 
-    var noti_id = "";
-    var possible = "0123456789";
-
-    for (var i = 0; i < 10; i++)
-      noti_id += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    console.log(noti_id);
-    console.log("test1");
     // Check condition and send to firebase
     if (topic != '' && detailTask != '') {
      
