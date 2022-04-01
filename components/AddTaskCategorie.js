@@ -142,6 +142,15 @@ function AddTaskPage(props) {
   const addTask = async () => {
     //setCheckPic(false);
     setModalVisible(!isModalVisible);
+
+    var noti_id_forset = "";
+    var possible = "0123456789";
+
+    for (var i = 0; i < 10; i++)
+      noti_id_forset += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    console.log(noti_id_forset)
+
     dispatch(addTaskCategorie(
       user_id,
       categorie_id,
@@ -153,6 +162,7 @@ function AddTaskPage(props) {
       textTime,
       topic,
       urlUser,
+      noti_id_forset,
       false
       ))
 

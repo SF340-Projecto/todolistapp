@@ -109,6 +109,7 @@ export const addTaskCategorie =
     timestamp,
     topic,
     urlPhoto,
+    noti_id,
     achive
   ) =>
   (dispatch) => {
@@ -124,6 +125,7 @@ export const addTaskCategorie =
         timestamp,
         topic,
         urlPhoto:urlPhoto,
+        noti_id,
         achive: achive
       })
       .then(response => {
