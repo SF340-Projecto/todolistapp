@@ -152,6 +152,7 @@ function AddTaskPage(props) {
       noti_id_forset += possible.charAt(Math.floor(Math.random() * possible.length));
 
     console.log(noti_id_forset)
+    setNotification(noti_id_forset)
 
     dispatch(addTaskList(
       user_id,
@@ -175,6 +176,10 @@ function AddTaskPage(props) {
     setDocId(userDocId);
     console.log(check);
 
+    PushNotification.getScheduledLocalNotifications((nots)=>{
+      console.log(nots);
+    })
+
     // Check condition and send to firebase
     if (topic != '' && detailTask != '') {
      
@@ -192,12 +197,7 @@ function AddTaskPage(props) {
         date: date,
         allowWhileIdle: true,
       });
-
-      PushNotification.getScheduledLocalNotifications((nots)=>{
-        console.log(nots);
-})
-      PushNotification.cancelAllLocalNotifications(66799)
-    }
+     }
   };
 
 

@@ -192,7 +192,7 @@ export default function TaskPage({navigation}) {
                           ]}
                           onPress={() => {
                             console.log("noti id", item.noti_id);
-
+                            PushNotification.cancelLocalNotification(item.noti_id);
                             dispatch(deleteTask(item._id));
                           }}>
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
