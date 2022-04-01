@@ -6,7 +6,8 @@ import {
   API_TODODELETE,
   API_CATEGORIE,
   API_ADDCATEGORIE,
-  API_TASK
+  API_TASK,
+  API_EDIT_CATEGORY
 } from '../types';
 
 const initialState = {
