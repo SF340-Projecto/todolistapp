@@ -191,7 +191,7 @@ export default function TaskPage({navigation}) {
                             {backgroundColor: '#f33d3d'},
                           ]}
                           onPress={() => {
-                            console.log(item._id);
+                            console.log("noti id", item.noti_id);
 
                             dispatch(deleteTask(item._id));
                           }}>
