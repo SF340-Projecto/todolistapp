@@ -217,9 +217,7 @@ export default StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         flex: 1,
-        borderWidth: 15,
         borderRadius: 15,
-        borderColor: '#25ced1',
       },
       text_normal: {
         fontWeight: 'bold',
@@ -332,7 +330,6 @@ export default StyleSheet.create({
         backgroundColor: 'red',
         width: 30,
         height: 30,
-        borderWidth: 2,
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',

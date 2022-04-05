@@ -173,7 +173,7 @@ export default function TaskPage({navigation}) {
                         <TouchableOpacity
                           style={[
                             styles.addButtonIcon,
-                            {backgroundColor: theme.buttonColor},
+                            {backgroundColor: '#25ced1'},//dark theme
                           ]}
                           onPress={() => {
                             toggleModalVisibility1(item._id);
@@ -181,7 +181,7 @@ export default function TaskPage({navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
                           <MaterialIcons
                             name="edit"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
@@ -199,7 +199,7 @@ export default function TaskPage({navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                           <MaterialCommunityIcons
                             name="trash-can"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
@@ -215,7 +215,7 @@ export default function TaskPage({navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                           <MaterialCommunityIcons
                             name="check-circle-outline"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>

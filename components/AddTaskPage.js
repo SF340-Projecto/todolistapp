@@ -24,7 +24,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useSelector, useDispatch} from 'react-redux';
 import {addTaskList} from '../redux/actions/todoActions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import styles from '../css/AddTaskPage';
+import styles from '../screens/component.style.js';
 
 const {width} = Dimensions.get('window');
 
@@ -228,7 +228,7 @@ function AddTaskPage(props) {
             <TouchableOpacity
               onPress={() => {setModalVisible(!isModalVisible)}}
               >
-              <FontAwesome name="close" color={'white'} size={18} />
+              <FontAwesome name="close" color={'white'} size={18}  />
             </TouchableOpacity>
           </View>
             <ScrollView>
