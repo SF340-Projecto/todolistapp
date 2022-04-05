@@ -76,9 +76,10 @@ const Categories = ({navigation}) => {
       <View style={styles.header}>
         <Text style={styles.headerText}>CATEGORIES</Text>
       </View>
-      <AddCatagoriesButton />
+
+      {/* block category */}
       <FlatList
-        contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}
+        contentContainerStyle={{flexGrow: 1, }}
         columnWrapperStyle={styles.row}
         numColumns={numColumns}
         key={'#'}
@@ -87,7 +88,7 @@ const Categories = ({navigation}) => {
         data={categorieApi}
         renderItem={({item}) => (
           <TouchableOpacity
-          style={styles.categorieContainer}
+          style={styles.categorieContainer} 
           onPress={() =>
             navigation.navigate('CategoriesTask', { categorieData: item._id })
           }
@@ -97,7 +98,10 @@ const Categories = ({navigation}) => {
           </TouchableOpacity>
         )}
       />
-
+      <View style={{alignItems:'center'}}>
+        <AddCatagoriesButton />
+      </View>
+      
       <ActionSheet
         ref={actionsheet}
         title={'Which one do you want to do ?'}

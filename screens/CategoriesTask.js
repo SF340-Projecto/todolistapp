@@ -11,7 +11,7 @@ import {
   ScrollView,
   FlatList,
   Image,
-} from 'react-native';
+} from 'react-native'; 
 import themeContext from '../config/themeContext';
 import AddTaskCategorie from '../components/AddTaskCategorie';
 import styles from './component.style.js';

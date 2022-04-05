@@ -5,7 +5,7 @@ import {
   Modal,
   View,
   TextInput,
-  Dimensions,
+  Dimensions, 
   Text,
   TouchableOpacity,
   Image,
@@ -15,6 +15,7 @@ import {
 import {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../navigation/AuthProviders';
 import styles from '../screens/component.style.js';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 // Redux
 import {useSelector, useDispatch} from 'react-redux';
@@ -54,7 +55,7 @@ export default function AddCatagoriesButton() {
     <SafeAreaView>
       <View>
         <TouchableOpacity onPress={toggleModalVisibility} style={{margin: 10,}}>
-          <Text style={styles.loginButtonText}>Add Categories</Text>
+          <Text style={styles.loginButtonText}>ADD CATEGORYS</Text>
         </TouchableOpacity>
       </View>
 
@@ -69,6 +70,14 @@ export default function AddCatagoriesButton() {
 
         <View style={styles.bg_modal}>
           <View style={styles.paper_madal}>
+
+          <View style={styles.closeDetailContainer}>
+            <TouchableOpacity
+              onPress={() => { cancelAdd() }}
+              >
+              <FontAwesome name="close" color={'white'} size={18}  />
+            </TouchableOpacity>
+          </View>
             <Text style={styles.text_normal} >Categories Name</Text> 
             <View style={{ alignItems: 'center' }}>
               <TextInput
@@ -83,7 +92,7 @@ export default function AddCatagoriesButton() {
             </Text>
 
 
-
+            {/* color button */}
               <View style={styles.style_flexColor}>
                 <TouchableHighlight
                   valueColor={'#ff0000'}
@@ -122,17 +131,10 @@ export default function AddCatagoriesButton() {
 
               </View>
             <View>
-            <View style={styles.style_flex}>
-                <TouchableOpacity style={styles.addButtonL}>
-                    <Text 
-
-                    style={styles.addButtonText}
-                    onPress={() => { cancelAdd() }}
-                    >CANCLE</Text>
-                </TouchableOpacity>
+            <View style={{alignItems:'center'}}>
 
                 <TouchableOpacity style={styles.addButtonR} onPress={createCategories}>
-                    <Text style={styles.addButtonText}>OK</Text>
+                    <Text style={styles.addButtonText_cat}>OK</Text>
                 </TouchableOpacity>
               </View>
             </View>
