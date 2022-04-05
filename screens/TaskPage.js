@@ -62,6 +62,7 @@ export default function TaskPage({navigation}) {
   const user = useSelector(state => state.data.user[0]);
   const dispatch = useDispatch();
 
+  console.log(dataApi)
   // Use for update realtime data
   useEffect(() => {
     if (length != dataApi.length) {

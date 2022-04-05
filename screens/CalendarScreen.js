@@ -8,21 +8,32 @@ import { useSelector, useDispatch } from 'react-redux';
 const CalendarScreen = (props) => {
 
   const dataApi = useSelector(state => state.data.todolist);
-  console.log(dataApi);
-  console.log('date: ', dataApi[0].taskDate)
 
   // Function That Split Value of Date
-  const firstDateSplit = dataApi[0].taskDate.split("/")
-  var firstDate = ""
-  for (var i = 2; i >= 0; i--) {
-    if (i <= 1) {
-      firstDate += "-" + "0" + firstDateSplit[i];
-    } else {
-      firstDate += firstDateSplit[i];
-    }
+  const allDate = []
+  for (var i = 0; i < dataApi.length; i++) {
+    allDate.push(dateConvert(dataApi[i].taskDate.split("/")))
   }
+  console.log("ALLDATE: ",allDate)
 
   
+  function dateConvert(firstDateSplit){
+    var dateCon = ""
+    for (var i = 2; i >= 0; i--) {
+      if (i <= 1) {
+        if (firstDateSplit[i].length == 1) {
+          dateCon += "-" + "0" + firstDateSplit[i];
+        } else {
+          dateCon += "-" + firstDateSplit[i];
+        }
+      } else {
+        dateCon += firstDateSplit[i];
+      }
+    }
+    return dateCon;
+  }
+
+
   const dM = props.dateMac
   const [dataMac, setDataMac] = useState(dM);
 
@@ -37,18 +48,31 @@ const CalendarScreen = (props) => {
     setTimeout(() => {
       for (let i = -15; i < 85; i++) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = timeToString(time);
+        const strTime = timeToString(time); 
+        
         if (!items[strTime]) {
-          items[strTime] = [];
+          items[strTime] = []; // store a task in that day
           const numItems = Math.floor(Math.random() * 3);;
           const emptyDate = 0
-          for (let j = 0; j < emptyDate; j++) {
-            items[strTime].push({
-              name: '#' + dataApi[0].taskDate,
-              height: Math.max(50, Math.floor(Math.random() * 150)),
+          console.log("STR TIME: ", strTime)
+          if (allDate.includes(strTime)) {
+            for (let j = 0; j < 1; j++) {
+              items[strTime].push({
+                name: '#' + strTime,
+                height: Math.max(50, Math.floor(Math.random() * 150)),
 
-            });
+              });
+            }
+          } else {
+            for (let j = 0; j < emptyDate; j++) {
+              items[strTime].push({
+                name: '#' + dataApi[0].taskDate,
+                height: Math.max(50, Math.floor(Math.random() * 150)),
+
+              });
+            }
           }
+
         }
       }
       const newItems = {};
@@ -104,7 +128,7 @@ const CalendarScreen = (props) => {
       <Agenda
         items={items}
         loadItemsForMonth={loadItems}
-        selected={firstDate}
+        selected={'2022-04-05'}
         renderItem={renderItem}
         renderEmptyDate={renderEmptyDate}
       />
