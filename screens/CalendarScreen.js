@@ -16,6 +16,7 @@ const CalendarScreen = (props) => {
   }
   console.log("ALLDATE: ",allDate)
 
+
   
   function dateConvert(firstDateSplit){
     var dateCon = ""
@@ -33,7 +34,10 @@ const CalendarScreen = (props) => {
     return dateCon;
   }
 
-
+  const counts = {};
+  allDate.forEach((x) => {
+    counts[x] = (counts[x] || 0) + 1;
+  });
   const dM = props.dateMac
   const [dataMac, setDataMac] = useState(dM);
 
@@ -46,24 +50,25 @@ const CalendarScreen = (props) => {
 
   const loadItems = async (day) => {
     setTimeout(() => {
-      for (let i = -15; i < 85; i++) {
-        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = timeToString(time); 
-        
-        if (!items[strTime]) {
-          items[strTime] = []; // store a task in that day
-          const numItems = Math.floor(Math.random() * 3);;
-          const emptyDate = 0
-          console.log("STR TIME: ", strTime)
-          if (allDate.includes(strTime)) {
-            for (let j = 0; j < 1; j++) {
-              items[strTime].push({
-                name: '#' + strTime,
-                height: Math.max(50, Math.floor(Math.random() * 150)),
-
-              });
-            }
-          } else {
+      for (const key in counts) {//{ '2022-04-05': 3, '2022-04-06': 1, '2022-04-07': 1,'2022-04-10': 1 }
+        for (let i = -15; i < 85; i++) {
+          const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+          const strTime = timeToString(time); 
+          
+          if (!items[strTime]) {
+            items[strTime] = []; // store a task in that day
+            const numItems = Math.floor(Math.random() * 3);;
+            const emptyDate = 0
+            console.log("STR TIME: ", strTime)
+            
+            if (allDate.includes(strTime)) {
+              for (let j = 0; j < counts[key]; j++) {
+                  items[strTime].push({
+                  name: '#' + strTime+' :'+counts[key],
+                  height: Math.max(50, Math.floor(Math.random() * 150))});
+                }break
+          } 
+            else {
             for (let j = 0; j < emptyDate; j++) {
               items[strTime].push({
                 name: '#' + dataApi[0].taskDate,
@@ -71,6 +76,7 @@ const CalendarScreen = (props) => {
 
               });
             }
+          }
           }
 
         }
