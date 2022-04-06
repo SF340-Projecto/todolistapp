@@ -7,7 +7,7 @@ import {
   TextInput,
   Dimensions,
   Text,
-  TouchableOpacity,
+  TouchableOpacity, 
   ScrollView,
   FlatList,
   Image,
@@ -163,8 +163,6 @@ export default function CategoriesTask({route, navigation}) {
                         ]}>
                         {item.topic}
                       </Text>
-                       <Text>{item.taskDetail}</Text>
-                  <Text>{item._id}</Text> 
 
                       <View style={styles.buttonContainerIcon}>
                         <TouchableOpacity
