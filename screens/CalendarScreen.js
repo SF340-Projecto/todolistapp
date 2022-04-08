@@ -62,22 +62,31 @@ const CalendarScreen = (props) => {
             console.log("STR TIME: ", strTime)
             
             if (allDate.includes(strTime)) {
+              
               for (let j = 0; j < counts[key]; j++) {
-                  var nameTask = '';
-                  var description = '';
+                  var list_old_topic = []
+                  var list_old_des = []
                   for (var d in dataApi){
                     if (dateConvert(dataApi[d].taskDate.split("/")) == strTime) {
-                      nameTask = dataApi[d].topic
-                      description = dataApi[d].taskDetail
+                      list_old_topic.push(dataApi[d].topic)
+                      list_old_des.push(dataApi[d].taskDetail)
+                      // nameTask = list_old[list_old.length-1]
                       
+                      console.log(list_old_topic)
+                      console.log(list_old_des)
+
+                      items[strTime].push({
+                      name: list_old_topic[list_old_topic.length-1],
+                      des: list_old_des[list_old_des.length-1],
+                      height: Math.max(50, Math.floor(Math.random() * 150))
+                    });
                     }
                   }
+                  list_old_topic = []
+                  list_old_des = []
+                  break
 
-                  items[strTime].push({
-                  name: nameTask,
-                  des: description,
-                  height: Math.max(50, Math.floor(Math.random() * 150))
-                });
+                  
               } break
           } 
             else {
