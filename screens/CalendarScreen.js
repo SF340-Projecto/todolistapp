@@ -11,12 +11,9 @@ const CalendarScreen = (props) => {
 
   // Function That Split Value of Date
   const allDate = []
-  // const dataApiSort = []
   for (var i = 0; i < dataApi.length; i++) {
     allDate.push(dateConvert(dataApi[i].taskDate.split("/")))
-    // dataApiSort.push(dataApi[i])
   }
-  console.log("ALLDATE: ", allDate)
   
   function dateConvert(firstDateSplit){
     var dateCon = ""
@@ -39,8 +36,6 @@ const CalendarScreen = (props) => {
     counts[x] = (counts[x] || 0) + 1;
   });
 
-  console.log("COUINTS: ", counts)
-
   const [items, setItems] = useState({});
 
   const timeToString = (time) => {
@@ -58,9 +53,7 @@ const CalendarScreen = (props) => {
           if (!items[strTime]) {
             items[strTime] = []; // store a task in that day
             // const numItems = Math.floor(Math.random() * 3);;
-            const emptyDate = 0
-            console.log("STR TIME: ", strTime)
-            
+            const emptyDate = 0            
             if (allDate.includes(strTime)) {
               
               for (let j = 0; j < counts[key]; j++) {
@@ -70,11 +63,7 @@ const CalendarScreen = (props) => {
                     if (dateConvert(dataApi[d].taskDate.split("/")) == strTime) {
                       nameTask = dataApi[d].topic
                       description = dataApi[d].taskDetail
-                      // nameTask = list_old[list_old.length-1]
                       
-                      console.log(nameTask)
-                      console.log(description)
-
                       items[strTime].push({
                       name: nameTask,
                       des: description,
