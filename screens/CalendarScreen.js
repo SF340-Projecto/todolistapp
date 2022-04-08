@@ -11,12 +11,12 @@ const CalendarScreen = (props) => {
 
   // Function That Split Value of Date
   const allDate = []
+  // const dataApiSort = []
   for (var i = 0; i < dataApi.length; i++) {
     allDate.push(dateConvert(dataApi[i].taskDate.split("/")))
+    // dataApiSort.push(dataApi[i])
   }
-  console.log("ALLDATE: ",allDate)
-
-
+  console.log("ALLDATE: ", allDate)
   
   function dateConvert(firstDateSplit){
     var dateCon = ""
@@ -38,8 +38,8 @@ const CalendarScreen = (props) => {
   allDate.forEach((x) => {
     counts[x] = (counts[x] || 0) + 1;
   });
-  const dM = props.dateMac
-  const [dataMac, setDataMac] = useState(dM);
+
+  console.log("COUINTS: ", counts)
 
   const [items, setItems] = useState({});
 
@@ -50,23 +50,35 @@ const CalendarScreen = (props) => {
 
   const loadItems = async (day) => {
     setTimeout(() => {
-      for (const key in counts) {//{ '2022-04-05': 3, '2022-04-06': 1, '2022-04-07': 1,'2022-04-10': 1 }
+      for (const key in counts) { //{ '2022-04-05': 3, '2022-04-06': 1, '2022-04-07': 1,'2022-04-10': 1 }
         for (let i = -15; i < 85; i++) {
           const time = day.timestamp + i * 24 * 60 * 60 * 1000;
           const strTime = timeToString(time); 
           
           if (!items[strTime]) {
             items[strTime] = []; // store a task in that day
-            const numItems = Math.floor(Math.random() * 3);;
+            // const numItems = Math.floor(Math.random() * 3);;
             const emptyDate = 0
             console.log("STR TIME: ", strTime)
             
             if (allDate.includes(strTime)) {
               for (let j = 0; j < counts[key]; j++) {
+                  var nameTask = '';
+                  var description = '';
+                  for (var d in dataApi){
+                    if (dateConvert(dataApi[d].taskDate.split("/")) == strTime) {
+                      nameTask = dataApi[d].topic
+                      description = dataApi[d].taskDetail
+                      
+                    }
+                  }
+
                   items[strTime].push({
-                  name: '#' + strTime+' :'+counts[key],
-                  height: Math.max(50, Math.floor(Math.random() * 150))});
-                }break
+                  name: nameTask,
+                  des: description,
+                  height: Math.max(50, Math.floor(Math.random() * 150))
+                });
+              } break
           } 
             else {
             for (let j = 0; j < emptyDate; j++) {
@@ -96,12 +108,13 @@ const CalendarScreen = (props) => {
           <Card.Content>
             <View
               style={{
-                flexDirection: 'row',
+                flexDirection: 'column',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
               <Text>{item.name}</Text>
-              <Avatar.Text label="M" />
+              <Text>{item.des}</Text>
+              {/* <Avatar.Text label="M" /> */}
             </View>
           </Card.Content>
         </Card>
@@ -120,8 +133,8 @@ const CalendarScreen = (props) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <Text>----------------------</Text>
-              <Avatar.Text label="" />
+              <Text>-------------------------------</Text>
+              {/* <Avatar.Text label="" /> */}
             </View>
           </Card.Content>
         </Card>
