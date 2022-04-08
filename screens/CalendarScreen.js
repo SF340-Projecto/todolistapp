@@ -64,26 +64,24 @@ const CalendarScreen = (props) => {
             if (allDate.includes(strTime)) {
               
               for (let j = 0; j < counts[key]; j++) {
-                  var list_old_topic = []
-                  var list_old_des = []
+                  var nameTask = '';
+                  var description = '';
                   for (var d in dataApi){
                     if (dateConvert(dataApi[d].taskDate.split("/")) == strTime) {
-                      list_old_topic.push(dataApi[d].topic)
-                      list_old_des.push(dataApi[d].taskDetail)
+                      nameTask = dataApi[d].topic
+                      description = dataApi[d].taskDetail
                       // nameTask = list_old[list_old.length-1]
                       
-                      console.log(list_old_topic)
-                      console.log(list_old_des)
+                      console.log(nameTask)
+                      console.log(description)
 
                       items[strTime].push({
-                      name: list_old_topic[list_old_topic.length-1],
-                      des: list_old_des[list_old_des.length-1],
+                      name: nameTask,
+                      des: description,
                       height: Math.max(50, Math.floor(Math.random() * 150))
                     });
                     }
                   }
-                  list_old_topic = []
-                  list_old_des = []
                   break
 
                   
@@ -120,6 +118,7 @@ const CalendarScreen = (props) => {
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                backgroundColor: 'yellow'
               }}>
               <Text>{item.name}</Text>
               <Text>{item.des}</Text>
@@ -142,7 +141,7 @@ const CalendarScreen = (props) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <Text>-------------------------------</Text>
+              <Text> </Text>
               {/* <Avatar.Text label="" /> */}
             </View>
           </Card.Content>
