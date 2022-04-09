@@ -1,22 +1,22 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from '../css/ArchiveScreen';
-
+import themeContext from '../config/themeContext';
 export default function ArchiveScreen() {
   
   const [dataTask, setDataTask] = useState([]);
 
   const dataApi = useSelector(state => state.data.todolist);
 
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch(); 
+  const theme = useContext(themeContext);
 
   return (
-    <View style={styles.body}>
+    <View style={[styles.body, {backgroundColor: theme.hudColor1_body}]}>
       <View style={styles.header}>
         <Text style={styles.headerText}>ARCHIVE TASK</Text>
       </View>
@@ -26,13 +26,13 @@ export default function ArchiveScreen() {
           
 
           
-          <View style={styles.taskContainer}>
+          <View style={[styles.taskContainer, {backgroundColor: theme.hudColor1}]}>
             {/* check achive or not */}
             {item.achive === true && (
                   <View>
                 <View style={{ flexDirection: 'row',}}>
-                    <FontAwesome name="circle" style={styles.buttoncircle} />
-                    <Text style={styles.taskText}>{item.topic}</Text>
+                    <FontAwesome name="circle" style={[styles.buttoncircle, {color: theme.fontColor}]} />
+                    <Text style={[styles.taskText, {color: theme.fontColor}]}>{item.topic}</Text>
                     
                     <View style={styles.buttonContainerIcon}>
                       <TouchableOpacity style={[styles.addButtonIcon]} >

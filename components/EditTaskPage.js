@@ -23,6 +23,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateTaskList } from '../redux/actions/todoActions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { updateTaskCategorie } from '../redux/actions/categorieAction';
+import themeContext from '../config/themeContext';
 
 const { width } = Dimensions.get('window');
 
@@ -50,7 +51,7 @@ function EditTaskPage(props) {
   const [mode, setMode] = useState('date');
 
   const user_id = useSelector(state => state.data.user[0]['_id']);
-
+  const theme = useContext(themeContext);
   const changeModalVisibility = bool => {
     setisModalVisible_d(bool);
   };
@@ -182,7 +183,7 @@ function EditTaskPage(props) {
 
   return (
     <View style={styles.bg_modal}>
-      <View style={styles.paper_madal}>
+      <View style={[styles.paper_madal, {backgroundColor: theme.backgroundColor}]}>
         <View style={styles.closeDetailContainer}>
           <TouchableOpacity
             onPress={() => {
@@ -193,7 +194,7 @@ function EditTaskPage(props) {
           </TouchableOpacity>
         </View>
         <ScrollView>
-          <Text style={styles.text_normal}>EDIT TASK</Text>
+          <Text style={[styles.text_normal, {color: theme.fontColor}]}>EDIT TASK</Text>
           <View style={{ alignItems: 'center' }}>
             <TextInput
               placeholder="Enter something..."
@@ -203,7 +204,7 @@ function EditTaskPage(props) {
             />
           </View>
 
-          <Text style={styles.text_normal}>Detail Task</Text>
+          <Text style={[styles.text_normal, {color: theme.fontColor}]}>Detail Task</Text>
           <View style={{ alignItems: 'center' }}>
             <TextInput
               placeholder="Enter something..."
@@ -215,17 +216,17 @@ function EditTaskPage(props) {
             />
           </View>
           <View style={styles.priority}>
-            <Text style={styles.text_normal}>Priority : </Text>
+            <Text style={[styles.text_normal, {color: theme.fontColor}]}>Priority : </Text>
             <Picker
               selectedValue={selectedValue}
-              style={styles.priority_select}
+              style={[styles.priority_select, {color: theme.fontColor}]}
               onValueChange={(itemValue, itemIndex) =>
                 setSelectedValue(itemValue)
               }>
-              <Picker.Item label="None" value="0" />
-              <Picker.Item label="Low" value="1" />
-              <Picker.Item label="Medium" value="2" />
-              <Picker.Item label="High" value="3" />
+              <Picker.Item style={{color: theme.backgroundColor_priority}} label="None" value="0" />
+              <Picker.Item style={{color: theme.backgroundColor_priority}} label="Low" value="1" />
+              <Picker.Item style={{color: theme.backgroundColor_priority}} label="Medium" value="2" />
+              <Picker.Item style={{color: theme.backgroundColor_priority}} label="High" value="3" />
             </Picker>
           </View>
 
@@ -241,7 +242,7 @@ function EditTaskPage(props) {
                 onChange={onChange}
               />
             )}
-            <Text style={styles.text_normal}>DUE DATE</Text>
+            <Text style={[styles.text_normal, {color: theme.fontColor}]}>DUE DATE</Text>
           </View>
           {/* --------------------Date-------------------- */}
           <View style={{ alignItems: 'center', paddingBottom: 10 }}>
@@ -267,7 +268,7 @@ function EditTaskPage(props) {
               <Text style={styles.style_text_date}>{textTime}</Text>
             </View>
           </View>
-          <Text style={styles.text_normal}>CATEGORY</Text>
+          <Text style={[styles.text_normal, {color: theme.fontColor}]}>CATEGORY</Text>
 
           <View style={{ alignItems: 'center' }}>
             <View style={styles.input_f}>
@@ -291,7 +292,7 @@ function EditTaskPage(props) {
               </Modal>
             </View>
           </View>
-          <Text style={styles.text_normal}>ADD PICTURE</Text>
+          <Text style={[styles.text_normal, {color: theme.fontColor}]}>ADD PICTURE</Text>
           <View style={{ alignItems: 'center' }}>
             <TouchableOpacity onPress={selectImage}>
               <Image

@@ -24,10 +24,10 @@ const MainScreen = ({ navigation }) => {
     <Tab.Navigator
       initialRouteName='Main'
       tabBarOptions={{
-        activeTintColor: theme.fontColor,
+        activeTintColor: '#ffffff',
         activeBackgroundColor: theme.hudColor,
         inactiveBackgroundColor: theme.hudColor,
-        inactiveTintColor: '#ffffff',
+        inactiveTintColor: theme.backgroundColor ,
         labelStyle: {
           fontSize: 16,
           paddingBottom: 7,

@@ -214,7 +214,6 @@ export default StyleSheet.create({
         flex: 1,
       },
       paper_madal: {
-        backgroundColor: '#ffffff',
         margin: 30,
         marginTop: 90,
         marginBottom: 90,
@@ -331,7 +330,7 @@ export default StyleSheet.create({
         paddingLeft:50,
         height:10,
         width:300,
-        marginVertical: -7,
+        marginVertical: -7,   
         
       },
       closeDetailContainer: {
