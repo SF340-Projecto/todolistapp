@@ -7,7 +7,8 @@ import {
   API_CATEGORIE,
   API_ADDCATEGORIE,
   API_TASK,
-  API_EDIT_CATEGORY
+  API_EDIT_CATEGORY,
+  API_DELETE_CATEGORY
 } from '../types';
 
 const initialState = {
@@ -15,7 +16,7 @@ const initialState = {
   userLog: false,
   todolist: [],
   categorie: [],
-  taskCategorie : []
+  taskCategorie: [],
 };
 
 export default function (state = initialState, action) {
@@ -60,10 +61,16 @@ export default function (state = initialState, action) {
     case API_TASK:
       return {
         ...state,
-        taskCategorie : action.payload
-      }
+        taskCategorie: action.payload,
+      };
 
     case API_EDIT_CATEGORY:
+      return {
+        ...state,
+        categorie: action.payload,
+      };
+
+    case API_DELETE_CATEGORY:
       return {
         ...state,
         categorie: action.payload,

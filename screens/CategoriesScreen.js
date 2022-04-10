@@ -12,6 +12,7 @@ import AddCatagoriesButton from '../components/AddCatagoriesButton';
 import styles from '../css/categoryScreen';
 import {useSelector, useDispatch} from 'react-redux';
 import {
+  DeleteCategory,
   getCategoriesName,
   updateCategory,
 } from '../redux/actions/categorieAction';
@@ -59,7 +60,7 @@ const Categories = ({navigation}) => {
   };
 
   const deleteCategory = () => {
-    alert('Delete');
+    dispatch(DeleteCategory(id))
   };
   return (
     <SafeAreaView style={styles.body}>
