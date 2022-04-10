@@ -66,6 +66,7 @@ export default function (state = initialState, action) {
     case API_EDIT_CATEGORY:
       return {
         ...state,
+        categorie: action.payload,
       };
 
     default:

@@ -1,4 +1,4 @@
-import {API_ADDCATEGORIE, API_CATEGORIE, API_TODODELETE, API_TASK} from '../types';
+import {API_ADDCATEGORIE, API_CATEGORIE, API_TODODELETE, API_TASK, API_EDIT_CATEGORY} from '../types';
 import axios from 'axios';
 
 // const API_URL = 'https://app-todolist-api.herokuapp.com/categories';
@@ -60,7 +60,7 @@ export const createCategorie =
         return response.data;
       })
       .catch(err => {
-        console.log("Add fail")
+        console.log("fail: ",err)
       });
   };
 
