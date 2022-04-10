@@ -11,7 +11,7 @@ export default StyleSheet.create({
     
         
        
-      },
+      }, 
       buttonContainerIcon: {
         flex:1,
         flexDirection: 'row',
@@ -25,7 +25,7 @@ export default StyleSheet.create({
         flex: 1,
         alignContent: 'flex-start',
         justifyContent: 'flex-start',
-        backgroundColor:'#FFFFFF'
+        // backgroundColor:'red'
       },
       header: {
         height: 75,
@@ -41,7 +41,7 @@ export default StyleSheet.create({
         fontSize: 24,
       },
       taskContainer: {
-        backgroundColor: '#FFFFFF',
+        // backgroundColor: 'red',
         paddingTop:1
     
       },

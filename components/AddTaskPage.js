@@ -206,9 +206,9 @@ function AddTaskPage(props) {
       <View>
         <View style={styles.addButtonContainer}>
           <TouchableOpacity
-            style={[styles.addButton, {backgroundColor: theme.buttonColor}]}
+            style={[styles.addButton, {backgroundColor: theme.hudColor}]}
             onPress={toggleModalVisibility}>
-            <Text style={[styles.addButtonText, {color: theme.fontColor}]}>
+            <Text style={[styles.addButtonText, {color: theme.fontColor_add}]}>
               +
             </Text>
           </TouchableOpacity>
@@ -223,7 +223,7 @@ function AddTaskPage(props) {
         presentationStyle="overFullScreen"
         onDismiss={toggleModalVisibility}>
         <View style={styles.bg_modal}>
-          <View style={styles.paper_madal}>
+          <View style={[styles.paper_madal, {backgroundColor: theme.backgroundColor}]}>
           <View style={styles.closeDetailContainer}>
             <TouchableOpacity
               onPress={() => {setModalVisible(!isModalVisible)}}
@@ -234,7 +234,7 @@ function AddTaskPage(props) {
             <ScrollView>
             
             
-              <Text style={styles.text_normal}>ADD TASK</Text>
+              <Text style={[styles.text_normal, {color: theme.fontColor}]}>ADD TASK</Text>
               <View style={{alignItems: 'center'}}>
                 <TextInput
                   placeholder="Enter something..."
@@ -244,7 +244,7 @@ function AddTaskPage(props) {
                 />
               </View>
 
-              <Text style={styles.text_normal}>Detail Task</Text>
+              <Text style={[styles.text_normal, {color: theme.fontColor}]}>Detail Task</Text>
               <View style={{alignItems: 'center'}}>
                 <TextInput
                   placeholder="Enter something..."
@@ -257,17 +257,17 @@ function AddTaskPage(props) {
               </View>
 
               <View style={styles.priority}>
-                <Text style={styles.text_normal}>Priority : </Text>
+                <Text style={[styles.text_normal, {color: theme.fontColor}]}>Priority : </Text>
               <Picker
                     selectedValue={selectedValue}
-                    style={styles.priority_select}
+                    style={[styles.priority_select, {color: theme.fontColor}]}
                     onValueChange={(itemValue, itemIndex) =>
-                      setSelectedValue(itemValue)}>
+                      setSelectedValue(itemValue)}> 
 
-                    <Picker.Item label="None" value="0" />
-                    <Picker.Item label="Low" value="1" />
-                    <Picker.Item label="Medium" value="2" />
-                    <Picker.Item label="High" value="3" />
+                    <Picker.Item style={{color: theme.backgroundColor_priority}} label="None" value="0" />
+                    <Picker.Item style={{color: theme.backgroundColor_priority}} label="Low" value="1" />
+                    <Picker.Item style={{color: theme.backgroundColor_priority}} label="Medium" value="2" />
+                    <Picker.Item style={{color: theme.backgroundColor_priority}} label="High" value="3" />
                   </Picker>
               </View>
 
@@ -284,7 +284,7 @@ function AddTaskPage(props) {
                   onChange={onChange}
                 />
               )}
-              <Text style={styles.text_normal}>DUE DATE</Text>
+              <Text style={[styles.text_normal, {color: theme.fontColor}]}>DUE DATE</Text>
               {/* --------------------Date-------------------- */}
               <View style={{alignItems: 'center', paddingBottom: 10}}>
                 <View style={styles.input_f}>
@@ -311,7 +311,7 @@ function AddTaskPage(props) {
                   <Text style={styles.style_text_date}>{textTime}</Text>
                 </View>
               </View>
-              <Text style={styles.text_normal}>CATEGORY</Text>
+              <Text style={[styles.text_normal, {color: theme.fontColor}]}>CATEGORY</Text>
 
               <View style={{alignItems: 'center'}}>
                 <View style={styles.input_f}>
@@ -337,7 +337,7 @@ function AddTaskPage(props) {
               </View>
 
               {/* </View> */}
-              <Text style={styles.text_normal}>ADD PICTURE</Text>
+              <Text style={[styles.text_normal, {color: theme.fontColor}]}>ADD PICTURE</Text>
               <View style={{alignItems: 'center'}}>
                 <TouchableOpacity            
                 onPress={selectImage}>

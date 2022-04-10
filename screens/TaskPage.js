@@ -132,7 +132,7 @@ export default function TaskPage({navigation}) {
     <SafeAreaView
       style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
       <ScrollView>
-        <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
+        <View style={[styles.header, {backgroundColor: '#25ced1'}]}>
           <View style={styles.header_container}>
             {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
             <View>
@@ -152,7 +152,7 @@ export default function TaskPage({navigation}) {
                 {/* check achive or not */}
                 {item.achive === false && (
                   <View>
-                    <View style={styles.row}>
+                    <View style={[styles.row, {backgroundColor: theme.backgroundColor}]}>
                       <Image
                         style={styles.tinyLogo}
                         source={{
