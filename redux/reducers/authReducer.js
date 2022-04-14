@@ -8,7 +8,12 @@ import {
   API_ADDCATEGORIE,
   API_TASK,
   API_EDIT_CATEGORY,
-  API_DELETE_CATEGORY
+  API_DELETE_CATEGORY,
+  API_CHECKTASKINCATE,
+  API_ADDTASKCATE,
+  API_DELETE_CATEGORYTASK,
+  API_UPDATETASKCATEGORY,
+  API_ACHIVETASKCATEGORY
 } from '../types';
 
 const initialState = {
@@ -17,6 +22,11 @@ const initialState = {
   todolist: [],
   categorie: [],
   taskCategorie: [],
+  emptyTask : true,
+  addTask : false,
+  deleteTask : false,
+  updateTask : false,
+  achiveTask : false
 };
 
 export default function (state = initialState, action) {
@@ -58,11 +68,46 @@ export default function (state = initialState, action) {
         ...state,
         categorie: action.payload,
       };
+      case API_CHECKTASKINCATE:
+        return {
+          ...state,
+          emptyTask : true,
+          addTask : false
+        }
     case API_TASK:
       return {
         ...state,
         taskCategorie: action.payload,
+        emptyTask : false,
+        addTask : false,
+        deleteTask : false,
+        updateTask : false,
+        achiveTask : false
       };
+
+    case API_ADDTASKCATE:
+      return{
+        ...state,
+        taskCategorie: action.payload,
+        addTask : true
+      }
+    case API_DELETE_CATEGORYTASK:
+      return{
+        ...state,
+        deleteTask : true
+      }
+
+    case API_UPDATETASKCATEGORY:
+      return {
+        ...state,
+        taskCategorie: action.payload,
+        updateTask : true,
+      }
+    case API_ACHIVETASKCATEGORY:
+      return{
+        ...state,
+        achiveTask : true
+      }
 
     case API_EDIT_CATEGORY:
       return {

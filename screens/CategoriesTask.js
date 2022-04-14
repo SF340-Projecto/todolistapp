@@ -56,20 +56,20 @@ export default function CategoriesTask({route, navigation}) {
   const [objId, setObjId] = useState();
   
   const categorieApi = useSelector(state => state.data.taskCategorie);
+  const emptyTaskCheck = useSelector(state => state.data.emptyTask);
+  const addTaskCheck = useSelector(state => state.data.addTask);
+  const deleteTaskCheck = useSelector(state => state.data.deleteTask);
+  const updateTaskCheck = useSelector(state => state.data.updateTask);
+  const achiveTaskCheck = useSelector(state => state.data.achiveTask);
 
 
   // Use for update realtime data
   useEffect(() => {
-    if (length != categorieApi.length) {
-      setLength(categorieApi.length);
-      dispatch(getTaskInCategorie(user_id, categorieData));
-    } else if (length == 0) {
-      dispatch(getTaskInCategorie(user_id, categorieData));
-    } 
 
-    setisLoading(false);
+      dispatch(getTaskInCategorie(user_id, categorieData));
+
     createChannels();
-  });
+  }, [emptyTaskCheck, addTaskCheck, deleteTaskCheck, updateTaskCheck, achiveTaskCheck]);
 
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);
@@ -101,7 +101,6 @@ export default function CategoriesTask({route, navigation}) {
   const toggleModalVisibility1 = userDocId => {
     setModalVisible1(!isModalVisible1);
     setObjId(userDocId);
-    console.log("cate id ",objId)
   };
 
   const toggleModalVisibility3 = item => {
@@ -176,8 +175,6 @@ export default function CategoriesTask({route, navigation}) {
                             {backgroundColor: '#f33d3d'},
                           ]}
                           onPress={() => {
-                            console.log(item._id);
-
                             dispatch(deleteCategorieTask(item._id));
                           }}>
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}

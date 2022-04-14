@@ -70,9 +70,7 @@ export default function TaskPage({navigation}) {
       dispatch(getTaskList(user_id));
     } else if (length == 0) {
       dispatch(getTaskList(user_id));
-    } else {
-      console.log('else');
-    }
+    } 
     dataApi.slice().sort((a, b) => b.priority - a.priority);
     changePriorityToText(dataApi);
 

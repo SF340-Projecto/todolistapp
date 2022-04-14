@@ -38,22 +38,14 @@ const Categories = ({navigation}) => {
   // Use for update realtime data
   useEffect(() => {
     if (length != categorieApi.length) {
-      console.log('dif');
-      console.log(length, categorieApi.length);
       setLength(categorieApi.length);
       dispatch(getCategoriesName(user_id));
     } else if (length == 0) {
       dispatch(getCategoriesName(user_id));
-      console.log(length, categorieApi.length);
-      console.log('not dif');
-    } else {
-      console.log('else');
-      console.log(length, categorieApi.length);
-    }
+    } 
   });
 
   const editCategory = () => {
-    console.log('Name', name);
     setTopicInput('');
     setMode(true);
     

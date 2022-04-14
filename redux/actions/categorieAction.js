@@ -1,13 +1,22 @@
-import {API_ADDCATEGORIE, API_CATEGORIE, API_TODODELETE, API_TASK, API_EDIT_CATEGORY, API_DELETE_CATEGORY} from '../types';
+import {
+  API_ADDCATEGORIE,
+  API_CATEGORIE,
+  API_CHECKTASKINCATE,
+  API_TASK,
+  API_EDIT_CATEGORY,
+  API_DELETE_CATEGORY,
+  API_ADDTASKCATE,
+  API_DELETE_CATEGORYTASK,
+  API_UPDATETASKCATEGORY,
+  API_ACHIVETASKCATEGORY
+} from '../types';
 import axios from 'axios';
 
 // const API_URL = 'https://app-todolist-api.herokuapp.com/categories';
 const API_URL = 'http://10.0.2.2:4001/categories';
 const API_URL_TASK = 'http://10.0.2.2:4001/categoryTasks';
 
-
-export const getCategoriesName = (user_id) => dispatch => {
-    console.log(user_id)
+export const getCategoriesName = user_id => dispatch => {
   axios
     .get(API_URL + '/' + user_id)
     .then(response => {
@@ -20,97 +29,86 @@ export const getCategoriesName = (user_id) => dispatch => {
     });
 };
 
-export const createCategorie =
-   (
-    user_id,
-    name
-  ) =>
-  (dispatch) => {
-    axios
-      .post(API_URL, {
-        _id:user_id,
-        name:name,
-      })
-      .then(response => {
-        //dispatch({type: API_TODOUPDATE, payload: response.data});
-        dispatch({type: API_ADDCATEGORIE, payload: []})
+export const createCategorie = (user_id, name) => dispatch => {
+  axios
+    .post(API_URL, {
+      _id: user_id,
+      name: name,
+    })
+    .then(response => {
+      //dispatch({type: API_TODOUPDATE, payload: response.data});
+      dispatch({type: API_ADDCATEGORIE, payload: []});
 
-        return response.data;
-      })
-      .catch(err => {
-        console.log("Add fail")
-      });
-  };
+      return response.data;
+    })
+    .catch(err => {
+      console.log('Add fail');
+    });
+};
 
-  export const updateCategory =
-   (
-    id,
-    name
-  ) =>
-  (dispatch) => {
-    axios
-      .put(API_URL, {
-        _id:id,
-        name:name,
-      })
-      .then(response => {
-        //dispatch({type: API_TODOUPDATE, payload: response.data});
-        dispatch({type: API_EDIT_CATEGORY, payload: []})
-        console.log("EDIT: ", response.data);
-        return response.data;
-      })
-      .catch(err => {
-        console.log("fail: ",err)
-      });
-  };
+export const updateCategory = (id, name) => dispatch => {
+  axios
+    .put(API_URL, {
+      _id: id,
+      name: name,
+    })
+    .then(response => {
+      //dispatch({type: API_TODOUPDATE, payload: response.data});
+      dispatch({type: API_EDIT_CATEGORY, payload: []});
+      console.log('EDIT: ', response.data);
+      return response.data;
+    })
+    .catch(err => {
+      console.log('fail: ', err);
+    });
+};
 
-  export const DeleteCategory = _id => dispatch => {
-    axios
-      .delete(API_URL + '/' + _id)
-      .then( 
-        dispatch({type: API_DELETE_CATEGORY, payload: []})
-      )
-      .catch(err => {
-        console.log("Delete fail: ", err )
-  
-      });
-  };
+export const DeleteCategory = _id => dispatch => {
+  axios
+    .delete(API_URL + '/' + _id)
+    .then(dispatch({type: API_DELETE_CATEGORY, payload: []}))
+    .catch(err => {
+      console.log('Delete fail: ', err);
+    });
+};
 
-  export const achiveCategorieTask = _id => dispatch => {
-    axios
-      .put(API_URL_TASK, {
-        _id,
-        achive: true
-      })
-      .then(response => {
-        dispatch({type: API_TASK, payload: []})
+export const achiveCategorieTask = _id => dispatch => {
+  axios
+    .put(API_URL_TASK, {
+      _id,
+      achive: true,
+    })
+    .then(response => {
+      dispatch({type: API_ACHIVETASKCATEGORY, payload: []});
 
-        return response.data;
-      })
-      .catch(err => {
-        console.log("Update fail")
-        console.log(err)
-      });
-  };
-
+      return response.data;
+    })
+    .catch(err => {
+      console.log('Update fail');
+      console.log(err);
+    });
+};
 
 export const getTaskInCategorie = (user_id, _id) => dispatch => {
-  console.log(user_id)
-axios
-  .get(API_URL_TASK + '/' + user_id+"/"+_id)
-  .then(response => {
-    dispatch({type: API_TASK, payload: response.data});
+  axios
+    .get(API_URL_TASK + '/' + user_id + '/' + _id)
+    .then(response => {
+      if(response.data.length === 0){
+        dispatch({type: API_CHECKTASKINCATE});
+      }else{
+        dispatch({type: API_TASK, payload: response.data});
+      }
 
-    return response.data;
-  })
-  .catch(err => {
-    console.log(err)
-    alert('Get data error');
-  });
+      return response.data;
+    })
+    .catch(err => {
+      console.log(err);
+      alert('Get data error');
+    });
 };
 
 export const addTaskCategorie =
-   (
+  (
     user_id,
     _id,
     date,
@@ -122,13 +120,13 @@ export const addTaskCategorie =
     topic,
     urlPhoto,
     noti_id,
-    achive
+    achive,
   ) =>
-  (dispatch) => {
+  dispatch => {
     axios
       .post(API_URL_TASK, {
-        user_id : user_id,
-        categorie_id : _id,
+        user_id: user_id,
+        categorie_id: _id,
         date,
         priority,
         taskDetail,
@@ -136,25 +134,24 @@ export const addTaskCategorie =
         taskDatetaskDate,
         timestamp,
         topic,
-        urlPhoto:urlPhoto,
+        urlPhoto: urlPhoto,
         noti_id,
-        achive: achive
+        achive: achive,
       })
       .then(response => {
         //dispatch({type: API_TODOUPDATE, payload: response.data});
-        dispatch({type: API_TASK, payload: []})
+        dispatch({type: API_ADDTASKCATE, payload: []});
 
         return response.data;
       })
       .catch(err => {
-
-        console.log(err)
-        console.log("Add fail")
+        console.log(err);
+        console.log('Add fail');
       });
   };
 
-  export const updateTaskCategorie =
-   (
+export const updateTaskCategorie =
+  (
     user_id,
     _id,
     date,
@@ -166,7 +163,7 @@ export const addTaskCategorie =
     topic,
     urlPhoto,
   ) =>
-  (dispatch) => {
+  dispatch => {
     axios
       .put(API_URL_TASK, {
         user_id,
@@ -178,29 +175,25 @@ export const addTaskCategorie =
         taskDatetaskDate,
         timestamp,
         topic,
-        urlPhoto:urlPhoto,
+        urlPhoto: urlPhoto,
       })
       .then(response => {
         //dispatch({type: API_TODOUPDATE, payload: response.data});
-        dispatch({type: API_TASK, payload: []})
+        dispatch({type: API_UPDATETASKCATEGORY, payload: []});
 
         return response.data;
       })
       .catch(err => {
-
-        console.log(err)
-        console.log("Add fail")
+        console.log(err);
+        console.log('Add fail');
       });
   };
 
-  export const deleteCategorieTask = _id => dispatch => {
-    axios
-      .delete(API_URL_TASK + '/' + _id)
-      .then( 
-        dispatch({type: API_TASK, payload: []})
-      )
-      .catch(err => {
-        console.log("Delete fail")
-  
-      });
-  };
+export const deleteCategorieTask = _id => dispatch => {
+  axios
+    .delete(API_URL_TASK + '/' + _id)
+    .then(dispatch({type: API_DELETE_CATEGORYTASK, payload: []}))
+    .catch(err => {
+      console.log('Delete fail');
+    });
+};
