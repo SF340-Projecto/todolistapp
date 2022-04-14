@@ -61,26 +61,15 @@ export default function CategoriesTask({route, navigation}) {
   // Use for update realtime data
   useEffect(() => {
     if (length != categorieApi.length) {
-      console.log('dif');
-      console.log(length, categorieApi.length);
       setLength(categorieApi.length);
       dispatch(getTaskInCategorie(user_id, categorieData));
     } else if (length == 0) {
       dispatch(getTaskInCategorie(user_id, categorieData));
-      console.log(length, categorieApi.length);
-      console.log('not dif');
-    } else {
-      console.log('else');
-      console.log(length, categorieApi.length);
-    }
+    } 
 
     setisLoading(false);
     createChannels();
   });
-
-  console.log("Care ",categorieApi)
-  console.log("Cate id ",categorieData)
-  console.log("id ", user_id)
 
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);
