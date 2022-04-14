@@ -23,7 +23,7 @@ import storage from '@react-native-firebase/storage';
 import {useSelector, useDispatch} from 'react-redux';
 import {addTaskCategorie} from '../redux/actions/categorieAction';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import styles from '../css/AddTaskPage';
+import styles from '../screens/component.style';
 
 const {width} = Dimensions.get('window');
 
@@ -211,6 +211,8 @@ function AddTaskPage(props) {
       </View>
       {/** This is our modal component containing textinput and a button */}
 
+
+{/* Addtask category */}
       <Modal
         animationType="slide"
         transparent

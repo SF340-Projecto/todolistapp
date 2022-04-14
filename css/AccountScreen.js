@@ -5,7 +5,7 @@ export default StyleSheet.create({
     // These are user defined styles
 
     textLeft: {
-        flex: 1,
+        flex: 1, 
     },
     menuSection: {
         flexDirection: 'row',
@@ -27,11 +27,6 @@ export default StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: "#707070",
     },
-    menuHeaderLogout: {
-        padding: 17,
-        backgroundColor: '#E5F1F1',
-        width: '100%',
-    },
     menuContainer: {
         flex: 1,
         flexDirection: 'column',
@@ -45,6 +40,7 @@ export default StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
+
     },
     headerContainer: {
         height: 75,
@@ -77,10 +73,17 @@ export default StyleSheet.create({
     },
     userNameTopContainer: {
         margin: 20,
+
     },
     userNameTopText: {
         fontSize: 20,
         fontWeight: 'bold',
     },
+    profile_icon:{
+        fontSize:50
+    },
+    icon_menu:{
+        fontSize:20
+    }
 
 });

@@ -66,7 +66,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         height: 75,
         marginTop: 25,
-      },
+      }, 
       addButtonText: {
         // color: '#707070',
         // fontWeight: 'bold',

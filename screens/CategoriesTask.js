@@ -7,11 +7,11 @@ import {
   TextInput,
   Dimensions,
   Text,
-  TouchableOpacity,
+  TouchableOpacity, 
   ScrollView,
   FlatList,
   Image,
-} from 'react-native';
+} from 'react-native'; 
 import themeContext from '../config/themeContext';
 import AddTaskCategorie from '../components/AddTaskCategorie';
 import styles from './component.style.js';
@@ -152,8 +152,6 @@ export default function CategoriesTask({route, navigation}) {
                         ]}>
                         {item.topic}
                       </Text>
-                       <Text>{item.taskDetail}</Text>
-                  <Text>{item._id}</Text> 
 
                       <View style={styles.buttonContainerIcon}>
                         <TouchableOpacity

@@ -107,9 +107,13 @@ export default StyleSheet.create({
         marginTop: 25,
       },
       addButtonText: {
-        // color: '#707070',
-        // fontWeight: 'bold',
-        fontSize: 50,
+
+        fontSize: 40,
+        color:'white'
+      },
+      addButtonText_cat: {
+        fontSize: 20,
+        color:'white'
       },
       addButton: {
         // backgroundColor: '#FFFFFF',
@@ -210,16 +214,13 @@ export default StyleSheet.create({
         flex: 1,
       },
       paper_madal: {
-        backgroundColor: '#ffffff',
         margin: 30,
         marginTop: 90,
         marginBottom: 90,
         padding: 20,
         borderRadius: 10,
         flex: 1,
-        borderWidth: 15,
         borderRadius: 15,
-        borderColor: '#25ced1',
       },
       text_normal: {
         fontWeight: 'bold',
@@ -310,6 +311,10 @@ export default StyleSheet.create({
         paddingBottom: 10,
         padding: 20,
       },
+      style_flex:{
+        flexDirection:'row',
+        alignItems:'center'
+      },
       addButtonText1: {
         color: '#ffffff',
         fontWeight: 'bold',
@@ -325,17 +330,28 @@ export default StyleSheet.create({
         paddingLeft:50,
         height:10,
         width:300,
-        marginVertical: -7,
+        marginVertical: -7,   
         
       },
       closeDetailContainer: {
         backgroundColor: 'red',
         width: 30,
         height: 30,
-        borderWidth: 2,
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom:10
       },
+      loginButtonText:{
+        color:'white',
+        backgroundColor:'#25CED1',
+        marginVertical:5,
+        paddingHorizontal:8,
+        paddingVertical:15,
+        borderRadius:15,
+        fontSize:16
+      },
+
+
+
 });

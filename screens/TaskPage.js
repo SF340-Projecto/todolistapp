@@ -62,6 +62,7 @@ export default function TaskPage({navigation}) {
   const user = useSelector(state => state.data.user[0]);
   const dispatch = useDispatch();
 
+  console.log(dataApi)
   // Use for update realtime data
   useEffect(() => {
     if (length != dataApi.length) {
@@ -131,7 +132,7 @@ export default function TaskPage({navigation}) {
     <SafeAreaView
       style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
       <ScrollView>
-        <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
+        <View style={[styles.header, {backgroundColor: '#25ced1'}]}>
           <View style={styles.header_container}>
             {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
             <View>
@@ -151,7 +152,7 @@ export default function TaskPage({navigation}) {
                 {/* check achive or not */}
                 {item.achive === false && (
                   <View>
-                    <View style={styles.row}>
+                    <View style={[styles.row, {backgroundColor: theme.backgroundColor}]}>
                       <Image
                         style={styles.tinyLogo}
                         source={{
@@ -172,7 +173,7 @@ export default function TaskPage({navigation}) {
                         <TouchableOpacity
                           style={[
                             styles.addButtonIcon,
-                            {backgroundColor: theme.buttonColor},
+                            {backgroundColor: '#25ced1'},//dark theme
                           ]}
                           onPress={() => {
                             toggleModalVisibility1(item._id);
@@ -180,7 +181,7 @@ export default function TaskPage({navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
                           <MaterialIcons
                             name="edit"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
@@ -198,7 +199,7 @@ export default function TaskPage({navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                           <MaterialCommunityIcons
                             name="trash-can"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
@@ -214,7 +215,7 @@ export default function TaskPage({navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                           <MaterialCommunityIcons
                             name="check-circle-outline"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
