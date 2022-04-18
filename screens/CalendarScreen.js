@@ -63,10 +63,12 @@ const CalendarScreen = (props) => {
                     if (dateConvert(dataApi[d].taskDate.split("/")) == strTime) {
                       nameTask = dataApi[d].topic
                       description = dataApi[d].taskDetail
+                      timeStamp = dataApi[d].timestamp
                       
                       items[strTime].push({
                       name: nameTask,
                       des: description,
+                      time: timeStamp,
                       height: Math.max(50, Math.floor(Math.random() * 150))
                     });
                     }
@@ -99,19 +101,20 @@ const CalendarScreen = (props) => {
 
   const renderItem = (item) => {
     return (
-      <TouchableOpacity style={{ marginRight: 10, marginTop: 17, }}>
+      <TouchableOpacity style={{ marginRight: 10, marginTop: 20, borderColor: '#000' }}>
         <Card>
           <Card.Content>
-            <View
-              style={{
+            <View style={{flexDirection: 'row'}}>
+              <View style={{
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                alignItems: 'center',
-                backgroundColor: 'yellow'
-              }}>
-              <Text>{item.name}</Text>
-              <Text>{item.des}</Text>
-              {/* <Avatar.Text label="M" /> */}
+                flex: 1,
+                }}>
+                <Text style={styles.color_time_text}>{item.time}</Text>
+                <Text style={styles.color_name_task}>{item.name}</Text>
+                <Text style={styles.color_taskDetail}>{item.des}</Text>
+              </View>
+              <Avatar.Text label="M" size={64} backgroundColor="#25CED1" style={{marginLeft: 20, marginTop: 15, marginRight: 15}} />
             </View>
           </Card.Content>
         </Card>
@@ -131,7 +134,7 @@ const CalendarScreen = (props) => {
                 alignItems: 'center',
               }}>
               <Text> </Text>
-              {/* <Avatar.Text label="" /> */}
+              <Avatar.Text label="M" size={64} backgroundColor="white" style={{marginLeft: 20, marginTop: 15, marginRight: 15}} />
             </View>
           </Card.Content>
         </Card>
@@ -167,6 +170,19 @@ const styles = StyleSheet.create({
     height: 15,
     flex: 1,
     paddingTop: 30
+  },
+  color_time_text: {
+    color: '#000',
+    marginBottom: 5,
+    fontSize: 14,
+  },
+  color_name_task: {
+    color: '#000',
+    fontSize: 20,
+    marginVertical: 5,
+  },
+  color_taskDetail: {
+    color: '#808080'
   }
 });
 
