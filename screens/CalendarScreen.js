@@ -8,11 +8,16 @@ import { useSelector, useDispatch } from 'react-redux';
 const CalendarScreen = (props) => {
 
   const dataApi = useSelector(state => state.data.todolist);
+  var firstTaskDate = ''
 
   // Function That Split Value of Date
   const allDate = []
   for (var i = 0; i < dataApi.length; i++) {
     allDate.push(dateConvert(dataApi[i].taskDate.split("/")))
+    if (i == 0){
+      firstTaskDate = dateConvert(dataApi[i].taskDate.split("/"))
+    }
+    
   }
   
   function dateConvert(firstDateSplit){
@@ -101,7 +106,7 @@ const CalendarScreen = (props) => {
 
   const renderItem = (item) => {
     return (
-      <TouchableOpacity style={{ marginRight: 10, marginTop: 20, borderColor: '#000' }}>
+      <TouchableOpacity style={{ marginRight: 10, marginTop: 20, borderColor: '#000' }} onPress={console.log("kuy")}>
         <Card>
           <Card.Content>
             <View style={{flexDirection: 'row'}}>
@@ -147,7 +152,7 @@ const CalendarScreen = (props) => {
       <Agenda
         items={items}
         loadItemsForMonth={loadItems}
-        selected={'2022-04-05'}
+        selected={firstTaskDate}
         renderItem={renderItem}
         renderEmptyDate={renderEmptyDate}
       />
