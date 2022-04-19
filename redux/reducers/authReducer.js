@@ -13,7 +13,12 @@ import {
   API_ADDTASKCATE,
   API_DELETE_CATEGORYTASK,
   API_UPDATETASKCATEGORY,
-  API_ACHIVETASKCATEGORY
+  API_ACHIVETASKCATEGORY,
+  API_GETTASK,
+  API_ADDTASK,
+  API_UPDATETASK,
+  API_DELETETASK,
+  API_ACHIVETASK,
 } from '../types';
 
 const initialState = {
@@ -22,11 +27,17 @@ const initialState = {
   todolist: [],
   categorie: [],
   taskCategorie: [],
-  emptyTask : true,
-  addTask : false,
-  deleteTask : false,
-  updateTask : false,
-  achiveTask : false
+  emptyTask: true,
+  addTask: false,
+  deleteTask: false,
+  updateTask: false,
+  achiveTask: false,
+
+  getTaskDefault: false,
+  addTaskDefault: false,
+  updateTaskDefault: false,
+  deleteTaskDefault: false,
+  achiveTaskDefault: false,
 };
 
 export default function (state = initialState, action) {
@@ -43,6 +54,46 @@ export default function (state = initialState, action) {
         user: [],
         userLog: false,
       };
+
+    /////////////////// Task Default /////////////////////
+
+    case API_GETTASK:
+      return {
+        ...state,
+        todolist: action.payload,
+        getTaskDefault: true,
+        addTaskDefault: false,
+        updateTaskDefault: false,
+        deleteTaskDefault: false,
+        achiveTaskDefault: false,
+      };
+    case API_ADDTASK:
+      return {
+        ...state,
+        todolist: action.payload,
+        addTaskDefault: true,
+      };
+    case API_UPDATETASK:
+      return {
+        ...state,
+        todolist: action.payload,
+        updateTaskDefault: true,
+      };
+    case API_DELETETASK:
+      return {
+        ...state,
+        todolist: action.payload,
+        deleteTaskDefault: true,
+      };
+    case API_ACHIVETASK:
+      return {
+        ...state,
+        todolist: action.payload,
+        achiveTaskDefault: true,
+      };
+    
+    //////////////////////////////////////////////////////
+
     case API_TODO:
       return {
         ...state,
@@ -68,46 +119,51 @@ export default function (state = initialState, action) {
         ...state,
         categorie: action.payload,
       };
-      case API_CHECKTASKINCATE:
-        return {
-          ...state,
-          emptyTask : true,
-          addTask : false
-        }
+
+    /////////////////// Category Task /////////////////////
+
+    case API_CHECKTASKINCATE:
+      return {
+        ...state,
+        emptyTask: true,
+        addTask: false,
+      };
     case API_TASK:
       return {
         ...state,
         taskCategorie: action.payload,
-        emptyTask : false,
-        addTask : false,
-        deleteTask : false,
-        updateTask : false,
-        achiveTask : false
+        emptyTask: false,
+        addTask: false,
+        deleteTask: false,
+        updateTask: false,
+        achiveTask: false,
       };
 
     case API_ADDTASKCATE:
-      return{
+      return {
         ...state,
         taskCategorie: action.payload,
-        addTask : true
-      }
+        addTask: true,
+      };
     case API_DELETE_CATEGORYTASK:
-      return{
+      return {
         ...state,
-        deleteTask : true
-      }
+        deleteTask: true,
+      };
 
     case API_UPDATETASKCATEGORY:
       return {
         ...state,
         taskCategorie: action.payload,
-        updateTask : true,
-      }
+        updateTask: true,
+      };
     case API_ACHIVETASKCATEGORY:
-      return{
+      return {
         ...state,
-        achiveTask : true
-      }
+        achiveTask: true,
+      };
+
+    //////////////////////////////////////////////////////
 
     case API_EDIT_CATEGORY:
       return {

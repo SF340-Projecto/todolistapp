@@ -62,21 +62,19 @@ export default function TaskPage({navigation}) {
   const user = useSelector(state => state.data.user[0]);
   const dispatch = useDispatch();
 
-  console.log(dataApi)
-  // Use for update realtime data
-  useEffect(() => {
-    if (length != dataApi.length) {
-      setLength(dataApi.length);
-      dispatch(getTaskList(user_id));
-    } else if (length == 0) {
-      dispatch(getTaskList(user_id));
-    } 
-    dataApi.slice().sort((a, b) => b.priority - a.priority);
-    changePriorityToText(dataApi);
+  const getTaskDefault = useSelector(state => state.data.getTaskDefault);
+  const addTaskDefault = useSelector(state => state.data.addTaskDefault);
+  const updateTaskDefault = useSelector(state => state.data.updateTaskDefault);
+  const deleteTaskDefault = useSelector(state => state.data.deleteTaskDefault);
+  const achiveTaskDefault = useSelector(state => state.data.achiveTaskDefault);
 
-    setisLoading(false);
-    createChannels();
-  });
+// Use for update realtime data
+useEffect(() => {
+
+  dispatch(getTaskList(user_id));
+  createChannels();
+  
+}, [getTaskDefault, addTaskDefault, updateTaskDefault, deleteTaskDefault, achiveTaskDefault]);
 
   if (isLoading) {
     return <ActivityIndicator />;

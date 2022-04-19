@@ -1,4 +1,4 @@
-import {API_TODO, API_TODODELETE} from '../types';
+import {API_TODO, API_TODODELETE, API_GETTASK, API_ADDTASK, API_UPDATETASK, API_DELETETASK, API_ACHIVETASK} from '../types';
 import axios from 'axios';
 
 // const API_URL = 'https://app-todolist-api.herokuapp.com/todos';
@@ -8,7 +8,7 @@ export const getTaskList = (user_id) => dispatch => {
   axios
     .get(API_URL + '/' + user_id)
     .then(response => {
-      dispatch({type: API_TODO, payload: response.data});
+      dispatch({type: API_GETTASK, payload: response.data});
 
       return response.data;
     })
@@ -47,7 +47,7 @@ export const addTaskList =
       })
       .then(response => {
         //dispatch({type: API_TODOUPDATE, payload: response.data});
-        dispatch({type: API_TODODELETE, payload: []})
+        dispatch({type: API_ADDTASK, payload: []})
 
         return response.data;
       })
@@ -83,7 +83,7 @@ export const updateTaskList =
         urlPhoto:urlPhoto,
       })
       .then(response => {
-        dispatch({type: API_TODODELETE, payload: []})
+        dispatch({type: API_UPDATETASK, payload: []})
         return response.data;
       })
       .catch(err => {
@@ -99,7 +99,7 @@ export const updateTaskList =
         achive: true
       })
       .then(response => {
-        dispatch({type: API_TODODELETE, payload: []})
+        dispatch({type: API_ACHIVETASK, payload: []})
         return response.data;
       })
       .catch(err => {
@@ -113,7 +113,7 @@ export const deleteTask = _id => dispatch => {
   axios
     .delete(API_URL + '/' + _id)
     .then( 
-      dispatch({type: API_TODODELETE, payload: []})
+      dispatch({type: API_DELETETASK, payload: []})
     )
     .catch(err => {
       console.log("Delete fail")
