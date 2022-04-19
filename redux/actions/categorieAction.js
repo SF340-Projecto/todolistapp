@@ -123,6 +123,7 @@ export const addTaskCategorie =
     achive,
   ) =>
   dispatch => {
+    console.log("Add checkkkkkkkk ", taskDate, timestamp)
     axios
       .post(API_URL_TASK, {
         user_id: user_id,

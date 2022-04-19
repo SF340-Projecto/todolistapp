@@ -10,6 +10,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 function ShowDetail(props) {
+  console.log("Data aLLL " ,props)
   return (
     <View style={styles.bg_modal}>
       <View style={styles.paper_madal}>

@@ -123,6 +123,8 @@ export default function TaskPage({navigation}) {
     setTaskDetail(item.taskDetail);
     setUrlPhoto(item.urlPhoto);
     setPriority(item.priority);
+    setText(item.taskDate)
+    setTime(item.timestamp)
     setModalVisible3(!isModalVisible3);
   };
 

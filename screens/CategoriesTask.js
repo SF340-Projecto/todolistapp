@@ -67,18 +67,13 @@ export default function CategoriesTask({route, navigation}) {
   useEffect(() => {
 
       dispatch(getTaskInCategorie(user_id, categorieData));
-
+      console.log("data ", categorieApi)
     createChannels();
   }, [emptyTaskCheck, addTaskCheck, deleteTaskCheck, updateTaskCheck, achiveTaskCheck]);
 
   const toggleModalVisibility = () => {
     setModalVisible(!isModalVisible);
     if (topic != '' && detailTask != '') {
-      usersCollectionRef.add({
-        timestamp: firestore.FieldValue.serverTimestamp(),
-        topic: topic,
-        taskDetail: detailTask,
-      });
       topicInput('');
       detailTaskInput('');
     }
