@@ -34,6 +34,7 @@ export default StyleSheet.create({
         flexDirection: 'column',
         alignContent: 'flex-start',
       },
+
       addButtonIcon: {
         marginHorizontal: 7,
         padding: 5,
@@ -97,17 +98,15 @@ export default StyleSheet.create({
       container: {
         flex: 1,
         justifyContent: 'flex-start',
-        // backgroundColor: '#FFFFFF',
+        backgroundColor: '#FFFFFF',
       },
       addButtonContainer: {
-        // backgroundColor: '#25ced1',
         justifyContent: 'center',
         alignItems: 'center',
         height: 75,
         marginTop: 25,
       },
       addButtonText: {
-
         fontSize: 40,
         color:'white'
       },

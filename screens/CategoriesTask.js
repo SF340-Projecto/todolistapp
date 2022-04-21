@@ -23,13 +23,11 @@ import ShowDetail from '../components/ShowDetail';
 import {useSelector, useDispatch} from 'react-redux';
 import { achiveCategorieTask, deleteCategorieTask, getTaskInCategorie } from '../redux/actions/categorieAction';
 
-
 const {width} = Dimensions.get('window');
 
 export default function CategoriesTask({route, navigation}) {
 
   const dispatch = useDispatch();
-
   const {categorieData} = route.params;
   const theme = useContext(themeContext);
   const user_id = useSelector(state => state.data.user[0]['_id']);
@@ -108,9 +106,9 @@ export default function CategoriesTask({route, navigation}) {
 
 
   return (
-    <ScrollView>
+    <ScrollView >
       <SafeAreaView
-        style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
+        style={[styles.container]}>
         <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
           <View style={styles.header_container}>
             {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
@@ -119,7 +117,8 @@ export default function CategoriesTask({route, navigation}) {
             </View>
           </View>
         </View>
-        <View style={styles.body}>
+
+
           
           {/* <StatusBar style="auto" /> */}
 
@@ -236,7 +235,7 @@ export default function CategoriesTask({route, navigation}) {
               </TouchableOpacity>
             )}
           />
-        </View>
+
 
         {/* This is Add Button Bottom */}
         <View>

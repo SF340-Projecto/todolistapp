@@ -222,7 +222,8 @@ function AddTaskPage(props) {
         transparent
         visible={isModalVisible}
         presentationStyle="overFullScreen"
-        onDismiss={toggleModalVisibility}>
+        onDismiss={toggleModalVisibility}
+        >
         <View style={styles.bg_modal}>
           <View style={[styles.paper_madal, {backgroundColor: theme.backgroundColor}]}>
           <View style={styles.closeDetailContainer}>

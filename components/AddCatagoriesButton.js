@@ -16,7 +16,7 @@ import {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../navigation/AuthProviders';
 import styles from '../screens/component.style.js';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
+import themeContext from '../config/themeContext';
 // Redux
 import {useSelector, useDispatch} from 'react-redux';
 import {createCategorie } from '../redux/actions/categorieAction';
@@ -33,6 +33,8 @@ export default function AddCatagoriesButton() {
   const dispatch = useDispatch();
   const user_id = useSelector(state => state.data.user[0]['_id']);
 
+  // This is to manage TextInput State
+  const theme = useContext(themeContext);
 
 
   const toggleModalVisibility = () => {
@@ -69,7 +71,7 @@ export default function AddCatagoriesButton() {
         
 
         <View style={styles.bg_modal}>
-          <View style={styles.paper_madal}>
+          <View style={[styles.paper_madal, {backgroundColor: theme.backgroundColor}]}>
 
           <View style={styles.closeDetailContainer}>
             <TouchableOpacity
@@ -78,7 +80,7 @@ export default function AddCatagoriesButton() {
               <FontAwesome name="close" color={'white'} size={18}  />
             </TouchableOpacity>
           </View>
-            <Text style={styles.text_normal} >Categories Name</Text> 
+            <Text style={[styles.text_normal, {color: theme.fontColor}]} >Categories Name</Text> 
             <View style={{ alignItems: 'center' }}>
               <TextInput
               placeholder="Enter something..."
@@ -87,9 +89,12 @@ export default function AddCatagoriesButton() {
               onChangeText={topic => topicInput(topic)}
               />
             </View>
-            <Text style={styles.text_normal}>
+            <View style={{paddingBottom:40}}>
+              
+            </View>
+            {/* <Text style={[styles.text_normal, {color: theme.fontColor}]}>
                 CATEGORY COLOR
-            </Text>
+            </Text> */}
 
 
             {/* color button */}
