@@ -17,7 +17,6 @@ const CalendarScreen = (props) => {
     if (i == 0){
       firstTaskDate = dateConvert(dataApi[i].taskDate.split("/"))
     }
-    
   }
   
   function dateConvert(firstDateSplit){
@@ -65,7 +64,7 @@ const CalendarScreen = (props) => {
                   var nameTask = '';
                   var description = '';
                   for (var d in dataApi){
-                    if (dateConvert(dataApi[d].taskDate.split("/")) == strTime) {
+                    if (dateConvert(dataApi[d].taskDate.split("/")) == strTime && dataApi[d].achive == false) {
                       nameTask = dataApi[d].topic
                       description = dataApi[d].taskDetail
                       timeStamp = dataApi[d].timestamp
@@ -106,7 +105,7 @@ const CalendarScreen = (props) => {
 
   const renderItem = (item) => {
     return (
-      <TouchableOpacity style={{ marginRight: 10, marginTop: 20, borderColor: '#000' }} onPress={console.log("kuy")}>
+      <TouchableOpacity style={{ marginRight: 10, marginTop: 20, borderColor: '#000' }}>
         <Card>
           <Card.Content>
             <View style={{flexDirection: 'row'}}>
@@ -152,7 +151,7 @@ const CalendarScreen = (props) => {
       <Agenda
         items={items}
         loadItemsForMonth={loadItems}
-        selected={firstTaskDate}
+        selected={'2022-04-05'}
         renderItem={renderItem}
         renderEmptyDate={renderEmptyDate}
       />
