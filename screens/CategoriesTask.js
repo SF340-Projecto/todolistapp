@@ -106,7 +106,7 @@ export default function CategoriesTask({route, navigation}) {
 
 
   return (
-    <ScrollView >
+    <ScrollView style={[{backgroundColor: theme.backgroundColor}]}>
       <SafeAreaView
         style={[styles.container]}>
         <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
@@ -117,6 +117,18 @@ export default function CategoriesTask({route, navigation}) {
             </View>
           </View>
         </View>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
           
@@ -131,18 +143,12 @@ export default function CategoriesTask({route, navigation}) {
                 {/* check achive or not */}
                 {item.achive === false && (
                   <View>
-                    <View style={styles.row}>
+                    <View style={[styles.row, {backgroundColor: theme.backgroundColor},{borderColor: theme.fontColor}]}>
                       <Image
                         style={styles.tinyLogo}
-                        source={{
-                          uri: item.urlPhoto,
-                        }}
+                        source={{uri: item.urlPhoto }}
                       />
-                      <Text
-                        style={[
-                          styles.taskText,
-                          {flex: 1, color: theme.fontColor},
-                        ]}>
+                      <Text style={[styles.taskText,{flex: 1, color: theme.fontColor}]}>
                         {item.topic}
                       </Text>
 
@@ -150,7 +156,7 @@ export default function CategoriesTask({route, navigation}) {
                         <TouchableOpacity
                           style={[
                             styles.addButtonIcon,
-                            {backgroundColor: theme.buttonColor},
+                            {backgroundColor: '#25ced1'},
                           ]}
                           onPress={() => {
                             toggleModalVisibility1(item._id);
@@ -158,7 +164,7 @@ export default function CategoriesTask({route, navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
                           <MaterialIcons
                             name="edit"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
@@ -174,7 +180,7 @@ export default function CategoriesTask({route, navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                           <MaterialCommunityIcons
                             name="trash-can"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
@@ -190,7 +196,7 @@ export default function CategoriesTask({route, navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                           <MaterialCommunityIcons
                             name="check-circle-outline"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
@@ -235,6 +241,25 @@ export default function CategoriesTask({route, navigation}) {
               </TouchableOpacity>
             )}
           />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         {/* This is Add Button Bottom */}

@@ -150,7 +150,7 @@ useEffect(() => {
                 {/* check achive or not */}
                 {item.achive === false && (
                   <View>
-                    <View style={[styles.row, {backgroundColor: theme.backgroundColor}]}>
+                    <View style={[styles.row, {backgroundColor: theme.backgroundColor},{borderColor: theme.fontColor}]}>
                       <Image
                         style={styles.tinyLogo}
                         source={{

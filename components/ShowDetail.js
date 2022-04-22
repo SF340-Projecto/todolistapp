@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import styles from '../screens/component.style.js';
 import {
     View,
@@ -8,12 +8,13 @@ import {
   } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
+import themeContext from '../config/themeContext';
 function ShowDetail(props) {
-  console.log("Data aLLL " ,props)
+  console.log("Data aLLL " ,props) 
+  const theme = useContext(themeContext);
   return (
     <View style={styles.bg_modal}>
-      <View style={styles.paper_madal}>
+      <View style={[styles.paper_madal, {backgroundColor: theme.backgroundColor}]}>
         <ScrollView style={styles.showDetailTaskBody}>
           
           <View style={styles.closeDetailContainer}>
@@ -24,21 +25,22 @@ function ShowDetail(props) {
               <FontAwesome name="close" color={'white'} size={18} />
             </TouchableOpacity>
           </View> 
+
           {/* Header Topic */}
           <View style={{flexDirection: 'row', marginVertical: 20}}>
             <View style={styles.headerShowTaskContainer}>
-              <Text style={styles.textShowTask}>{props.topicFirebase}</Text>
+              <Text style={[styles.textShowTask, {color: theme.fontColor}]}>{props.topicFirebase}</Text>
             </View>
             <View
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#9fff80',
+                backgroundColor: '#25ced1',
                 paddingHorizontal: 20,
                 borderRadius: 10,
                 elevation: 10,
               }}>
-              <Text>{props.priority}</Text>
+              <Text style={[{color: theme.fontColor}]}>{props.priority}</Text>
             </View>
           </View>
 
@@ -51,7 +53,7 @@ function ShowDetail(props) {
 
           {/* Task Discription */}
           <View style={styles.taskdetailShowContainer}>
-            <Text style={styles.textdetailShowTask}>{props.taskDetail}</Text>
+            <Text style={[styles.textdetailShowTask, {color: theme.fontColor}]}>{props.taskDetail}</Text>
           </View>
 
           <View

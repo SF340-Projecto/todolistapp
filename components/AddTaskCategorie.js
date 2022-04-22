@@ -201,9 +201,9 @@ function AddTaskPage(props) {
       <View>
         <View style={styles.addButtonContainer}>
           <TouchableOpacity
-            style={[styles.addButton, {backgroundColor: theme.buttonColor}]}
+            style={[styles.addButton, {backgroundColor: theme.hudColor}]}
             onPress={toggleModalVisibility}>
-            <Text style={[styles.addButtonText, {color: theme.fontColor}]}>
+            <Text style={[styles.addButtonText, {color: theme.fontColor_add}]}>
               +
             </Text>
           </TouchableOpacity>

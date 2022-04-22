@@ -61,8 +61,6 @@ export default StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#707070',
-        backgroundColor: '#FFFFFF',
         padding: 10,
       },
       container: {
@@ -98,9 +96,8 @@ export default StyleSheet.create({
       container: {
         flex: 1,
         justifyContent: 'flex-start',
-        backgroundColor: '#FFFFFF',
       },
-      addButtonContainer: {
+      addButtonContainer: {//-------------------------------------------
         justifyContent: 'center',
         alignItems: 'center',
         height: 75,
