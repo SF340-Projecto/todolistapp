@@ -10,7 +10,7 @@ export default StyleSheet.create({
       elevation: 0,
     },  
     row: {
-  
+   
       justifyContent: 'space-around'
     },
     body: {

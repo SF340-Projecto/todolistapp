@@ -24,7 +24,8 @@ const theme = {
         icon_profile:"#ffffff",
         userProfileBg:'#a9a9a9',
         bg_body:'#696969',
-        bg_menu:'#363636'
+        bg_menu:'#363636',
+
         
     },
 };

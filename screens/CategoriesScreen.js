@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef,useContext} from 'react';
 import {
   SafeAreaView,
   View,
@@ -18,7 +18,9 @@ import {
 } from '../redux/actions/categorieAction';
 import ActionSheet from 'react-native-actionsheet';
 import Modal from 'react-native-modal';
-
+import themeContext from '../config/themeContext';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import stylesaction from '../screens/component.style.js';
 const numColumns = 2;
 
 const Categories = ({navigation}) => {
@@ -34,6 +36,9 @@ const Categories = ({navigation}) => {
   let optionsArr = ['Edit', 'Delete', 'Cancel'];
   const categorieApi = useSelector(state => state.data.categorie);
   const user_id = useSelector(state => state.data.user[0]['_id']);
+
+    // This is to manage TextInput State
+    const theme = useContext(themeContext);
 
   // Use for update realtime data
   useEffect(() => {
@@ -55,11 +60,11 @@ const Categories = ({navigation}) => {
     dispatch(DeleteCategory(id))
   };
   return (
-    <SafeAreaView style={styles.body}>
+    <SafeAreaView style={[styles.body, {backgroundColor: theme.backgroundColor}]}>
       <View style={styles.header}>
         <Text style={styles.headerText}>CATEGORIES</Text>
       </View>
-      {/* block category */}
+      {/* block category */} 
       <FlatList
         contentContainerStyle={{flexGrow: 1}}
         columnWrapperStyle={styles.row}
@@ -86,7 +91,10 @@ const Categories = ({navigation}) => {
       <View style={{alignItems: 'center'}}>
         <AddCatagoriesButton />
       </View>
+
+
       <ActionSheet
+      style={{backgroundColor:'red'}}
         ref={actionsheet}
         title={'Which one do you want to do ?'}
         options={optionsArr}
@@ -106,6 +114,9 @@ const Categories = ({navigation}) => {
         }}
       />
 
+
+
+
       <Modal
         isVisible={mode}
         onBackdropPress={() => setMode(false)}
@@ -117,24 +128,48 @@ const Categories = ({navigation}) => {
         animationOutTiming={600}
         backdropTransitionInTiming={600}
         backdropTransitionOutTiming={600}>
-        <View style={{backgroundColor: 'white', borderRadius: 10, padding: 20}}>
-          <Text>Edit Category Name</Text>
-          <TextInput
-            placeholder={name}
-            value={topicInput}
-            style={styles.input}
-            onChangeText={topicInput => setTopicInput(topicInput)}
-          />
-          <Button
-            title="Confirm"
-            onPress={() => {
-              dispatch(updateCategory(id, topicInput));
-              setMode(false);
-            }}
-          />
-          <Button title="Exit" onPress={() => setMode(false)} />
+
+
+        <View style={{flex:1}}>
+          <View style={[stylesaction.paper_madal, {backgroundColor: theme.backgroundColor}]}>
+            <View style={stylesaction.closeDetailContainer}>
+              <TouchableOpacity onPress={() => setMode(false)}>
+                <FontAwesome name="close" color={'white'} size={18}  />
+              </TouchableOpacity>
+
+
+            </View>
+            <Text style={[stylesaction.text_normal, {color: theme.fontColor}]}>Edit Category Name</Text>
+              <View style={{ alignItems: 'center' }}>
+                <TextInput
+                  placeholder={name}
+                  value={topicInput}
+                  style={stylesaction.input}
+                  onChangeText={topicInput => setTopicInput(topicInput)}
+              />
+            </View>
+            <View style={{paddingBottom:40}}>
+
+            </View>
+          <View>
+            <View style={{alignItems:'center'}}>
+              <TouchableOpacity style={stylesaction.addButtonR} onPress={() => {
+                dispatch(updateCategory(id, topicInput));
+                setMode(false);
+                }}>
+                  <Text style={stylesaction.addButtonText_cat}>OK</Text>
+                </TouchableOpacity>
+            </View>
+          </View>
+          </View>
+          
         </View>
       </Modal>
+
+
+
+
+
     </SafeAreaView>
   );
 };

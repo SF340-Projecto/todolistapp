@@ -23,13 +23,11 @@ import ShowDetail from '../components/ShowDetail';
 import {useSelector, useDispatch} from 'react-redux';
 import { achiveCategorieTask, deleteCategorieTask, getTaskInCategorie } from '../redux/actions/categorieAction';
 
-
 const {width} = Dimensions.get('window');
 
 export default function CategoriesTask({route, navigation}) {
 
   const dispatch = useDispatch();
-
   const {categorieData} = route.params;
   const theme = useContext(themeContext);
   const user_id = useSelector(state => state.data.user[0]['_id']);
@@ -108,9 +106,9 @@ export default function CategoriesTask({route, navigation}) {
 
 
   return (
-    <ScrollView>
+    <ScrollView style={[{backgroundColor: theme.backgroundColor}]}>
       <SafeAreaView
-        style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
+        style={[styles.container]}>
         <View style={[styles.header, {backgroundColor: theme.hudColor}]}>
           <View style={styles.header_container}>
             {/* <FontAwesome5 name="user-circle" color={'red'} size={24} /> */}
@@ -119,7 +117,20 @@ export default function CategoriesTask({route, navigation}) {
             </View>
           </View>
         </View>
-        <View style={styles.body}>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           
           {/* <StatusBar style="auto" /> */}
 
@@ -132,18 +143,12 @@ export default function CategoriesTask({route, navigation}) {
                 {/* check achive or not */}
                 {item.achive === false && (
                   <View>
-                    <View style={styles.row}>
+                    <View style={[styles.row, {backgroundColor: theme.backgroundColor},{borderColor: theme.fontColor}]}>
                       <Image
                         style={styles.tinyLogo}
-                        source={{
-                          uri: item.urlPhoto,
-                        }}
+                        source={{uri: item.urlPhoto }}
                       />
-                      <Text
-                        style={[
-                          styles.taskText,
-                          {flex: 1, color: theme.fontColor},
-                        ]}>
+                      <Text style={[styles.taskText,{flex: 1, color: theme.fontColor}]}>
                         {item.topic}
                       </Text>
 
@@ -151,7 +156,7 @@ export default function CategoriesTask({route, navigation}) {
                         <TouchableOpacity
                           style={[
                             styles.addButtonIcon,
-                            {backgroundColor: theme.buttonColor},
+                            {backgroundColor: '#25ced1'},
                           ]}
                           onPress={() => {
                             toggleModalVisibility1(item._id);
@@ -159,7 +164,7 @@ export default function CategoriesTask({route, navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>E</Text> */}
                           <MaterialIcons
                             name="edit"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
@@ -175,7 +180,7 @@ export default function CategoriesTask({route, navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                           <MaterialCommunityIcons
                             name="trash-can"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
@@ -191,7 +196,7 @@ export default function CategoriesTask({route, navigation}) {
                           {/* <Text style={[styles.addButtonText, { color: theme.fontColor }]}>D</Text> */}
                           <MaterialCommunityIcons
                             name="check-circle-outline"
-                            color={'black'}
+                            color={'white'}
                             size={24}
                           />
                         </TouchableOpacity>
@@ -236,7 +241,26 @@ export default function CategoriesTask({route, navigation}) {
               </TouchableOpacity>
             )}
           />
-        </View>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         {/* This is Add Button Bottom */}
         <View>
