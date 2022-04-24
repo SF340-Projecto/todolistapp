@@ -17,7 +17,6 @@ export const getTaskList = user_id => dispatch => {
     .get(API_URL + '/' + user_id)
     .then(response => {
       dispatch({type: API_GETTASK, payload: response.data});
-
       return response.data;
     })
     .catch(err => {
