@@ -6,13 +6,22 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from '../css/ArchiveScreen';
 import themeContext from '../config/themeContext';
+import { getArchiveTask } from '../redux/actions/archiveActions';
 export default function ArchiveScreen() {
   
   const [dataTask, setDataTask] = useState([]);
 
+  const user_id = useSelector(state => state.data.user[0]['_id']);
   const dataApi = useSelector(state => state.data.todolist);
+  const archiveTask = useSelector(state => state.data.archiveTask);
+  console.log('DATA Archive: ', archiveTask);
 
   const dispatch = useDispatch(); 
+
+  useEffect(() => {
+    dispatch(getArchiveTask(user_id))
+  }, [])
+  
   const theme = useContext(themeContext);
 
   return (
@@ -21,11 +30,8 @@ export default function ArchiveScreen() {
         <Text style={styles.headerText}>ARCHIVE TASK</Text>
       </View>
       <FlatList
-        data={dataApi}
-        renderItem={({ item }) => (
-          
-
-          
+        data={archiveTask}
+        renderItem={({ item }) => ( 
           <View style={[styles.taskContainer, {backgroundColor: theme.hudColor1}]}>
             {/* check achive or not */}
             {item.achive === true && (

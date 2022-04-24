@@ -19,6 +19,7 @@ import {
   API_UPDATETASK,
   API_DELETETASK,
   API_ACHIVETASK,
+  API_GET_ARCHIVE_TASK,
 } from '../types';
 
 const initialState = {
@@ -27,6 +28,8 @@ const initialState = {
   todolist: [],
   categorie: [],
   taskCategorie: [],
+  archiveTask: [],
+
   emptyTask: true,
   addTask: false,
   deleteTask: false,
@@ -176,6 +179,12 @@ export default function (state = initialState, action) {
         ...state,
         categorie: action.payload,
       };
+
+    case API_GET_ARCHIVE_TASK:
+      return {
+        ...state,
+        archiveTask: action.payload
+      }
 
     default:
       return state;
