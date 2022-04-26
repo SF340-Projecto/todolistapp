@@ -3,7 +3,8 @@ import { Text, View, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 import { Card, Avatar } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-
+import RNRestart from 'react-native-restart';
+import { DevSettings } from 'react-native';
 
 const CalendarScreen = (props) => {
 
@@ -12,31 +13,35 @@ const CalendarScreen = (props) => {
 
   function refreshPage() {
     console.log('restart')
+    DevSettings.reload()
+
   }
 
   // Function That Split Value of Date
   const allDate = []
   for (var i = 0; i < dataApi.length; i++) {
     allDate.push(dateConvert(dataApi[i].taskDate.split("/")))
-    if (i == 0){
+    if (i == 0) {
       firstTaskDate = dateConvert(dataApi[i].taskDate.split("/"))
     }
   }
-  
-  function dateConvert(firstDateSplit){
+
+  function dateConvert(firstDateSplit) {
     var dateCon = ""
-    for (var i = 2; i >= 0; i--) {
-      if (i <= 1) {
-        if (firstDateSplit[i].length == 1) {
-          dateCon += "-" + "0" + firstDateSplit[i];
+    if (firstDateSplit[0] !== 'CHOOSE DUE DATE...') {
+      for (var i = 2; i >= 0; i--) {
+        if (i <= 1) {
+          if (firstDateSplit[i].length == 1) {
+            dateCon += "-" + "0" + firstDateSplit[i];
+          } else {
+            dateCon += "-" + firstDateSplit[i];
+          }
         } else {
-          dateCon += "-" + firstDateSplit[i];
+          dateCon += firstDateSplit[i];
         }
-      } else {
-        dateCon += firstDateSplit[i];
       }
+      return dateCon;
     }
-    return dateCon;
   }
 
   const counts = {};
@@ -56,45 +61,45 @@ const CalendarScreen = (props) => {
       for (const key in counts) { //{ '2022-04-05': 3, '2022-04-06': 1, '2022-04-07': 1,'2022-04-10': 1 }
         for (let i = -15; i < 85; i++) {
           const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-          const strTime = timeToString(time); 
-          
+          const strTime = timeToString(time);
+
           if (!items[strTime]) {
             items[strTime] = []; // store a task in that day
             // const numItems = Math.floor(Math.random() * 3);;
-            const emptyDate = 0            
+            const emptyDate = 0
             if (allDate.includes(strTime)) {
-              
+
               for (let j = 0; j < counts[key]; j++) {
-                  var nameTask = '';
-                  var description = '';
-                  for (var d in dataApi){
-                    if (dateConvert(dataApi[d].taskDate.split("/")) == strTime && dataApi[d].achive == false) {
-                      nameTask = dataApi[d].topic
-                      description = dataApi[d].taskDetail
-                      timeStamp = dataApi[d].timestamp
-                      
-                      items[strTime].push({
+                var nameTask = '';
+                var description = '';
+                for (var d in dataApi) {
+                  if (dateConvert(dataApi[d].taskDate.split("/")) == strTime && dataApi[d].achive == false) {
+                    nameTask = dataApi[d].topic
+                    description = dataApi[d].taskDetail
+                    timeStamp = dataApi[d].timestamp
+
+                    items[strTime].push({
                       name: nameTask,
                       des: description,
                       time: timeStamp,
                       height: Math.max(50, Math.floor(Math.random() * 150))
                     });
-                    }
                   }
-                  break
+                }
+                break
 
-                  
+
               } break
-          } 
-            else {
-            for (let j = 0; j < emptyDate; j++) {
-              items[strTime].push({
-                name: '#' + dataApi[0].taskDate,
-                height: Math.max(50, Math.floor(Math.random() * 150)),
-
-              });
             }
-          }
+            else {
+              for (let j = 0; j < emptyDate; j++) {
+                items[strTime].push({
+                  name: '#' + dataApi[0].taskDate,
+                  height: Math.max(50, Math.floor(Math.random() * 150)),
+
+                });
+              }
+            }
           }
 
         }
@@ -112,17 +117,17 @@ const CalendarScreen = (props) => {
       <TouchableOpacity style={{ marginRight: 10, marginTop: 20, borderColor: '#000' }}>
         <Card>
           <Card.Content>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <View style={{
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 flex: 1,
-                }}>
+              }}>
                 <Text style={styles.color_time_text}>{item.time}</Text>
                 <Text style={styles.color_name_task}>{item.name}</Text>
                 <Text style={styles.color_taskDetail}>{item.des}</Text>
               </View>
-              <Avatar.Text label="M" size={64} backgroundColor="#25CED1" style={{marginLeft: 20, marginTop: 15, marginRight: 15}} />
+              <Avatar.Text label="M" size={64} backgroundColor="#25CED1" style={{ marginLeft: 20, marginTop: 15, marginRight: 15 }} />
             </View>
           </Card.Content>
         </Card>
@@ -142,7 +147,7 @@ const CalendarScreen = (props) => {
                 alignItems: 'center',
               }}>
               <Text> </Text>
-              <Avatar.Text label="M" size={64} backgroundColor="white" style={{marginLeft: 20, marginTop: 15, marginRight: 15}} />
+              <Avatar.Text label="M" size={64} backgroundColor="white" style={{ marginLeft: 20, marginTop: 15, marginRight: 15 }} />
             </View>
           </Card.Content>
         </Card>
@@ -160,7 +165,7 @@ const CalendarScreen = (props) => {
         renderEmptyDate={renderEmptyDate}
       />
 
-      <View style={{position: 'absolute', bottom: 10, right: 10}}>
+      <View style={{ position: 'absolute', bottom: 10, right: 10 }}>
         <Button
           onPress={refreshPage}
           title="refresh"
