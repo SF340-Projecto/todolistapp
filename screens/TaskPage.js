@@ -261,10 +261,11 @@ useEffect(() => {
         </View>
 
         {/* This is Add Button Bottom */}
-        <View>
+        
+      </ScrollView>
+      <View style={{position: 'absolute', bottom: 20, right: 20}}>
           <AddTaskPage />
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }

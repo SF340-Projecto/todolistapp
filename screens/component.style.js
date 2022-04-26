@@ -342,10 +342,11 @@ export default StyleSheet.create({
         color:'white',
         backgroundColor:'#25CED1',
         marginVertical:5,
-        paddingHorizontal:8,
+        paddingHorizontal:10,
         paddingVertical:15,
         borderRadius:15,
-        fontSize:16
+        fontSize:16, 
+        fontWeight: 'bold',
       },
 
 

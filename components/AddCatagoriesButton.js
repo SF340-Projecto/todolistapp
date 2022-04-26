@@ -56,7 +56,7 @@ export default function AddCatagoriesButton() {
   return (
     <SafeAreaView>
       <View>
-        <TouchableOpacity onPress={toggleModalVisibility} style={{margin: 10,}}>
+        <TouchableOpacity onPress={toggleModalVisibility} style={{margin: 30,}}>
           <Text style={styles.loginButtonText}>ADD CATEGORYS</Text>
         </TouchableOpacity>
       </View>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 import { Card, Avatar } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,6 +9,10 @@ const CalendarScreen = (props) => {
 
   const dataApi = useSelector(state => state.data.todolist);
   var firstTaskDate = ''
+
+  function refreshPage() {
+    console.log('restart')
+  }
 
   // Function That Split Value of Date
   const allDate = []
@@ -155,6 +159,13 @@ const CalendarScreen = (props) => {
         renderItem={renderItem}
         renderEmptyDate={renderEmptyDate}
       />
+
+      <View style={{position: 'absolute', bottom: 10, right: 10}}>
+        <Button
+          onPress={refreshPage}
+          title="refresh"
+        />
+      </View>
     </View>
   )
 }
