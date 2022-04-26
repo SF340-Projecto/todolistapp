@@ -72,6 +72,7 @@ export default function TaskPage({navigation}) {
 useEffect(() => {
 
   dispatch(getTaskList(user_id));
+  console.log("data api ja ", dataApi)
   createChannels();
   
 }, [getTaskDefault, addTaskDefault, updateTaskDefault, deleteTaskDefault, achiveTaskDefault]);
