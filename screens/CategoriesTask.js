@@ -14,7 +14,7 @@ import {
 } from 'react-native'; 
 import themeContext from '../config/themeContext';
 import AddTaskCategorie from '../components/AddTaskCategorie';
-import styles from './component.style.js';
+import styles from '../css/component.style';
 import PushNotification from 'react-native-push-notification';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';

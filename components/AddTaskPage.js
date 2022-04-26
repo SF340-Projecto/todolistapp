@@ -12,7 +12,6 @@ import {
   Alert,
 
 } from 'react-native';
-import {ModalPickerDropdow} from '../screens/ModalPickerDropdow';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import themeContext from '../config/themeContext';
@@ -20,7 +19,6 @@ import PushNotification from 'react-native-push-notification';
 import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
 import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector, useDispatch} from 'react-redux';
 import {addTaskList} from '../redux/actions/todoActions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -34,7 +32,6 @@ function AddTaskPage(props) {
 
   const [selectedValue, setSelectedValue] = useState('0');
   const [isModalVisible, setModalVisible] = useState(false);
-  const [chooseData, setchooseData] = useState('SELECT CATEGORY...');
   const [isModalVisible_d, setisModalVisible_d] = useState(false); //
   const theme = useContext(themeContext);
   const [mode, setMode] = useState('date');
@@ -311,30 +308,6 @@ function AddTaskPage(props) {
                   </TouchableHighlight>
 
                   <Text style={styles.style_text_date}>{textTime}</Text>
-                </View>
-              </View>
-              <Text style={[styles.text_normal, {color: theme.fontColor}]}>CATEGORY</Text>
-
-              <View style={{alignItems: 'center'}}>
-                <View style={styles.input_f}>
-                  <TouchableOpacity onPress={() => changeModalVisibility(true)}>
-                    <Image
-                      style={styles.logo}
-                      source={require('../screens/img/dropdown.png')}
-                    />
-                  </TouchableOpacity>
-                  <Text style={styles.style_text_date}>{chooseData}</Text>
-                  <Modal
-                    transparent={true}
-                    animationType="fade"
-                    visible={isModalVisible_d}
-                    nRequestClose={() => changeModalVisibility(false)}>
-                    <ModalPickerDropdow
-                      changeModalVisibility={changeModalVisibility}
-                      // -----------------value is setData-------------
-                      setData={setData}
-                    />
-                  </Modal>
                 </View>
               </View>
 

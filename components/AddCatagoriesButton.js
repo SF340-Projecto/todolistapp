@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import {useContext, useEffect, useState} from 'react';
 import {AuthContext} from '../navigation/AuthProviders';
-import styles from '../screens/component.style.js';
+import styles from '../css/component.style.js';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import themeContext from '../config/themeContext';
 // Redux

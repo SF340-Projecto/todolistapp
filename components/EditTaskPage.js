@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
-import { ModalPickerDropdow } from '../screens/ModalPickerDropdow';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
 import * as Progress from 'react-native-progress';
@@ -36,7 +35,6 @@ function EditTaskPage(props) {
   const [detailTask, detailTaskInput] = useState('');
   const [dataTask, setDataTask] = useState([]);
   const [urlUser, setUrl] = useState('https://www.unityhighschool.org/wp-content/uploads/2014/08/default-placeholder.png');
-  const [chooseData, setchooseData] = useState('SELECT CATEGORY...');
   const [isModalVisible_d, setisModalVisible_d] = useState(false); //
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
@@ -266,30 +264,6 @@ function EditTaskPage(props) {
                 />
               </TouchableHighlight>
               <Text style={styles.style_text_date}>{textTime}</Text>
-            </View>
-          </View>
-          <Text style={[styles.text_normal, {color: theme.fontColor}]}>CATEGORY</Text>
-
-          <View style={{ alignItems: 'center' }}>
-            <View style={styles.input_f}>
-              <TouchableOpacity onPress={() => changeModalVisibility(true)}>
-                <Image
-                  style={styles.logo}
-                  source={require('../screens/img/dropdown.png')}
-                />
-              </TouchableOpacity>
-              <Text style={styles.style_text_date}>{chooseData}</Text>
-              <Modal
-                transparent={true}
-                animationType="fade"
-                visible={isModalVisible_d}
-                nRequestClose={() => changeModalVisibility(false)}>
-                <ModalPickerDropdow
-                  changeModalVisibility={changeModalVisibility}
-                  // -----------------value is setData-------------
-                  setData={setData}
-                />
-              </Modal>
             </View>
           </View>
           <Text style={[styles.text_normal, {color: theme.fontColor}]}>ADD PICTURE</Text>

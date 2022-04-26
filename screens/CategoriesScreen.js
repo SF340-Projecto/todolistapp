@@ -20,7 +20,7 @@ import ActionSheet from 'react-native-actionsheet';
 import Modal from 'react-native-modal';
 import themeContext from '../config/themeContext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import stylesaction from '../screens/component.style.js';
+import stylesaction from '../css/component.style.js';
 const numColumns = 2;
 
 const Categories = ({navigation}) => {
