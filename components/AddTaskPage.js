@@ -24,7 +24,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useSelector, useDispatch} from 'react-redux';
 import {addTaskList} from '../redux/actions/todoActions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import styles from '../screens/component.style.js';
+import styles from '../css/component.style.js';
 
 const {width} = Dimensions.get('window');
 

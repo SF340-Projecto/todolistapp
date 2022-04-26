@@ -1,5 +1,5 @@
 import React,{useContext} from 'react';
-import styles from '../screens/component.style.js';
+import styles from '../css/component.style.js';
 import {
     View,
     Text,

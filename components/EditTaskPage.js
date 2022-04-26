@@ -18,7 +18,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { launchImageLibrary } from 'react-native-image-picker'; // Migration from 2.x.x to 3.x.x => showImagePicker API is removed.
 import * as Progress from 'react-native-progress';
 import storage from '@react-native-firebase/storage';
-import styles from '../screens/component.style.js';
+import styles from '../css/component.style.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTaskList } from '../redux/actions/todoActions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';

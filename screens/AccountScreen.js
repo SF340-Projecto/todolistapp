@@ -74,16 +74,6 @@ export default function HomeScreen({ navigation }) {
                     </View>
                 </TouchableOpacity>
 
-                {/* Calendar */}
-                <TouchableOpacity style={[styles.menuHeader,{backgroundColor: theme.bg_menu}]}>
-                    <View style={styles.menuSection}>
-                        <View style={styles.textLeft}>
-                            <Text style={[styles.menuText,{color: theme.fontColor}]}>TEMPLATE</Text>
-                        </View>
-                        <Ionicons name="chevron-forward-outline" style={[styles.icon_menu,{color: theme.fontColor}]} />
-                    </View>
-                </TouchableOpacity>
-
                 {/* Theme */}
                 <TouchableOpacity style={[styles.menuHeader,{backgroundColor: theme.bg_menu}]} onPress={() => navigation.navigate('ThemeScreen')}>
                     <View style={styles.menuSection}>

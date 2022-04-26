@@ -55,7 +55,7 @@ export default StyleSheet.create({
         fontSize: 24,
     },
     userProfileBg: {
-        marginTop: 20,
+        marginTop: 50,
         backgroundColor: '#E5F1F1',
         width: 100,
         height: 100,

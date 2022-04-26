@@ -16,7 +16,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AddTaskPage from '../components/AddTaskPage';
 import EditTaskPage from '../components/EditTaskPage';
-import styles from './component.style.js';
+import styles from '../css/component.style.js';
 import ShowDetail from '../components/ShowDetail';
 import {
   deleteTask,
@@ -223,7 +223,6 @@ useEffect(() => {
                     {/*Modal for show detail */}
 
                     <Modal
-                      animationType="slide"
                       transparent
                       visible={isModalVisible3}
                       presentationStyle="overFullScreen"
@@ -241,7 +240,6 @@ useEffect(() => {
 
                     {/*Modal for edit task */}
                     <Modal
-                      animationType="slide"
                       transparent
                       visible={isModalVisible1}
                       presentationStyle="overFullScreen"

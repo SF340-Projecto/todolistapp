@@ -206,7 +206,7 @@ export default StyleSheet.create({
       },
     
       bg_modal: {
-        backgroundColor: '#000000aa',
+        backgroundColor: 'rgba(0,0,0,0.1)',
         flex: 1,
       },
       paper_madal: {
