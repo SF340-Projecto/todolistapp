@@ -19,7 +19,6 @@ export const login = (email, password) => dispatch => {
       return response.data;
     })
     .catch(err => {
-      alert('Please check your input');
     });
 };
 
@@ -33,7 +32,6 @@ export const register =
         return response.data;
       })
       .catch(err => {
-        alert('Please check your input');
         console.log(err);
       });
   };
@@ -55,7 +53,6 @@ export const getUser = user_id => dispatch => {
       return response.data;
     })
     .catch(err => {
-      alert('Please check your input');
       console.log(err);
     });
 };
