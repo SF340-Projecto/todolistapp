@@ -19,7 +19,10 @@ export default function HomeScreen({navigation}) {
           EventRegister.emit('changeTheme', value);
         }}
       />
-      <TouchableOpacity onPress={()=> navigation.navigate('Main')} style={{marginTop: 20, borderRadius: 15, backgroundColor: '#25ced1', padding: 20,}}>
+      <TouchableOpacity 
+      onPress={()=> navigation.navigate('Main')} 
+      style={{marginTop: 20, borderRadius: 15, backgroundColor: '#25ced1', padding: 20,}}
+      testID='backButton'>
           <Text>Back to Main</Text>
       </TouchableOpacity>
     </View>
