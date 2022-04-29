@@ -5,6 +5,8 @@ import { Card, Avatar } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import RNRestart from 'react-native-restart';
 import { DevSettings } from 'react-native';
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import styles2 from '../css/component.style.js';
 
 const CalendarScreen = (props) => {
 
@@ -55,6 +57,8 @@ const CalendarScreen = (props) => {
     const date = new Date(time);
     return date.toISOString().split('T')[0];
   };
+
+  console.log(firstTaskDate)
 
   const loadItems = async (day) => {
     setTimeout(() => {
@@ -160,16 +164,22 @@ const CalendarScreen = (props) => {
       <Agenda
         items={items}
         loadItemsForMonth={loadItems}
-        selected={'2022-04-05'}
+        selected={firstTaskDate}
         renderItem={renderItem}
         renderEmptyDate={renderEmptyDate}
       />
 
-      <View style={{ position: 'absolute', bottom: 10, right: 10 }}>
-        <Button
+      <View style={{ position: 'absolute', bottom: 20, right: 20, height: 50 }}>
+        {/* <Button
           onPress={refreshPage}
           title="refresh"
-        />
+        /> */}
+        <TouchableOpacity style={{backgroundColor: '#fff', borderRadius: 100, width: 50, height: 50, alignItems: 'center', justifyContent: 'center',shadowColor: '#000000',
+        shadowOpacity: 5,
+        shadowRadius: 5,
+        elevation: 5,}} onPress={refreshPage}>
+          <EvilIcons name="refresh" color={'#707070'} size={40} />
+        </TouchableOpacity>
       </View>
     </View>
   )
